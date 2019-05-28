@@ -120,7 +120,7 @@
       uiLibrary: 'bootstrap4',
       autoclose: true, 
       todayHighlight: true,
-      format:'dd-mm-yyyy',
+      format:'yyyy-mm-dd',
       orientation: 'bottom auto'
     });
 

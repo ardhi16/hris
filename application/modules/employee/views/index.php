@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="card-box">
 
-    <form action="" method="post">
+    <form action="<?php echo site_url('employee/add') ?>" method="post">
       <input type="hidden" name="employee_id" id="employee_id">
       <div class="row">
         <div class="col-md-6">
@@ -235,7 +235,7 @@
                   <div class="row">
                     <div class="col-md-4">
                       <label for="">Tingkat</label>
-                      <select name="school_level" class="form-control" id="school_level">
+                      <select name="school_level[]" class="form-control" id="school_level">
                         <?php foreach ($level as $row): ?>
                           <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
                         <?php endforeach ?>
@@ -243,11 +243,11 @@
                     </div>
                     <div class="col-md-4">
                       <label for="">Jurusan</label>
-                      <input type="text" class="form-control" name="school_major" id="school_major">
+                      <input type="text" class="form-control" name="school_major[]" id="school_major">
                     </div>
                     <div class="col-md-4">
                       <label for="">Nama Sekolah</label>
-                      <input type="text" class="form-control" name="school_name" id="school_name">
+                      <input type="text" class="form-control" name="school_name[]" id="school_name">
                     </div>
                   </div>
                 </div>
@@ -257,7 +257,7 @@
             <div class="tab-pane fade show" id="family" role="tabpanel" aria-labelledby="family-tab">
               <div class="form-group">
                 <label for="">Nomor Kartu Keluarga</label>
-                <input type="text" class="form-control" name="family_card[]" id="family_card">
+                <input type="text" class="form-control" name="family_card" id="family_card">
               </div>
               <div id="divFamily">
                 <div class="form-group">
@@ -314,6 +314,7 @@
               </div>
             </div>
           </div>
+          <button type="submit" class="btn btn-xs btn-success mt-3">Simpan</button>
         </div>
       </div>
     </form>
@@ -322,7 +323,7 @@
 
 <script>
   $(function() {
-    var div = $('#divSchool');
+    var divSchool = $('#divSchool');
     var i = $('#divSchool .form-group').length + 1;
 
     $("#addSchool").click(function() {
@@ -346,7 +347,7 @@
         <input type="text" class="form-control" name="school_name" id="school_name">
         </div>
         </div>
-        </div>`).appendTo(div);
+        </div>`).appendTo(divSchool);
       i++;
       return false;
     });
@@ -359,7 +360,7 @@
       return false;
     });
 
-    var div = $('#divFamily');
+    var divFamily = $('#divFamily');
     var i = $('#divFamily .form-group').length + 1;
 
     $("#addfamily").click(function() {
@@ -390,7 +391,7 @@
         </select>
         </div>
         </div>
-        </div>`).appendTo(div);
+        </div>`).appendTo(divFamily);
       i++;
       return false;
     });
@@ -402,7 +403,7 @@
       return false;
     });
 
-    var div = $('#divContract');
+    var divContract = $('#divContract');
     var i = $('#divContract .form-group').length + 1;
 
     $("#addContract").click(function() {
@@ -418,7 +419,7 @@
         <input type="number" class="form-control" name="contract_length[]">
         </div>
         </div>
-        </div>`).appendTo(div);
+        </div>`).appendTo(divContract);
       i++;
       return false;
     });
