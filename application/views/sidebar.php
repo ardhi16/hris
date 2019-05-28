@@ -16,6 +16,26 @@
                         <span> Beranda </span>
                     </a>
                 </li>
+                <li>
+                    <a href="<?php echo site_url('employee') ?>">
+                        <i class="mdi mdi-account-card-details"></i>
+                        <span> Karyawan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="mdi mdi-folder-multiple"></i>
+                        <span> Master Data </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="<?php echo site_url('store') ?>">KAS</a></li>
+                        <li><a href="<?php echo site_url('grade') ?>">Grade</a></li>
+                        <li><a href="<?php echo site_url('division') ?>">Divisi</a></li>
+                        <li><a href="<?php echo site_url('position') ?>">Jabatan</a></li>
+
+                    </ul>
+                </li>
                 
             </ul>
         </div>

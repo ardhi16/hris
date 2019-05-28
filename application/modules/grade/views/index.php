@@ -8,23 +8,21 @@
       <thead>
         <tr>
           <th>No</th>
-          <th>Kode KAS</th>
-          <th>Nama KAS</th>
+          <th>Nama Grade</th>
           <th>Opsi</th>
         </tr>
       </thead>
       <tbody>
         <?php 
-        if (!empty($store)) {
+        if (!empty($grade)) {
           $i = $jlhpage+1;
-          foreach ($store as $row): 
+          foreach ($grade as $row): 
             ?>
             <tr>
               <td><?php echo $i++; ?></td>
-              <td><?php echo $row->store_code ?></td>
-              <td><?php echo $row->store_name ?></td>
+              <td><?php echo $row->grade_name ?></td>
               <td>
-                <a href="#" class="btn btn-info btn-xs btnEdit mb-1" data-toggle="modal" data-target="#add" data-id="<?php echo $row->store_id ?>" data-code="<?php echo $row->store_code ?>" data-name="<?php echo $row->store_name ?>"><i class="fas fa-edit"></i> Ubah</a>
+                <a href="#" class="btn btn-info btn-xs btnEdit mb-1" data-toggle="modal" data-target="#add" data-id="<?php echo $row->grade_id ?>" data-name="<?php echo $row->grade_name ?>"><i class="fas fa-edit"></i> Ubah</a>
               </td>
             </tr>
           <?php endforeach; 
@@ -48,16 +46,12 @@
         <h4 class="modal-title" id="titleModal">Tambah <?php echo $title ?></h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       </div>
-      <form id="form" action="<?php echo site_url('store/add') ?>" method="post">
+      <form id="form" action="<?php echo site_url('grade/add') ?>" method="post">
         <div class="modal-body">
           <input type="hidden" name="id" id="_id">
           <div class="form-group">
-            <label for="">Kode KAS</label>
-            <input type="text" name="store_code" class="form-control" id="store_code" required="">
-          </div>
-          <div class="form-group">
-            <label for="">Nama KAS</label>
-            <input type="text" name="store_name" class="form-control" id="store_name" required="">
+            <label for="">Nama Grade</label>
+            <input type="text" name="grade_name" class="form-control" id="grade_name" required="">
           </div>
         </div>
         <div class="modal-footer">
@@ -75,24 +69,20 @@
     $('.btnAdd').on('click', function(){
       $('#titleModal').html('Tambah <?php echo $title ?>');
       $('.modal-footer button[type=submit]').html('Simpan');
-      $('#form').attr('action', '<?php echo site_url('store/add') ?>');
-      $('#store_code').val('');
-      $('#store_name').val('');
+      $('#form').attr('action', '<?php echo site_url('grade/add') ?>');
+      $('#grade_name').val('');
       $('#_id').val('');
-      $('#store_code').attr('readonly', false);
+      $('#grade_code').attr('readonly', false);
 
     })
 
     $('.btnEdit').on('click', function(){
       var id = $(this).data('id');
-      var code = $(this).attr('data-code');
-      var store = $(this).attr('data-name');
+      var grade = $(this).attr('data-name');
       $('#titleModal').html('Ubah <?php echo $title ?>');
       $('.modal-footer button[type=submit]').html('Ubah');
-      $('#form').attr('action', '<?php echo site_url('store/edit') ?>');
-      $('#store_code').val(code);
-      $('#store_code').attr('readonly', true);
-      $('#store_name').val(store);
+      $('#form').attr('action', '<?php echo site_url('grade/edit') ?>');
+      $('#grade_name').val(grade);
       $('#_id').val(id);
     })
 

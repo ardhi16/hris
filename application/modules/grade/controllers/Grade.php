@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Store extends MY_Controller {
+class Grade extends MY_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('store/Store_model');
+		$this->load->model('grade/Grade_model');
 	}
 
 	public function index()
@@ -26,51 +26,49 @@ class Store extends MY_Controller {
 		$config['page_query_string'] = TRUE;
 		$config['enable_query_strings'] = TRUE;
 		$config['query_string_segment'] = 'per_page';
-		$config['base_url'] = site_url('store');
+		$config['base_url'] = site_url('grade');
 		$config['per_page'] = $limit;
-		$config['total_rows'] = $this->Store_model->get()->num_rows();
+		$config['total_rows'] = $this->Grade_model->get()->num_rows();
 		$this->pagination->initialize($config);
 
 		$data['jlhpage']= $page;
-		$data['store'] = $this->Store_model->get(null,$limit,$offset)->result();
+		$data['grade'] = $this->Grade_model->get(null,$limit,$offset)->result();
 
-		$data['title'] = 'Daftar Kas';
-		$data['main'] = 'store/index';
+		$data['title'] = 'Daftar Grade';
+		$data['main'] = 'grade/index';
 		$this->load->view('layout', $data);
 	}
 
 	function add(){
-		$data['store_code'] = htmlspecialchars($this->input->post('store_code'));
-		$data['store_name'] = htmlspecialchars($this->input->post('store_name'));
+		$data['grade_name'] = htmlspecialchars($this->input->post('grade_name'));
 
-		$status = $this->Store_model->insert($data);
+		$status = $this->Grade_model->insert($data);
 
 		if($status){
 			$this->session->set_flashdata('success', 'Data berhasil ditambahkan');
-			redirect('store');
+			redirect('grade');
 		} else {
 			$this->session->set_flashdata('failed', 'Data gagal disimpan');
-			redirect('store');
+			redirect('grade');
 		}
 	}
 
 	function edit(){
 		$id = $this->input->post('id');
-		$data['store_code'] = htmlspecialchars($this->input->post('store_code'));
-		$data['store_name'] = htmlspecialchars($this->input->post('store_name'));
+		$data['grade_name'] = htmlspecialchars($this->input->post('grade_name'));
 
-		$status = $this->Store_model->update($data, ['store_id'=>$id]);
+		$status = $this->Grade_model->update($data, ['grade_id'=>$id]);
 
 		if($status){
 			$this->session->set_flashdata('success', 'Update berhasil');
-			redirect('store');
+			redirect('grade');
 		} else {
 			$this->session->set_flashdata('failed', 'Update gagal');
-			redirect('store');
+			redirect('grade');
 		}
 	}
 
 }
 
-/* End of file store_store.php */
-/* Location: ./application/modules/store/controllers/store_store.php */
+/* End of file grade_grade.php */
+/* Location: ./application/modules/grade/controllers/grade_grade.php */
