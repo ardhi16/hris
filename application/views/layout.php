@@ -24,7 +24,7 @@
   
 </head>
 
-<body>
+<body <?php echo ($this->uri->segment(1) == 'employee') ? 'class="enlarged" data-keep-enlarged="true"' : '' ?>>
 
   <div id="wrapper">
     <div class="navbar-custom">
@@ -120,7 +120,7 @@
       uiLibrary: 'bootstrap4',
       autoclose: true, 
       todayHighlight: true,
-      format:'yyyy-mm-dd',
+      format:'dd-mm-yyyy',
       orientation: 'bottom auto'
     });
 

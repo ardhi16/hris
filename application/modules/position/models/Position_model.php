@@ -5,6 +5,7 @@ class Position_model extends CI_Model {
 
 	public function get($arr=null, $limit=null, $offset=null){
 		$this->db->join('division', 'division.division_id = position.division_id', 'left');
+		$this->db->join('grade', 'grade.grade_id = position.grade_id', 'left');
 		return $this->db->get_where('position', $arr, $limit, $offset);
 	}
 

@@ -11,6 +11,7 @@
           <th>Divisi</th>
           <th>Kode Jabatan</th>
           <th>Nama Jabatan</th>
+          <th>Grade</th>
           <th>Opsi</th>
         </tr>
       </thead>
@@ -25,8 +26,9 @@
               <td><?php echo $row->division_name ?></td>
               <td><?php echo $row->position_code ?></td>
               <td><?php echo $row->position_name ?></td>
+              <td><?php echo $row->grade_name ?></td>
               <td>
-                <a href="#" class="btn btn-info btn-xs btnEdit mb-1" data-toggle="modal" data-target="#add" data-id="<?php echo $row->position_id ?>" data-div="<?php echo $row->division_id ?>" data-code="<?php echo $row->position_code ?>" data-name="<?php echo $row->position_name ?>"><i class="fas fa-edit"></i> Ubah</a>
+                <a href="#" class="btn btn-info btn-xs btnEdit mb-1" data-toggle="modal" data-target="#add" data-id="<?php echo $row->position_id ?>" data-div="<?php echo $row->division_id ?>" data-grade="<?php echo $row->grade_id ?>" data-code="<?php echo $row->position_code ?>" data-name="<?php echo $row->position_name ?>"><i class="fas fa-edit"></i> Ubah</a>
               </td>
             </tr>
           <?php endforeach; 
@@ -63,6 +65,15 @@
             </select>
           </div>
           <div class="form-group">
+            <label for="">Grade</label>
+            <select name="grade_id" id="grade_id" class="form-control">
+              <option value="">--Pilih Grade--</option>
+              <?php foreach ($grade as $row): ?>
+                <option value="<?php echo $row->grade_id ?>"><?php echo $row->grade_name ?></option>
+              <?php endforeach ?>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="">Kode Jabatan</label>
             <input type="text" name="position_code" class="form-control" id="position_code" required="">
           </div>
@@ -88,6 +99,7 @@
       $('.modal-footer button[type=submit]').html('Simpan');
       $('#form').attr('action', '<?php echo site_url('position/add') ?>');
       $('#division_id').val('');
+      $('#grade_id').val('');
       $('#position_code').val('');
       $('#position_name').val('');
       $('#_id').val('');
@@ -100,10 +112,12 @@
       var code = $(this).attr('data-code');
       var div = $(this).attr('data-div');
       var position = $(this).attr('data-name');
+      var grade = $(this).attr('data-grade');
       $('#titleModal').html('Ubah <?php echo $title ?>');
       $('.modal-footer button[type=submit]').html('Ubah');
       $('#form').attr('action', '<?php echo site_url('position/edit') ?>');
       $('#division_id').val(div);
+      $('#grade_id').val(grade);
       $('#position_code').val(code);
       $('#position_code').attr('readonly', true);
       $('#position_name').val(position);

@@ -8,6 +8,7 @@ class Position extends MY_Controller {
 		parent::__construct();
 		$this->load->model('division/Division_model');
 		$this->load->model('position/Position_model');
+		$this->load->model('grade/Grade_model');
 	}
 
 	public function index()
@@ -33,6 +34,7 @@ class Position extends MY_Controller {
 		$this->pagination->initialize($config);
 
 		$data['jlhpage']= $page;
+		$data['grade'] = $this->Grade_model->get()->result();
 		$data['division'] = $this->Division_model->get()->result();
 		$data['position'] = $this->Position_model->get(null,$limit,$offset)->result();
 
@@ -43,6 +45,7 @@ class Position extends MY_Controller {
 
 	function add(){
 		$data['division_id'] = htmlspecialchars($this->input->post('division_id'));
+		$data['grade_id'] = htmlspecialchars($this->input->post('grade_id'));
 		$data['position_code'] = htmlspecialchars($this->input->post('position_code'));
 		$data['position_name'] = htmlspecialchars($this->input->post('position_name'));
 
@@ -60,6 +63,7 @@ class Position extends MY_Controller {
 	function edit(){
 		$id = $this->input->post('id');
 		$data['division_id'] = htmlspecialchars($this->input->post('division_id'));
+		$data['grade_id'] = htmlspecialchars($this->input->post('grade_id'));
 		$data['position_name'] = htmlspecialchars($this->input->post('position_name'));
 
 		$status = $this->Position_model->update($data, ['position_id'=>$id]);
