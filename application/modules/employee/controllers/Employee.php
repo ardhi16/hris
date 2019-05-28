@@ -104,6 +104,100 @@ class Employee extends MY_Controller {
 		}
 	}
 
+	function getEmployee(){
+		$nik = $this->input->post('employee_nik');
+
+		$employee = $this->Employee_model->get(['employee_nik'=>$nik])->row();
+		echo json_encode($employee);
+	}
+
+	function getSchool(){
+		$id = $this->input->post('employee_id');
+		$school = $this->Employee_model->get_school(['school.employee_id'=>$id])->result();
+		if(count($school) > 0){
+			foreach ($school as $row) {
+				echo '<div class="form-group">
+				<div class="row">
+				<div class="col-md-4">
+				<label for="">Tingkat</label>
+				<input type="text" class="form-control" name="school_major[]" id="school_major" value="'.$row->school_level.'" readonly="">
+				</div>
+				<div class="col-md-4">
+				<label for="">Jurusan</label>
+				<input type="text" class="form-control" name="school_major[]" id="school_major" value="'.$row->school_major.'">
+				</div>
+				<div class="col-md-4">
+				<label for="">Nama Sekolah</label>
+				<input type="text" class="form-control" name="school_name[]" id="school_name" value="'.$row->school_name.'">
+				</div>
+				</div>
+				</div>';
+			}
+		} else {
+			echo null;
+		}
+	}
+
+	function getContract(){
+		$id = $this->input->post('employee_id');
+		$contract = $this->Employee_model->get_contract(['contract.employee_id'=>$id])->result();
+		if(count($contract) > 0){
+			foreach ($contract as $row) {
+				echo '<div class="form-group">
+				<div class="row">
+				<div class="col-md-6">
+				<label for="">Periode Kontrak</label>
+				<input type="number" class="form-control" name="contract_period[]" value="'.$row->contract_period.'" readonly="">
+				</div>
+				<div class="col-md-6">
+				<label for="">Lama Kontrak</label>
+				<input type="number" class="form-control" name="contract_length[]" value="'.$row->contract_length.'" readonly="">
+				</div>
+				</div>
+				</div>';
+			}
+		} else {
+			echo null;
+		}
+	}
+
+	function getFamily(){
+		$id = $this->input->post('employee_id');
+		$family = $this->Employee_model->get_family(['family.employee_id'=>$id])->result();
+
+		if(count($family) > 0){
+			echo '<div class="form-group">
+			<label for="">Nomor Kartu Keluarga</label>
+			<input type="text" class="form-control" name="family_card" id="family_card" value="'.$family[0]->family_card.'">
+			</div>';
+			foreach ($family as $row) {
+				echo '<div class="form-group">
+				<div class="row">
+				<div class="col-md-3">
+				<label for="">Nama</label>
+				<input type="text" class="form-control" name="family_name[]" value="'.$row->family_name.'">
+				</div>
+				<div class="col-md-3">
+				<label for="">Hubungan</label>
+				<input type="text" class="form-control" name="family_relation[]" value="'.$row->family_relation.'">
+				</div>
+				<div class="col-md-3">
+				<label for="">Tanggal Lahir</label>
+				<input type="text" class="form-control" name="family_bdate[]" value="'.$row->family_bdate.'">
+				</div>
+				<div class="col-md-3">
+				<label for="">Jenis Kelamin</label>
+				<input type="text" class="form-control" name="family_gender[]" value="'.$row->family_gender.'">
+				</div>
+				</div>
+				</div>';
+			}
+		} else {
+			echo null;
+		}
+		
+	}
+
 	function edit(){
 		$id = $this->input->post('id');
 		$data['division_id'] = htmlspecialchars($this->input->post('division_id'));

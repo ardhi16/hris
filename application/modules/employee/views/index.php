@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="card-box">
 
-    <form action="<?php echo site_url('employee/add') ?>" method="post">
+    <form action="<?php echo site_url('employee/add') ?>" method="post" onsubmit="event.preventDefault()">
       <input type="hidden" name="employee_id" id="employee_id">
       <div class="row">
         <div class="col-md-6">
@@ -9,6 +9,7 @@
             <label for="">NIK</label>
             <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan" id="employee_nik" required="" autofocus="" autocomplete="off">
             <button class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Lihat Daftar Karyawan</button>
+            <button type="button" class="btn btn-info btn-xs mt-1 btnSubmit">Tampilkan</button>
           </div>
           <div class="form-group">
             <label for="">Nama Lengkap</label>
@@ -22,7 +23,7 @@
               </div>
               <div class="col-md-6">
                 <label for="">Tanggal Lahir</label>
-                <input type="text" class="form-control datepicker" name="employee_bdate" id="" placeholder="Tanggal Lahir">
+                <input type="text" class="form-control datepicker" name="employee_bdate" id="employee_bdate" placeholder="Tanggal Lahir">
               </div>
             </div>
           </div>
@@ -31,10 +32,10 @@
               <div class="col-md-6">
                 <label for="" class="mb-2">Jenis Kelamin</label><br>
                 <label for="genderl">
-                  <input type="radio" id="genderl" name="employee_gender" value="L"> Laki-laki
+                  <input type="radio" id="genderl" class="employee_gender" name="employee_gender" value="L"> Laki-laki
                 </label>
                 <label for="genderp">
-                  <input type="radio" class="ml-3" id="genderp" name="employee_gender" value="P"> Perempuan
+                  <input type="radio" class="employee_gender ml-3" id="genderp" name="employee_gender" value="P"> Perempuan
                 </label>
               </div>
               <div class="col-md-6">
@@ -147,7 +148,7 @@
             <div class="row">
               <div class="col-md-4">
                 <label for="">Jabatan</label>
-                <input type="text" class="form-control" name="position_id" id="position_id" placeholder="Kode Jabatan">
+                <input type="text" class="form-control" name="position_code" id="position_code" placeholder="Kode Jabatan">
               </div>
               <div class="col-md-4">
                 <label for="">&nbsp;</label>
@@ -231,7 +232,7 @@
             </div>
             <div class="tab-pane fade show" id="school" role="tabpanel" aria-labelledby="school-tab">
               <div id="divSchool">
-                <div class="form-group">
+                <div class="form-group prSch">
                   <div class="row">
                     <div class="col-md-4">
                       <label for="">Tingkat</label>
@@ -255,12 +256,12 @@
               <a href="#" class="btn btn-xs btn-success" id="addSchool"><i class="fa fa-plus"></i><b> Tambah Baris</b></a>
             </div>
             <div class="tab-pane fade show" id="family" role="tabpanel" aria-labelledby="family-tab">
-              <div class="form-group">
+              <div class="form-group prFam">
                 <label for="">Nomor Kartu Keluarga</label>
                 <input type="text" class="form-control" name="family_card" id="family_card">
               </div>
               <div id="divFamily">
-                <div class="form-group">
+                <div class="form-group prFam">
                   <div class="row">
                     <div class="col-md-3">
                       <label for="">Nama</label>
@@ -292,7 +293,7 @@
             </div>
             <div class="tab-pane fade show" id="contract" role="tabpanel" aria-labelledby="contract-tab">
               <div id="divContract">
-                <div class="form-group">
+                <div class="form-group prCon">
                   <div class="row">
                     <div class="col-md-6">
                       <label for="">Periode Kontrak</label>
@@ -434,6 +435,8 @@
 
   });
 </script>
+
+<script type="text/javascript" src="<?php echo media_url('js/script.js') ?>"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){   
