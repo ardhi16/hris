@@ -3,7 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Employee_model extends CI_Model {
 
-	public function get($arr=null, $limit=null, $offset=null){
+	public function get($arr=null, $limit=null, $offset=null, $params=array()){
+
+		if(isset($params['search']))  {
+			$this->db->like('employee_nik', $params['search']);
+			$this->db->or_like('employee_name', $params['search']);
+		}
+
 		$this->db->join('position', 'position.position_id = employee.position_id', 'left');
 		$this->db->join('store', 'store.store_id = employee.store_id', 'left');
 		$this->db->join('grade', 'grade.grade_id = position.grade_id', 'left');

@@ -198,6 +198,24 @@ class Employee extends MY_Controller {
 		
 	}
 
+	function getEmployeeAll(){
+		$params = array();
+		$search = $this->input->post('search');
+		if(isset($search) && !empty($search) && $search != '') { 
+			$params['search'] = $search;
+		}
+		$employee = $this->Employee_model->get(null,null,null,$params)->result();
+		if(count($employee) > 0){
+			$i = 1;
+			foreach ($employee as $row) {
+				echo '<tr><td>'.$i.'</td><td class="selectNik'.$row->employee_id.'">'.$row->employee_nik.'</td><td>'.$row->employee_name.'</td><td>'.$row->position_name.'</td><td><button data-id="'.$row->employee_id.'" type="button" data-dismiss="modal" class="btn btn-danger btn-xs btnSelect">Pilih</button></td></tr>';
+				$i++;
+			} 
+		} else {
+			echo '<tr><td colspan="5" align="center">Data Kosong</td></tr>';
+		}
+	}
+
 	function edit(){
 		$id = $this->input->post('id');
 		$data['division_id'] = htmlspecialchars($this->input->post('division_id'));

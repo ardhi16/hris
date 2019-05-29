@@ -1,19 +1,19 @@
 <div class="container-fluid">
   <div class="card-box">
 
-    <form action="<?php echo site_url('employee/add') ?>" method="post" onsubmit="event.preventDefault()">
+    <form action="" method="post" onsubmit="event.preventDefault()">
       <input type="hidden" name="employee_id" id="employee_id">
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
             <label for="">NIK</label>
-            <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan" id="employee_nik" required="" autofocus="" autocomplete="off">
-            <button class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Lihat Daftar Karyawan</button>
+            <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan" id="employee_nik"  autofocus="" autocomplete="off">
+            <button type="button" class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Daftar Karyawan</button>
             <button type="button" class="btn btn-info btn-xs mt-1 btnSubmit">Tampilkan</button>
           </div>
           <div class="form-group">
             <label for="">Nama Lengkap</label>
-            <input type="text" name="employee_name" class="form-control" placeholder="Nama Karyawan" id="employee_name" required="">
+            <input type="text" name="employee_name" class="form-control" placeholder="Nama Karyawan" id="employee_name" >
           </div>
           <div class="form-group">
             <div class="row">
@@ -52,11 +52,11 @@
             <div class="row">
               <div class="col-md-6">
                 <label for="">Nama Ibu Kandung</label>
-                <input type="text" name="employee_mother" id="employee_mother" class="form-control" placeholder="Nama Ibu Kandung" required="">
+                <input type="text" name="employee_mother" id="employee_mother" class="form-control" placeholder="Nama Ibu Kandung" >
               </div>
               <div class="col-md-6">
                 <label for="">Nomor KTP</label>
-                <input type="text" maxlength="16" id="employee_ktp" name="employee_ktp" class="form-control" placeholder="No KTP" required="">
+                <input type="text" maxlength="16" id="employee_ktp" name="employee_ktp" class="form-control" placeholder="No KTP" >
               </div>
             </div>
           </div>
@@ -118,11 +118,11 @@
             <div class="row">
               <div class="col-md-6">
                 <label for="">Tanggal Masuk</label>
-                <input type="text" class="form-control datepicker" name="employee_join_date" id="employee_join_date" readonly="">
+                <input type="text" class="form-control datepicker" name="employee_join_date" id="employee_join_date" readonly="" placeholder="Tanggal Masuk">
               </div>
               <div class="col-md-6">
                 <label for="">Tanggal Keluar</label>
-                <input type="text" class="form-control" id="employee_exit_date" readonly="">
+                <input type="text" class="form-control" id="employee_exit_date" readonly="" placeholder="Tanggal Keluar">
               </div>
             </div>
           </div>
@@ -131,6 +131,7 @@
             <div class="row">
               <div class="col-md-6">
                 <input type="text" class="form-control" name="store_code" id="store_code" placeholder="Kode Kas">
+                <button type="button" class="btn btn-xs btn-warning mt-1 btnlistkas" data-toggle="modal" data-target="#listKas">Daftar Kode Kas</button>
               </div>
               <div class="col-md-6">
                 <input type="text" class="form-control" id="store_name" placeholder="Nama Kas" readonly="">
@@ -149,6 +150,7 @@
               <div class="col-md-4">
                 <label for="">Jabatan</label>
                 <input type="text" class="form-control" name="position_code" id="position_code" placeholder="Kode Jabatan">
+                <button type="button" class="btn btn-xs btn-warning mt-1 btnlistpos" data-toggle="modal" data-target="#listPos">Daftar Kode Jabatan</button>
               </div>
               <div class="col-md-4">
                 <label for="">&nbsp;</label>
@@ -319,6 +321,122 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+<div id="listKaryawan" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="titleModal">Daftar Karyawan</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <form class="mb-2" onsubmit="event.preventDefault()" method="post">
+          <div class="input-group">
+            <input type="text" autocomplete="off" id="search-input" class="form-control" placeholder="Pencarian Karyawan" style="max-width: 100%;" autofocus="">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form> 
+        <div class="table-responsive table-scroll tblKaryawan" style="display: none">
+          <table id="" class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>NIK</th>
+                <th>Nama</th>
+                <th>Jabatan</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="dataKaryawan">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-secondary waves-effect waves-light">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="listKas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="titleModal">Daftar Kas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <form class="mb-2" onsubmit="event.preventDefault()" method="post">
+          <div class="input-group">
+            <input type="text" autocomplete="off" id="search-input" class="form-control" placeholder="Pencarian" style="max-width: 100%;" autofocus="">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form> 
+        <div class="table-responsive table-scroll tblSiswa" style="display: none">
+          <table id="" class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kode Kas</th>
+                <th>Nama Kas</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="dataKas">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-secondary waves-effect waves-light">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="listPos" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="titleModal">Daftar Jabatan</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+      <div class="modal-body">
+        <form class="mb-2" onsubmit="event.preventDefault()" method="post">
+          <div class="input-group">
+            <input type="text" autocomplete="off" id="search-input" class="form-control" placeholder="Pencarian" style="max-width: 100%;" autofocus="">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form> 
+        <div class="table-responsive table-scroll tblSiswa" style="display: none">
+          <table id="" class="table table-sm table-hover">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kode Jabatan</th>
+                <th>Nama Jabatan</th>
+                <th>Divisi</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="dataPosition">
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-secondary waves-effect waves-light">Tutup</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
