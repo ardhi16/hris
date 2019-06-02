@@ -216,6 +216,54 @@ class Employee extends MY_Controller {
 		}
 	}
 
+	function getKasAll(){
+		$params = array();
+		$search = $this->input->post('searchKas');
+		if(isset($search) && !empty($search) && $search != '') { 
+			$params['search'] = $search;
+		}
+		$store = $this->Store_model->get(null,null,null,$params)->result();
+		if(count($store) > 0){
+			$i = 1;
+			foreach ($store as $row) {
+				echo '<tr><td>'.$i.'</td><td class="selectKas'.$row->store_id.'">'.$row->store_code.'</td><td>'.$row->store_name.'</td><td><button data-id="'.$row->store_id.'" type="button" data-dismiss="modal" class="btn btn-danger btn-xs btnSelectKas">Pilih</button></td></tr>';
+				$i++;
+			} 
+		} else {
+			echo '<tr><td colspan="4" align="center">Data Kosong</td></tr>';
+		}
+	}
+
+	function getKas(){
+		$store_code = $this->input->post('store_code');
+		$store = $this->Store_model->get(['store.store_code'=>$store_code])->row();
+		echo json_encode($store);
+	}
+
+	function getPosAll(){
+		$params = array();
+		$search = $this->input->post('searchPos');
+		if(isset($search) && !empty($search) && $search != '') { 
+			$params['search'] = $search;
+		}
+		$position = $this->Position_model->get(null,null,null,$params)->result();
+		if(count($position) > 0){
+			$i = 1;
+			foreach ($position as $row) {
+				echo '<tr><td>'.$i.'</td><td class="selectPos'.$row->position_id.'">'.$row->position_code.'</td><td>'.$row->position_name.'</td>><td>'.$row->division_name.'</td><td><button data-id="'.$row->position_id.'" type="button" data-dismiss="modal" class="btn btn-danger btn-xs btnSelectPos">Pilih</button></td></tr>';
+				$i++;
+			} 
+		} else {
+			echo '<tr><td colspan="5" align="center">Data Kosong</td></tr>';
+		}
+	}
+
+	function getPos(){
+		$position_code = $this->input->post('position_code');
+		$position = $this->Position_model->get(['position.position_code'=>$position_code])->row();
+		echo json_encode($position);
+	}
+
 	function edit(){
 		$id = $this->input->post('id');
 		$data['division_id'] = htmlspecialchars($this->input->post('division_id'));

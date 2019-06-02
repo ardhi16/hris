@@ -9,7 +9,6 @@
             <label for="">NIK</label>
             <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan" id="employee_nik"  autofocus="" autocomplete="off">
             <button type="button" class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Daftar Karyawan</button>
-            <button type="button" class="btn btn-info btn-xs mt-1 btnSubmit">Tampilkan</button>
           </div>
           <div class="form-group">
             <label for="">Nama Lengkap</label>
@@ -361,7 +360,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> 
 
 <div id="listKas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -373,13 +372,13 @@
       <div class="modal-body">
         <form class="mb-2" onsubmit="event.preventDefault()" method="post">
           <div class="input-group">
-            <input type="text" autocomplete="off" id="search-input" class="form-control" placeholder="Pencarian" style="max-width: 100%;" autofocus="">
+            <input type="text" autocomplete="off" id="search-inputkas" class="form-control" placeholder="Pencarian" style="max-width: 100%;" autofocus="">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search"></i></button>
+              <button class="btn btn-outline-secondary" type="button" id="search-buttonkas"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </form> 
-        <div class="table-responsive table-scroll tblSiswa" style="display: none">
+        <div class="table-responsive table-scroll tblKas" style="display: none">
           <table id="" class="table table-sm table-hover">
             <thead>
               <tr>
@@ -411,13 +410,13 @@
       <div class="modal-body">
         <form class="mb-2" onsubmit="event.preventDefault()" method="post">
           <div class="input-group">
-            <input type="text" autocomplete="off" id="search-input" class="form-control" placeholder="Pencarian" style="max-width: 100%;" autofocus="">
+            <input type="text" autocomplete="off" id="search-inputpos" class="form-control" placeholder="Pencarian" style="max-width: 100%;" autofocus="">
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search"></i></button>
+              <button class="btn btn-outline-secondary" type="button" id="search-buttonpos"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </form> 
-        <div class="table-responsive table-scroll tblSiswa" style="display: none">
+        <div class="table-responsive table-scroll tblPos" style="display: none">
           <table id="" class="table table-sm table-hover">
             <thead>
               <tr>

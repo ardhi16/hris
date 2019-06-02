@@ -3,7 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Position_model extends CI_Model {
 
-	public function get($arr=null, $limit=null, $offset=null){
+	public function get($arr=null, $limit=null, $offset=null, $params=array()){
+		if(isset($params['search']))  {
+			$this->db->like('position_name', $params['search']);
+			$this->db->or_like('division_name', $params['search']);
+		}
 		$this->db->join('division', 'division.division_id = position.division_id', 'left');
 		$this->db->join('grade', 'grade.grade_id = position.grade_id', 'left');
 		return $this->db->get_where('position', $arr, $limit, $offset);

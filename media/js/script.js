@@ -3,21 +3,80 @@ $(function(){
   var url_add = document.URL + '/add';
   var url_getE = document.URL + '/getEmployee';
   var url_getEA = document.URL + '/getEmployeeAll';
+  var url_getKasAll = document.URL + '/getKasAll';
+  var url_getPosAll = document.URL + '/getPosAll';
+  var url_getKas = document.URL + '/getKas';
+  var url_getPos = document.URL + '/getPos';
   var url_getS = document.URL + '/getSchool';
   var url_getF = document.URL + '/getFamily';
   var url_getC = document.URL + '/getContract';
+
 
   $(document).on("click", ".btnSelect", function() {
     const id = $(this).data('id');
     var selNik = $('.selectNik'+id).text();
     $('#employee_nik').val(selNik);
+    showEmployee();
+  })
+
+  $(document).on("click", ".btnSelectKas", function() {
+    const id = $(this).data('id'); 
+    var selKas = $('.selectKas'+id).text();
+    $('#store_code').val(selKas);
+    $.ajax({
+      url: url_getKas,
+      data: {store_code : selKas},
+      method: 'post',
+      dataType: 'json',
+      success: function(data) {
+        $('#store_name').val(data.store_name);
+      }
+    });
+  })
+
+  $(document).on("click", ".btnSelectPos", function() {
+    const id = $(this).data('id'); 
+    var selPos = $('.selectPos'+id).text();
+    $('#position_code').val(selPos);
+    $.ajax({
+      url: url_getPos,
+      data: {position_code : selPos},
+      method: 'post',
+      dataType: 'json',
+      success: function(data) {
+        $('#position_name').val(data.position_name);
+        $('#grade_name').val(data.grade_name);
+        $('#division_code').val(data.division_code);
+        $('#division_name').val(data.division_name);
+      }
+    });
   })
 
   $('#employee_nik').on('keyup', function (e) {
     if (e.which === 13) {
-        alert('ok')
+        showEmployee();
     }
 });
+
+  $(document).on("click", "#search-buttonpos", function() {
+    $('.tblPos').show();
+    listPos();
+  });
+
+  $(document).on("input", "#search-inputpos", function() {
+    $('.tblPos').show();
+    listPos();
+  });
+
+  $(document).on("click", "#search-buttonkas", function() {
+    $('.tblKas').show();
+    listKas();
+  });
+
+  $(document).on("input", "#search-inputkas", function() {
+    $('.tblKas').show();
+    listKas();
+  });
 
   $(document).on("click", "#search-button", function() {
     $('.tblKaryawan').show();
@@ -29,7 +88,12 @@ $(function(){
     listEmployee();
   });
 
+
   $('.btnSubmit').on('click', function() {
+    
+  });
+
+  function showEmployee(){
     const employee_nik = $('#employee_nik').val();
     $.ajax({
       url: url_getE,
@@ -61,6 +125,7 @@ $(function(){
         $('#employee_id_district').val(data.employee_id_district);
         $('#employee_join_date').val(data.employee_join_date);
         $('#employee_join_date').removeClass('datepicker', true);
+        $('#employee_join_date').attr('disabled', true);
         $('#store_code').val(data.store_code);
         $('#store_code').attr('readonly', true);
         $('#store_name').val(data.store_name);
@@ -120,7 +185,7 @@ $(function(){
         });
       }
     });
-  });
+  }
 
   function listEmployee(){
     var search = $('#search-input').val();
@@ -133,6 +198,36 @@ $(function(){
       dataType: 'html',
       success: function(response){
         $('#dataKaryawan').html(response);
+      }
+    })
+  }
+
+  function listKas(){
+    var searchKas = $('#search-inputkas').val();
+    $.ajax({
+      url: url_getKasAll,
+      data: {
+        search: searchKas
+      },
+      method: 'post',
+      dataType: 'html',
+      success: function(response){
+        $('#dataKas').html(response);
+      }
+    })
+  }
+
+  function listPos(){
+    var searchPos = $('#search-inputpos').val();
+    $.ajax({
+      url: url_getPosAll,
+      data: {
+        search: searchPos
+      },
+      method: 'post',
+      dataType: 'html',
+      success: function(response){
+        $('#dataPosition').html(response);
       }
     })
   }
