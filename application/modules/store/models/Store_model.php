@@ -5,8 +5,8 @@ class Store_model extends CI_Model {
 
 	public function get($arr=null, $limit=null, $offset=null, $params=array()){
 		if(isset($params['search']))  {
-			$this->db->like('employee_nik', $params['search']);
-			$this->db->or_like('employee_name', $params['search']);
+			$this->db->like('store_code', $params['search']);
+			$this->db->or_like('store_name', $params['search']);
 		}
 		return $this->db->get_where('store', $arr, $limit, $offset);
 	}

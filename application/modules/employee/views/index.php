@@ -1,7 +1,12 @@
+<style>
+  input, textarea{
+    text-transform: uppercase;
+  }
+</style>
 <div class="container-fluid">
   <div class="card-box">
 
-    <form action="" method="post" onsubmit="event.preventDefault()">
+    <form action="" method="post" id="formData" onsubmit="event.preventDefault()">
       <input type="hidden" name="employee_id" id="employee_id">
       <div class="row">
         <div class="col-md-6">
@@ -129,7 +134,7 @@
             <label for="">Penempatan</label>
             <div class="row">
               <div class="col-md-6">
-                <input type="text" class="form-control" name="store_code" id="store_code" placeholder="Kode Kas">
+                <input type="text" class="form-control" name="store_code" id="store_code" placeholder="Kode Kas" autocomplete="off">
                 <button type="button" class="btn btn-xs btn-warning mt-1 btnlistkas" data-toggle="modal" data-target="#listKas">Daftar Kode Kas</button>
               </div>
               <div class="col-md-6">
@@ -148,7 +153,7 @@
             <div class="row">
               <div class="col-md-4">
                 <label for="">Jabatan</label>
-                <input type="text" class="form-control" name="position_code" id="position_code" placeholder="Kode Jabatan">
+                <input type="text" class="form-control" name="position_code" id="position_code" placeholder="Kode Jabatan" autocomplete="off">
                 <button type="button" class="btn btn-xs btn-warning mt-1 btnlistpos" data-toggle="modal" data-target="#listPos">Daftar Kode Jabatan</button>
               </div>
               <div class="col-md-4">
@@ -220,8 +225,8 @@
                   <div class="col-md-6">
                     <label for="">Status Pajak</label>
                     <select name="employee_tax_status" id="employee_tax_status" class="form-control">
-                      <option value="TIDAK MENIKAH">Tidak Menikah</option>
-                      <option value="MENIKAH">Menikah</option>
+                      <option value="TIDAK MENIKAH">TIDAK MENIKAH</option>
+                      <option value="MENIKAH">MENIKAH</option>
                     </select>
                   </div>
                   <div class="col-md-6">
@@ -232,82 +237,23 @@
               </div>
             </div>
             <div class="tab-pane fade show" id="school" role="tabpanel" aria-labelledby="school-tab">
-              <div id="divSchool">
-                <div class="form-group prSch">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <label for="">Tingkat</label>
-                      <select name="school_level[]" class="form-control" id="school_level">
-                        <?php foreach ($level as $row): ?>
-                          <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
-                        <?php endforeach ?>
-                      </select>
-                    </div>
-                    <div class="col-md-4">
-                      <label for="">Jurusan</label>
-                      <input type="text" class="form-control" name="school_major[]" id="school_major">
-                    </div>
-                    <div class="col-md-4">
-                      <label for="">Nama Sekolah</label>
-                      <input type="text" class="form-control" name="school_name[]" id="school_name">
-                    </div>
-                  </div>
-                </div>
+              <div id="divSchool" class="prSch">
               </div>
-              <a href="#" class="btn btn-xs btn-success" id="addSchool"><i class="fa fa-plus"></i><b> Tambah Baris</b></a>
+              <a href="#" class="btn btn-xs btn-success" id="addSchool"><i class="fa fa-plus"></i><b> Tambah Pendidikan</b></a>
             </div>
             <div class="tab-pane fade show" id="family" role="tabpanel" aria-labelledby="family-tab">
-              <div class="form-group prFam">
+              <div class="form-group">
                 <label for="">Nomor Kartu Keluarga</label>
-                <input type="text" class="form-control" name="family_card" id="family_card">
+                <input type="text" class="form-control" name="employee_family_card" id="employee_family_card">
               </div>
-              <div id="divFamily">
-                <div class="form-group prFam">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <label for="">Nama</label>
-                      <input type="text" class="form-control" name="family_name[]">
-                    </div>
-                    <div class="col-md-3">
-                      <label for="">Hubungan</label>
-                      <select name="family_relation[]" class="form-control" id="">
-                        <?php foreach ($relation as $row): ?>
-                          <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
-                        <?php endforeach ?>
-                      </select>
-                    </div>
-                    <div class="col-md-3">
-                      <label for="">Tanggal Lahir</label>
-                      <input type="text" class="form-control datepicker" name="family_bdate[]">
-                    </div>
-                    <div class="col-md-3">
-                      <label for="">Jenis Kelamin</label>
-                      <select name="family_gender[]" class="form-control">
-                        <option value="L">Laki-laki</option>
-                        <option value="P">Perempuan</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+              <div id="divFamily" class="prFam">
               </div>
-              <a href="#" class="btn btn-xs btn-success" id="addfamily"><i class="fa fa-plus"></i><b> Tambah Baris</b></a>
+              <a href="#" class="btn btn-xs btn-success" id="addfamily"><i class="fa fa-plus"></i><b> Tambah Anggota Keluarga</b></a>
             </div>
             <div class="tab-pane fade show" id="contract" role="tabpanel" aria-labelledby="contract-tab">
-              <div id="divContract">
-                <div class="form-group prCon">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label for="">Periode Kontrak</label>
-                      <input type="number" class="form-control" name="contract_period[]">
-                    </div>
-                    <div class="col-md-6">
-                      <label for="">Lama Kontrak</label>
-                      <input type="number" class="form-control" name="contract_length[]">
-                    </div>
-                  </div>
-                </div>
+              <div id="divContract" class="prCon">
               </div>
-              <a href="#" class="btn btn-xs btn-success" id="addContract"><i class="fa fa-plus"></i><b> Tambah Baris</b></a>
+              <a href="#" class="btn btn-xs btn-success" id="addContract"><i class="fa fa-plus"></i><b> Tambah Periode Kontrak</b></a>
             </div>
             <div class="tab-pane fade show" id="file" role="tabpanel" aria-labelledby="file-tab">
               <div class="form-group">
@@ -316,7 +262,6 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-xs btn-success mt-3">Simpan</button>
         </div>
       </div>
     </form>
@@ -441,8 +386,9 @@
 
 <script>
   $(function() {
+
     var divSchool = $('#divSchool');
-    var i = $('#divSchool .form-group').length + 1;
+    var i = $('#divSchool').length + 1;
 
     $("#addSchool").click(function() {
       $(`<div class="form-group">
@@ -479,7 +425,7 @@
     });
 
     var divFamily = $('#divFamily');
-    var i = $('#divFamily .form-group').length + 1;
+    var i = $('#divFamily').length + 1;
 
     $("#addfamily").click(function() {
       $(`<div class="form-group">
@@ -522,7 +468,7 @@
     });
 
     var divContract = $('#divContract');
-    var i = $('#divContract .form-group').length + 1;
+    var i = $('#divContract').length + 1;
 
     $("#addContract").click(function() {
       $(`<div class="form-group">
@@ -554,16 +500,3 @@
 </script>
 
 <script type="text/javascript" src="<?php echo media_url('js/script.js') ?>"></script>
-
-<script type="text/javascript">
-  $(document).ready(function(){   
-
-    $(window).keypress(function(event) {
-      if (!(event.which == 115 && event.ctrlKey) && !(event.which == 19)) return true;
-        // $("#container form input[name=save]").click();
-        alert('ok');
-        event.preventDefault();
-        return false;
-      });
-  });
-</script>
