@@ -17,7 +17,7 @@
           </div>
           <div class="form-group">
             <label for="">Nama Lengkap</label>
-            <input type="text" name="employee_name" class="form-control" placeholder="Nama Karyawan" id="employee_name" >
+            <input type="text" name="employee_name" class="form-control" placeholder="Nama Karyawan" id="employee_name">
           </div>
           <div class="form-group">
             <div class="row">
@@ -27,7 +27,7 @@
               </div>
               <div class="col-md-6">
                 <label for="">Tanggal Lahir</label>
-                <input type="text" class="form-control datepicker" name="employee_bdate" id="employee_bdate" placeholder="Tanggal Lahir">
+                <input type="text" class="form-control datepicker" name="employee_bdate" id="employee_bdate" placeholder="Tanggal Lahir" readonly="">
               </div>
             </div>
           </div>
@@ -134,7 +134,8 @@
             <label for="">Penempatan</label>
             <div class="row">
               <div class="col-md-6">
-                <input type="text" class="form-control" name="store_code" id="store_code" placeholder="Kode Kas" autocomplete="off">
+                <input type="hidden" name="store_id" id="stId">
+                <input type="text" class="form-control" id="store_code" placeholder="Kode Kas" autocomplete="off">
                 <button type="button" class="btn btn-xs btn-warning mt-1 btnlistkas" data-toggle="modal" data-target="#listKas">Daftar Kode Kas</button>
               </div>
               <div class="col-md-6">
@@ -153,7 +154,8 @@
             <div class="row">
               <div class="col-md-4">
                 <label for="">Jabatan</label>
-                <input type="text" class="form-control" name="position_code" id="position_code" placeholder="Kode Jabatan" autocomplete="off">
+                <input type="hidden" id="posId" name="position_id">
+                <input type="text" class="form-control" id="position_code" placeholder="Kode Jabatan" autocomplete="off">
                 <button type="button" class="btn btn-xs btn-warning mt-1 btnlistpos" data-toggle="modal" data-target="#listPos">Daftar Kode Jabatan</button>
               </div>
               <div class="col-md-4">
@@ -237,7 +239,8 @@
               </div>
             </div>
             <div class="tab-pane fade show" id="school" role="tabpanel" aria-labelledby="school-tab">
-              <div id="divSchool" class="prSch">
+              <div id="divSchool">
+                <div class="prSch"></div>
               </div>
               <a href="#" class="btn btn-xs btn-success" id="addSchool"><i class="fa fa-plus"></i><b> Tambah Pendidikan</b></a>
             </div>
@@ -246,12 +249,14 @@
                 <label for="">Nomor Kartu Keluarga</label>
                 <input type="text" class="form-control" name="employee_family_card" id="employee_family_card">
               </div>
-              <div id="divFamily" class="prFam">
+              <div id="divFamily">
+                <div class="prFam"></div>
               </div>
               <a href="#" class="btn btn-xs btn-success" id="addfamily"><i class="fa fa-plus"></i><b> Tambah Anggota Keluarga</b></a>
             </div>
             <div class="tab-pane fade show" id="contract" role="tabpanel" aria-labelledby="contract-tab">
-              <div id="divContract" class="prCon">
+              <div id="divContract">
+                <div class="prCon"></div>
               </div>
               <a href="#" class="btn btn-xs btn-success" id="addContract"><i class="fa fa-plus"></i><b> Tambah Periode Kontrak</b></a>
             </div>
@@ -395,7 +400,7 @@
         <div class="row">
         <div class="col-md-4">
         <label for="">Tingkat</label>
-        <select name="school_level" class="form-control" id="school_level">
+        <select name="school_level[]" class="form-control" id="school_level">
         <?php foreach ($level as $row): ?>
           <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
         <?php endforeach ?>
@@ -404,11 +409,11 @@
         </div>
         <div class="col-md-4">
         <label for="">Jurusan</label>
-        <input type="text" class="form-control" name="school_major" id="school_major">
+        <input type="text" class="form-control" name="school_major[]" id="school_major">
         </div>
         <div class="col-md-4">
         <label for="">Nama Sekolah</label>
-        <input type="text" class="form-control" name="school_name" id="school_name">
+        <input type="text" class="form-control" name="school_name[]" id="school_name">
         </div>
         </div>
         </div>`).appendTo(divSchool);
@@ -498,5 +503,6 @@
 
   });
 </script>
-
+<script type="text/javascript" src="<?php echo media_url('js/vendor.min.js') ?>"></script>
+<script type="text/javascript" src="<?php echo media_url('js/validate/jquery.validate.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo media_url('js/script.js') ?>"></script>

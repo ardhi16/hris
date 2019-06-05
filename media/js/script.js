@@ -91,33 +91,35 @@ $(function(){
     if (!(event.which == 115 && event.ctrlKey) && !(event.which == 19)) return true;
     var confirmed =  confirm('Apakah anda akan menyimpan data ini?');
     if(confirmed){
-      var data = $('#formData').serialize();
-      var id = $('#employee_id').val();
-      console.log(id)
-      if(id == ''){
-        var url = url_postData;
-      } else {
-        url = url_postUpdate
-      }
-      $.ajax({
-        url: url,
-        data: data,
-        method: 'post',
-        dataType: 'json',
-        success: function(response) {
-          if(response.status){
-            flashData('success', response.result);
-          } else {
-            alert(response.result);
-            flashData('error', response.result);
-          }
-        }
-      });
-      
+      savedata();
       event.preventDefault();
       return false;
     }
   });
+
+  function savedata(){
+    var data = $('#formData').serialize();
+    var id = $('#employee_id').val();
+    if(id == ''){
+      var url = url_postData;
+    } else {
+      url = url_postUpdate
+    }
+    $.ajax({
+      url: url,
+      data: data,
+      method: 'post',
+      dataType: 'json',
+      success: function(response) {
+        if(response.status){
+          flashData('success', response.result);
+        } else {
+          alert(response.result);
+          flashData('error', response.result);
+        }
+      }
+    });
+  }
 
   function showEmployee(){
     const employee_nik = $('#employee_nik').val();
@@ -215,112 +217,117 @@ $(function(){
         }
       }
     });
-  }
+}
 
-  function listEmployee(){
-    var search = $('#search-input').val();
-    $.ajax({
-      url: url_getEA,
-      data: {
-        search: search
-      },
-      method: 'post',
-      dataType: 'html',
-      success: function(response){
-        $('#dataKaryawan').html(response);
-      }
-    })
-  }
-
-  function listKas(searchKas){
-    $.ajax({
-      url: url_getKasAll,
-      data: {
-        searchKas: searchKas
-      },
-      method: 'post',
-      dataType: 'html',
-      success: function(response){
-        $('#dataKas').html(response);
-      }
-    })
-  }
-
-  function listPos(){
-    var searchPos = $('#search-inputpos').val();
-    $.ajax({
-      url: url_getPosAll,
-      data: {
-        searchPos: searchPos
-      },
-      method: 'post',
-      dataType: 'html',
-      success: function(response){
-        $('#dataPosition').html(response);
-      }
-    })
-  }
-
-  function showKas(selKas){
-    $.ajax({
-      url: url_getKas,
-      data: {store_code : selKas},
-      method: 'post',
-      dataType: 'json',
-      success: function(data) {
-        if(data != null){
-          $('#store_name').val(data.store_name);
-        } else {
-          alert('Store Code tidak ditemukan');
-          $('#store_name').val('');
-        }
-      }
-    });
-  }
-
-  function showPos(selPos){
-    $.ajax({
-      url: url_getPos,
-      data: {position_code : selPos},
-      method: 'post',
-      dataType: 'json',
-      success: function(data) {
-        if(data != null){
-          $('#position_name').val(data.position_name);
-          $('#grade_name').val(data.grade_name);
-          $('#division_code').val(data.division_code);
-          $('#division_name').val(data.division_name);
-        } else {
-          alert('Kode Jabatan tidak ditemukan');
-          $('#position_name').val('');
-          $('#grade_name').val('');
-          $('#division_code').val('');
-          $('#division_name').val('');
-        }
-      }
-    });
-  }
-
-
-  function flashData(alert, msg){
-    Command: toastr[alert](msg);
-    toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": false,
-      "progressBar": false,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": "300",
-      "hideDuration": "1000",
-      "timeOut": "5000",
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
+function listEmployee(){
+  var search = $('#search-input').val();
+  $.ajax({
+    url: url_getEA,
+    data: {
+      search: search
+    },
+    method: 'post',
+    dataType: 'html',
+    success: function(response){
+      $('#dataKaryawan').html(response);
     }
+  })
+}
+
+function listKas(searchKas){
+  $.ajax({
+    url: url_getKasAll,
+    data: {
+      searchKas: searchKas
+    },
+    method: 'post',
+    dataType: 'html',
+    success: function(response){
+      $('#dataKas').html(response);
+    }
+  })
+}
+
+function listPos(){
+  var searchPos = $('#search-inputpos').val();
+  $.ajax({
+    url: url_getPosAll,
+    data: {
+      searchPos: searchPos
+    },
+    method: 'post',
+    dataType: 'html',
+    success: function(response){
+      $('#dataPosition').html(response);
+    }
+  })
+}
+
+function showKas(selKas){
+  $.ajax({
+    url: url_getKas,
+    data: {store_code : selKas},
+    method: 'post',
+    dataType: 'json',
+    success: function(data) {
+      if(data != null){
+        $('#stId').val(data.store_id);
+        $('#store_name').val(data.store_name);
+      } else {
+        alert('Store Code tidak ditemukan');
+        $('#stId').val('');
+        $('#store_name').val('');
+      }
+    }
+  });
+}
+
+function showPos(selPos){
+  $.ajax({
+    url: url_getPos,
+    data: {position_code : selPos},
+    method: 'post',
+    dataType: 'json',
+    success: function(data) {
+      if(data != null){
+        $('#posId').val(data.position_id);
+        $('#position_name').val(data.position_name);
+        $('#grade_name').val(data.grade_name);
+        $('#division_code').val(data.division_code);
+        $('#division_name').val(data.division_name);
+      } else {
+        alert('Kode Jabatan tidak ditemukan');
+        $('#posId').val('');
+        $('#position_id').val('');
+        $('#position_name').val('');
+        $('#grade_name').val('');
+        $('#division_code').val('');
+        $('#division_name').val('');
+      }
+    }
+  });
+}
+
+
+function flashData(alert, msg){
+  Command: toastr[alert](msg);
+  toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
   }
+}
 
 });

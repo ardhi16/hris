@@ -61,6 +61,14 @@ class Employee extends MY_Controller {
 			exit(json_encode(array('status' => false, 'result' => 'NIK sudah terdaftar')));
 		}
 
+		if($data['store_id'] == NULL){
+			exit(json_encode(array('status' => false, 'result' => 'Penempatan tidak ditemukan')));
+		}
+
+		if($data['position_id'] == NULL){
+			exit(json_encode(array('status' => false, 'result' => 'Jabatan tidak ditemukan')));
+		}
+
 		$status = $this->Employee_model->insert($data);
 
 		$school = $this->input->post('school_level');
@@ -146,6 +154,75 @@ class Employee extends MY_Controller {
 
 		$status = $this->Employee_model->update($data, ['employee_id'=>$data['employee_id']]);
 
+		$sid = $this->input->post('sid');
+		$fid = $this->input->post('fid');
+		$cid = $this->input->post('cid');
+		$school = $this->input->post('school_level');
+		$family = $this->input->post('family_name');
+		$kontrak = $this->input->post('contract_period');
+
+		$school_edit = array();
+		for ($i=0; $i < count($sid); $i++) { 
+			array_push($school_edit, [
+				'school_id' => $sid[$i],
+				'school_level' => $this->input->post('slevel')[$i],
+				'school_major' => $this->input->post('smajor')[$i],
+				'school_name' => $this->input->post('sname')[$i]
+			]);
+		}
+		$this->db->update_batch('school', $school_edit, 'school_id');
+
+		$family_edit = array();
+		for ($i=0; $i < count($fid); $i++) { 
+			array_push($family_edit, [
+				'family_id' => $fid[$i],
+				'family_name' => $this->input->post('fname')[$i],
+				'family_relation' => $this->input->post('frelation')[$i],
+				'family_bdate' => $this->input->post('fbdate')[$i],
+				'family_gender' => $this->input->post('fgender')[$i]
+			]);
+		}
+		$this->db->update_batch('family', $family_edit, 'family_id');
+
+		if(isset($school)){
+			$detail_school = array();
+			for ($i = 0; $i < count($school); $i++) {
+				array_push($detail_school, [
+					'employee_id' => $data['employee_id'],
+					'school_level' => $school[$i],
+					'school_major' => $this->input->post('school_major')[$i],
+					'school_name' => $this->input->post('school_name')[$i]
+				]);
+			}
+			$this->db->insert_batch('school', $detail_school);
+		}
+
+		if(isset($family)){
+			$detail_family = array();
+			for ($i = 0; $i < count($family); $i++) {
+				array_push($detail_family, [
+					'employee_id' => $data['employee_id'],
+					'family_name' => $this->input->post('family_name')[$i],
+					'family_relation' => $this->input->post('family_relation')[$i],
+					'family_bdate' => $this->input->post('family_bdate')[$i],
+					'family_gender' => $this->input->post('family_gender')[$i]
+				]);
+			}
+			$this->db->insert_batch('family', $detail_family);
+		}
+		
+		if(isset($kontrak)){
+			$detail_contract = array();
+			for ($i = 0; $i < count($kontrak); $i++) {
+				array_push($detail_contract, [
+					'employee_id' => $data['employee_id'],
+					'contract_period' => $kontrak[$i],
+					'contract_length' => $this->input->post('contract_length')[$i]
+				]);
+			}
+			$this->db->insert_batch('contract', $detail_contract);
+		}
+
 		if($status){
 			exit(json_encode(array('status' => true, 'result' => 'Data berhasil diubah')));
 		} else {
@@ -170,15 +247,16 @@ class Employee extends MY_Controller {
 				<div class="row">
 				<div class="col-md-4">
 				<label for="">Tingkat</label>
-				<input type="text" class="form-control" name="school_major[]" id="school_major" value="'.$row->school_level.'" readonly="">
+				<input type="hidden" name="sid[]" value="'.$row->school_id.'">
+				<input type="text" class="form-control" name="slevel[]" id="school_level" value="'.$row->school_level.'" readonly="">
 				</div>
 				<div class="col-md-4">
 				<label for="">Jurusan</label>
-				<input type="text" class="form-control" name="school_major[]" id="school_major" value="'.$row->school_major.'">
+				<input type="text" class="form-control" name="smajor[]" id="school_major" value="'.$row->school_major.'">
 				</div>
 				<div class="col-md-4">
 				<label for="">Nama Sekolah</label>
-				<input type="text" class="form-control" name="school_name[]" id="school_name" value="'.$row->school_name.'">
+				<input type="text" class="form-control" name="sname[]" id="school_name" value="'.$row->school_name.'">
 				</div>
 				</div>
 				</div>';
@@ -197,11 +275,12 @@ class Employee extends MY_Controller {
 				<div class="row">
 				<div class="col-md-6">
 				<label for="">Periode Kontrak</label>
-				<input type="number" class="form-control" name="contract_period[]" value="'.$row->contract_period.'" readonly="">
+				<input type="hidden" name="cid[]" value="'.$row->contract_id.'">
+				<input type="number" class="form-control" name="cperiod[]" value="'.$row->contract_period.'" readonly="">
 				</div>
 				<div class="col-md-6">
 				<label for="">Lama Kontrak</label>
-				<input type="number" class="form-control" name="contract_length[]" value="'.$row->contract_length.'" readonly="">
+				<input type="number" class="form-control" name="clength[]" value="'.$row->contract_length.'" readonly="">
 				</div>
 				</div>
 				</div>';
@@ -217,23 +296,25 @@ class Employee extends MY_Controller {
 
 		if(count($family) > 0){
 			foreach ($family as $row) {
+				$gender = ($row->family_gender == 'L') ? 'Laki-laki' : 'Perempuan';
 				echo '<div class="form-group">
 				<div class="row">
 				<div class="col-md-3">
 				<label for="">Nama</label>
-				<input type="text" class="form-control" name="family_name[]" value="'.$row->family_name.'">
+				<input type="hidden" name="fid[]" value="'.$row->family_id.'">
+				<input type="text" class="form-control" name="fname[]" value="'.$row->family_name.'">
 				</div>
 				<div class="col-md-3">
 				<label for="">Hubungan</label>
-				<input type="text" class="form-control" name="family_relation[]" value="'.$row->family_relation.'">
+				<input type="text" class="form-control" name="frelation[]" value="'.$row->family_relation.'" readonly="">
 				</div>
 				<div class="col-md-3">
 				<label for="">Tanggal Lahir</label>
-				<input type="text" class="form-control" name="family_bdate[]" value="'.$row->family_bdate.'">
+				<input type="text" class="form-control datepicker" name="fbdate[]" value="'.$row->family_bdate.'" readonly="">
 				</div>
 				<div class="col-md-3">
 				<label for="">Jenis Kelamin</label>
-				<input type="text" class="form-control" name="family_gender[]" value="'.$row->family_gender.'">
+				<input type="text" class="form-control" name="fgender[]" value="'.$gender.'" readonly="">
 				</div>
 				</div>
 				</div>';
