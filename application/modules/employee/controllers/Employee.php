@@ -27,6 +27,11 @@ class Employee extends MY_Controller {
 		$data['employee_name'] = $this->input->post('employee_name');
 		$data['employee_pob'] = $this->input->post('employee_pob');
 		$data['employee_bdate'] = $this->input->post('employee_bdate');
+
+		$date = str_replace('-', '', $data['employee_bdate']);
+		$pass = date('dmy', strtotime($date));
+		$data['employee_pin'] = password_hash($pass, PASSWORD_DEFAULT);
+
 		$data['employee_gender'] = $this->input->post('employee_gender');
 		$data['employee_married'] = $this->input->post('employee_married');
 		$data['employee_mother'] = $this->input->post('employee_mother');

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 28, 2019 at 09:04 PM
--- Server version: 5.7.23
--- PHP Version: 7.1.22
+-- Generation Time: Jun 05, 2019 at 03:13 PM
+-- Server version: 5.7.25
+-- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -38,7 +38,8 @@ CREATE TABLE `contract` (
 --
 
 INSERT INTO `contract` (`contract_id`, `employee_id`, `contract_period`, `contract_length`) VALUES
-(1, 1, 1, 12);
+(1, 1, 1, 12),
+(4, 4, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -70,6 +71,7 @@ INSERT INTO `division` (`division_id`, `division_code`, `division_name`, `divisi
 CREATE TABLE `employee` (
   `employee_id` int(11) UNSIGNED NOT NULL,
   `employee_nik` varchar(20) DEFAULT NULL,
+  `employee_pin` varchar(255) DEFAULT NULL,
   `employee_name` varchar(255) DEFAULT NULL,
   `store_id` int(11) DEFAULT NULL,
   `employee_join_date` date DEFAULT NULL,
@@ -98,6 +100,7 @@ CREATE TABLE `employee` (
   `employee_tax_status` enum('MENIKAH','TIDAK MENIKAH') DEFAULT NULL,
   `employee_children` int(11) DEFAULT '0',
   `employee_npwp` varchar(100) DEFAULT NULL,
+  `employee_family_card` varchar(20) DEFAULT NULL,
   `employee_ordner` varchar(20) DEFAULT NULL,
   `employee_active` enum('1','0') DEFAULT '1',
   `user_id` int(11) DEFAULT NULL,
@@ -109,8 +112,9 @@ CREATE TABLE `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`employee_id`, `employee_nik`, `employee_name`, `store_id`, `employee_join_date`, `employee_exit_date`, `employee_pob`, `employee_bdate`, `employee_gender`, `employee_ktp`, `employee_current_address`, `employee_current_postcode`, `employee_current_village`, `employee_current_district`, `employee_id_address`, `employee_id_postcode`, `employee_id_village`, `employee_id_district`, `employee_phone`, `employee_email`, `employee_mother`, `employee_married`, `employee_status`, `position_id`, `employee_acc_bank`, `employee_no_bpjskes`, `employee_no_bpjstk`, `employee_tax_status`, `employee_children`, `employee_npwp`, `employee_ordner`, `employee_active`, `user_id`, `employee_created_at`, `employee_updated_at`) VALUES
-(1, '12096398', 'Achyar Anshorie', 1, '2019-05-10', NULL, 'Bogor', '2019-05-01', 'L', '3201131012940003', 'Waringin Jaya', '16925', 'Bojonggede', 'Bogor', 'Waringin Jaya', '16925', 'Bojonggede', 'Bogor', '0811366875', 'achyar@gmail.com', 'Maryam', 'MENIKAH', 'KONTRAK', 1, '1234567890', '111222333', '5554455544', 'MENIKAH', 1, '234567654323', 'A1234', '1', 1, '2019-05-28 17:22:41', '2019-05-28 17:43:40');
+INSERT INTO `employee` (`employee_id`, `employee_nik`, `employee_pin`, `employee_name`, `store_id`, `employee_join_date`, `employee_exit_date`, `employee_pob`, `employee_bdate`, `employee_gender`, `employee_ktp`, `employee_current_address`, `employee_current_postcode`, `employee_current_village`, `employee_current_district`, `employee_id_address`, `employee_id_postcode`, `employee_id_village`, `employee_id_district`, `employee_phone`, `employee_email`, `employee_mother`, `employee_married`, `employee_status`, `position_id`, `employee_acc_bank`, `employee_no_bpjskes`, `employee_no_bpjstk`, `employee_tax_status`, `employee_children`, `employee_npwp`, `employee_family_card`, `employee_ordner`, `employee_active`, `user_id`, `employee_created_at`, `employee_updated_at`) VALUES
+(1, '12096398', NULL, 'Achyar Anshorie', 1, '2019-05-10', NULL, 'Bogor', '2019-05-01', 'L', '3201131012940003', 'Waringin Jaya rt.01 rw.03 no.18', '16925', 'Bojonggede', 'Bogor', 'WARINGIN JAYA RT.01 RW.03 NO.18', '16925', 'Bojonggede', 'Bogor', '0811366875', 'achyar@gmail.com', 'Maryam', 'MENIKAH', 'TETAP', 1, '1234567890', '111222333', '5554455544', 'MENIKAH', 1, '234567654323', '3201131012000010', 'A1234', '1', 1, '2019-05-28 17:22:41', '2019-06-02 15:05:46'),
+(4, '12112177', NULL, 'nia kurniawati', 1, '2019-06-03', NULL, 'depok', '1993-06-25', 'P', '1234567891012131', 'depok', '121212', 'depok', 'depok', 'depok', '121212', 'depok', 'depok', '0808080808', 'kurniawati.nk@gmail.com', 'ibunya', 'TIDAK MENIKAH', 'KONTRAK', 1, '123121212', '222222', '333333', 'TIDAK MENIKAH', 0, '11111111', '12121212', 'b12345', '1', 1, '2019-06-04 05:58:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -119,13 +123,20 @@ INSERT INTO `employee` (`employee_id`, `employee_nik`, `employee_name`, `store_i
 --
 
 CREATE TABLE `family` (
+  `family_id` int(10) UNSIGNED NOT NULL,
   `employee_id` int(11) UNSIGNED NOT NULL,
-  `family_card` varchar(20) DEFAULT NULL,
   `family_name` varchar(255) DEFAULT NULL,
   `family_relation` enum('AYAH','IBU','ANAK','SUAMI','ISTRI') DEFAULT NULL,
   `family_bdate` date DEFAULT NULL,
   `family_gender` enum('L','P') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `family`
+--
+
+INSERT INTO `family` (`family_id`, `employee_id`, `family_name`, `family_relation`, `family_bdate`, `family_gender`) VALUES
+(1, 4, 'bapak', 'AYAH', '1960-02-01', '');
 
 -- --------------------------------------------------------
 
@@ -209,7 +220,9 @@ CREATE TABLE `school` (
 --
 
 INSERT INTO `school` (`school_id`, `employee_id`, `school_level`, `school_major`, `school_name`) VALUES
-(1, 1, 'SMA', 'Multimedia', 'SMK Bogor');
+(1, 1, 'SMA', 'Multimedia', 'SMK Bogor'),
+(3, 4, 'S1', 'manajemen akunansi', 'stie Depok'),
+(6, 4, 'S2', 'magister akuntansi', 'oxford');
 
 -- --------------------------------------------------------
 
@@ -282,6 +295,12 @@ ALTER TABLE `employee`
   ADD KEY `nik` (`employee_nik`);
 
 --
+-- Indexes for table `family`
+--
+ALTER TABLE `family`
+  ADD PRIMARY KEY (`family_id`);
+
+--
 -- Indexes for table `grade`
 --
 ALTER TABLE `grade`
@@ -325,7 +344,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `contract`
 --
 ALTER TABLE `contract`
-  MODIFY `contract_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `contract_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `division`
@@ -337,7 +356,13 @@ ALTER TABLE `division`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `employee_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `family`
+--
+ALTER TABLE `family`
+  MODIFY `family_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `grade`
@@ -361,7 +386,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `school`
 --
 ALTER TABLE `school`
-  MODIFY `school_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `school_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `store`

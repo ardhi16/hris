@@ -100,6 +100,7 @@
 
   <div class="rightbar-overlay"></div>
 
+  <script src="<?php echo media_url() ?>js/vendor.min.js"></script>
   <script src="<?php echo media_url() ?>js/app.min.js"></script>
   <script src="<?php echo media_url() ?>js/bootstrap-datepicker.min.js"></script>
   <script src="<?php echo media_url() ?>js/jquery.dataTables.min.js"></script>

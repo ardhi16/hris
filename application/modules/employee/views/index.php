@@ -503,6 +503,4 @@
 
   });
 </script>
-<script type="text/javascript" src="<?php echo media_url('js/vendor.min.js') ?>"></script>
-<script type="text/javascript" src="<?php echo media_url('js/validate/jquery.validate.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo media_url('js/script.js') ?>"></script>
