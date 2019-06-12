@@ -267,6 +267,7 @@
               </div>
             </div>
           </div>
+          <button type="submit" class="btn btn-success mt-3" id="btnSave">Simpan</button>
         </div>
       </div>
     </form>
