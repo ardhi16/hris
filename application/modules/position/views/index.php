@@ -103,7 +103,7 @@
       $('#position_code').val('');
       $('#position_name').val('');
       $('#_id').val('');
-      $('#position_code').attr('readonly', false);
+      // $('#position_code').attr('readonly', false);
 
     })
 
@@ -119,7 +119,7 @@
       $('#division_id').val(div);
       $('#grade_id').val(grade);
       $('#position_code').val(code);
-      $('#position_code').attr('readonly', true);
+      // $('#position_code').attr('readonly', true);
       $('#position_name').val(position);
       $('#_id').val(id);
     })

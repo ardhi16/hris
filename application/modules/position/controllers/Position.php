@@ -49,6 +49,12 @@ class Position extends MY_Controller {
 		$data['position_code'] = htmlspecialchars($this->input->post('position_code'));
 		$data['position_name'] = htmlspecialchars($this->input->post('position_name'));
 
+		$pos = $this->Position_model->get(['position_code'=>$data['position_code']])->row();
+		if(isset($pos)){
+			$this->session->set_flashdata('failed', 'Kode Jabatan sudah digunakan');
+			redirect('position');
+		}
+
 		$status = $this->Position_model->insert($data);
 
 		if($status){
@@ -64,6 +70,7 @@ class Position extends MY_Controller {
 		$id = $this->input->post('id');
 		$data['division_id'] = htmlspecialchars($this->input->post('division_id'));
 		$data['grade_id'] = htmlspecialchars($this->input->post('grade_id'));
+		$data['position_code'] = htmlspecialchars($this->input->post('position_code'));
 		$data['position_name'] = htmlspecialchars($this->input->post('position_name'));
 
 		$status = $this->Position_model->update($data, ['position_id'=>$id]);
