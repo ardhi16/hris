@@ -87,15 +87,15 @@ $(function(){
   });
 
 
-  $(window).keypress(function(event) {
-    if (!(event.which == 115 && event.ctrlKey) && !(event.which == 83)) return true;
-    var confirmed =  confirm('Apakah anda akan menyimpan data ini?');
-    if(confirmed){
-      savedata();
-      event.preventDefault();
-      return false;
-    }
-  });
+  // $(window).keypress(function(event) {
+  //   if (!(event.which == 115 && event.ctrlKey) && !(event.which == 83)) return true;
+  //   var confirmed =  confirm('Apakah anda akan menyimpan data ini?');
+  //   if(confirmed){
+  //     savedata();
+  //     event.preventDefault();
+  //     return false;
+  //   }
+  // });
 
   $('#btnSave').click(function() {
     var confirmed =  confirm('Apakah anda akan menyimpan data ini?');
