@@ -5,7 +5,8 @@ if (!defined('BASEPATH'))
 
 if (!function_exists('pretty_date')) {
 
-  function pretty_date($date = '', $format = '', $timezone = TRUE) {
+  function pretty_date($date = '', $format = '', $timezone = TRUE)
+  {
     $date_str = strtotime($date);
 
     if (empty($format)) {
@@ -41,24 +42,33 @@ if (!function_exists('pretty_date')) {
 
     return $date_pretty;
   }
-
 }
+
+function konversiBulan($angka)
+{
+
+  $bulan = array('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII');
+  $index = $angka - 1;
+  return $bulan[$index];
+}
+
 
 if (!function_exists('menu_url')) {
 
-  function menu_url($menu = array()) {
+  function menu_url($menu = array())
+  {
     if (stristr($menu['url'], '://') !== FALSE) {
       return $menu['url'];
     }
 
     return site_url($menu['url']);
   }
-
 }
 
 if (!function_exists('page_tree_url_to_page_edit_url')) {
 
-  function page_tree_url_to_page_edit_url($page = array()) {
+  function page_tree_url_to_page_edit_url($page = array())
+  {
     $status = is_page($page);
 
     if ($status) {
@@ -68,28 +78,28 @@ if (!function_exists('page_tree_url_to_page_edit_url')) {
 
     return '#';
   }
-
 }
 
 if (!function_exists('is_page')) {
 
-  function is_page($page = array()) {
+  function is_page($page = array())
+  {
     return (stristr($page['url'], 'page/') === FALSE) ? FALSE : TRUE;
   }
-
 }
 
 if (!function_exists('page_url')) {
 
-  function page_url($page = array()) {
+  function page_url($page = array())
+  {
     return site_url('page/' . $page['page_id'] . '/' . url_title($page['page_name'], '-', TRUE) . '.html');
   }
-
 }
 
 if (!function_exists('posts_url')) {
 
-  function posts_url($posts = array()) {
+  function posts_url($posts = array())
+  {
     if (isset($posts['posts_url'])) {
       return $posts['posts_url'];
     } else {
@@ -98,87 +108,89 @@ if (!function_exists('posts_url')) {
       return site_url('posts/read/' . $year . '/' . $month . '/' . $day . '/' . $posts['posts_id'] . '/' . url_title($posts['posts_title'], '-', TRUE) . '.html');
     }
   }
-
 }
 
 if (!function_exists('template_media_url')) {
 
-  function template_media_url($name = '') {
+  function template_media_url($name = '')
+  {
     return base_url('media/templates/' . config_item('template') . '/' . $name);
   }
-
 }
 
 if (!function_exists('upload_url')) {
 
-  function upload_url($name = '') {
+  function upload_url($name = '')
+  {
     if (stristr($name, '://') !== FALSE) {
       return $name;
     } else {
       return base_url('uploads/' . $name);
     }
   }
-
 }
 
 if (!function_exists('media_url')) {
 
-  function media_url($name = '') {
+  function media_url($name = '')
+  {
     return base_url('media/' . $name);
   }
-
 }
 
-function majors() {
-  $CI = & get_instance();
+function majors()
+{
+  $CI = &get_instance();
   $CI->load->model('client/Client_model');
   $CI->user_data = $CI->session->userdata('user_data');
   $CI->client_id = $CI->user_data['client_id'];
-  $result = $CI->Client_model->get(['clients.client_id'=>$CI->client_id])->row();
+  $result = $CI->Client_model->get(['clients.client_id' => $CI->client_id])->row();
   return $result->client_level;
 }
 
-function logo() {
-  $CI = & get_instance();
+function logo()
+{
+  $CI = &get_instance();
   $CI->load->model('client/Client_model');
   $CI->user_data = $CI->session->userdata('user_data');
   $CI->client_id = $CI->user_data['client_id'];
-  $result = $CI->Client_model->get(['clients.client_id'=>$CI->client_id])->row();
+  $result = $CI->Client_model->get(['clients.client_id' => $CI->client_id])->row();
   return $result->client_logo;
 }
 
-function expired(){
-  $CI = & get_instance();
+function expired()
+{
+  $CI = &get_instance();
   $CI->load->model('client/Client_model');
   $CI->user_data = $CI->session->userdata('user_data');
   $CI->client_id = $CI->user_data['client_id'];
 
-  $profile = $CI->Client_model->get(['client_id'=>$CI->client_id])->row();
+  $profile = $CI->Client_model->get(['client_id' => $CI->client_id])->row();
   $now = date('Y-m-d');
   $expired = $profile->client_due_date;
 
-  if($expired < $now){
+  if ($expired < $now) {
     return true;
   } else {
     return false;
   }
 }
 
-function validUntil(){
-  $CI = & get_instance();
+function validUntil()
+{
+  $CI = &get_instance();
   $CI->load->model('client/Client_model');
   $CI->user_data = $CI->session->userdata('user_data');
   $CI->client_id = $CI->user_data['client_id'];
 
-  $profile = $CI->Client_model->get(['client_id'=>$CI->client_id])->row();
+  $profile = $CI->Client_model->get(['client_id' => $CI->client_id])->row();
   $now = date('Y-m-d');
-  $expired = $profile->client_due_date; 
-  $valid = strtotime($expired) - strtotime($now); 
+  $expired = $profile->client_due_date;
+  $valid = strtotime($expired) - strtotime($now);
 
-  if($valid/(24*60*60)<8) {
+  if ($valid / (24 * 60 * 60) < 8) {
     return true;
   } else {
     return false;
   }
 }
-

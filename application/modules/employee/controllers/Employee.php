@@ -177,8 +177,8 @@ class Employee extends MY_Controller {
 		}
 		$this->db->update_batch('school', $school_edit, 'school_id');
 
-		$family_edit = array();
-		for ($i=0; $i < count($fid); $i++) { 
+		$family_edit = array(); 
+		for ($i=0; $i < count($family); $i++) { 
 			array_push($family_edit, [
 				'family_id' => $fid[$i],
 				'family_name' => $this->input->post('fname')[$i],

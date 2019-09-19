@@ -441,7 +441,7 @@
         <input type="text" class="form-control" name="family_name[]">
         <a href="#" class="btn btn-xs btn-danger mt-1 removeFamily"><i class="fa fa-times"></i> Hapus Baris</a>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3"> 
         <label for="">Hubungan</label>
         <select name="family_relation[]" class="form-control" id="">
         <?php foreach ($relation as $row): ?>
@@ -451,7 +451,7 @@
         </div>
         <div class="col-md-3">
         <label for="">Tanggal Lahir</label>
-        <input type="text" class="form-control datepicker" name="family_bdate[]">
+        <input type="text" placeholder="YYYY-MM-DD" class="form-control datepicker" name="family_bdate[]">
         </div>
         <div class="col-md-3">
         <label for="">Jenis Kelamin</label>

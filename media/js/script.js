@@ -11,6 +11,7 @@ $(function(){
   var url_getC = document.URL + '/getContract';
   var url_postData = document.URL + '/add';
   var url_postUpdate = document.URL + '/edit';
+  var url_redirect = document.URL + '/employee';
 
 
   $(document).on("click", ".btnSelect", function() {
@@ -22,7 +23,7 @@ $(function(){
 
   $(document).on("click", ".btnSelectKas", function() {
     const id = $(this).data('id'); 
-    var selKas = $('.selectKas'+id).text();
+    var selKas = $('.selectKas'+id).text(); 
     $('#store_code').val(selKas);
     showKas(selKas);
   })
@@ -122,6 +123,7 @@ $(function(){
       success: function(response) {
         if(response.status){
           flashData('success', response.result);
+          // window.location.href = url_redirect;
         } else {
           alert(response.result);
           flashData('error', response.result);
@@ -158,8 +160,6 @@ $(function(){
           $('#employee_id_address').val(data.employee_id_address);
           $('#employee_id_postcode').val(data.employee_id_postcode);
           $('#employee_id_village').val(data.employee_id_village);
-          $('#employee_id_district').val(data.employee_id_district);
-          $('#employee_id_district').val(data.employee_id_district);
           $('#employee_id_district').val(data.employee_id_district);
           $('#employee_join_date').val(data.employee_join_date);
           $('#employee_join_date').removeClass('datepicker', true);
