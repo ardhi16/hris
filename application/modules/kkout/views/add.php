@@ -43,53 +43,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="">Jenis SK <span class="text-danger">*</span></label>
-                        <select id="sk_type" name="sk_type" class="form-control sk_type">
-                            <option value="">--- Pilih Jenis SK ---</option>
-                            <?php foreach ($type as $row) : ?>
-                                <option value="<?php echo $row ?>"><?php echo $row ?></option>
-                            <?php endforeach; ?>
+                        <label for="">Jenis <span class="text-danger">*</span></label>
+                        <select id="kkout_type" name="kkout_type" class="form-control kkout_type">
+                            <option value="">--- Pilih Jenis Out ---</option>
+                            <option value="0">Habis Kontrak</option>
+                            <option value="1">Baik</option>
+                            <option value="2">Meninggal Dunia</option>
                         </select>
                     </div>
-                    <div class="row memo" style="display:none">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">No Memo</label>
-                                <input type="text" name="sk_memo" id="memoNo" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">Tanggal Memo</label>
-                                <input type="text" name="sk_memo_date" id="memoDate" class="form-control datepicker" readonly="">
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Keluar</label>
+                        <input type="text" name="kkout_date" id="kkout_date" class="form-control datepicker" readonly="">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">KAS Tujuan</label>
-                                <select name="sk_store_id" id="sk_store_id" class="form-control select2">
-                                    <option value="">--- Pilih Kas Tujuan ---</option>
-                                    <?php foreach ($kas as $row) : ?>
-                                        <option value="<?php echo $row->store_id ?>"><?php echo $row->store_name ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="">Jabatan Tujuan</label>
-                                <select name="sk_position_id" id="sk_position_id" class="form-control select2">
-                                    <option value="">--- Pilih Jabatan Tujuan ---</option>
-                                    <?php foreach ($position as $row) : ?>
-                                        <option value="<?php echo $row->position_id ?>"><?php echo $row->position_name ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
 
-                    </div>
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-success btn-block mt-3">Simpan</button>
@@ -155,15 +121,6 @@
     $(document).on("input", "#search-input", function() {
         $('.tblKaryawan').show();
         listEmployee();
-    });
-
-    $('.sk_type').change(function() {
-        var type = $(this).val();
-        if (type != 'PENGANGKATAN') {
-            $('.memo').show();
-        } else {
-            $('.memo').hide();
-        }
     });
 
     function listEmployee() {

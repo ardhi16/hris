@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <title>HRIS | <?php echo $title ?></title>
@@ -19,9 +20,10 @@
   <link href="<?php echo media_url() ?>css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
   <link href="<?php echo media_url() ?>css/toastr.min.css" rel="stylesheet" type="text/css" />
   <link rel="stylesheet" type="text/css" href="<?php echo media_url() ?>css/jquery.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo media_url() ?>css/select2.min.css">
 
   <script src="<?php echo media_url() ?>js/jquery-3.3.1.min.js"></script>
-  
+
 </head>
 
 <body <?php echo ($this->uri->segment(1) == 'employee') ? 'class="enlarged" data-keep-enlarged="true"' : '' ?>>
@@ -33,7 +35,7 @@
           <a class="nav-link dropdown-toggle nav-user mr-0 waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
             <img src="<?php echo media_url() ?>images/default.jpeg" alt="user-image" class="rounded-circle">
             <span class="pro-user-name ml-1">
-              <?php echo ucfirst($this->fullname) ?> <i class="mdi mdi-chevron-down"></i> 
+              <?php echo ucfirst($this->fullname) ?> <i class="mdi mdi-chevron-down"></i>
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
@@ -80,13 +82,13 @@
       <div class="content">
         <?php (isset($main)) ? $this->load->view($main) : null ?>
       </div>
-    </div> 
+    </div>
 
     <footer class="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-6">
-            Copyright &copy; <?php echo date('Y') ?> Alright Reserved 
+            Copyright &copy; <?php echo date('Y') ?> Alright Reserved
           </div>
           <div class="col-md-6">
             <div class="text-md-right footer-links d-none d-sm-block">
@@ -106,6 +108,7 @@
   <script src="<?php echo media_url() ?>js/jquery.dataTables.min.js"></script>
   <script src="<?php echo media_url() ?>js/toastr.min.js"></script>
   <script src="<?php echo media_url() ?>js/jquery.inputmask.bundle.js"></script>
+  <script src="<?php echo media_url() ?>js/select2.min.js"></script>
 
   <script>
     $(".years").datepicker({
@@ -116,26 +119,29 @@
       todayHighlight: true
     });
 
+    $(document).ready(function() {
+      $('.select2').select2();
+    });
+
     $('.datepicker').datepicker({
       uiLibrary: 'bootstrap4',
-      autoclose: true, 
+      autoclose: true,
       todayHighlight: true,
-      format:'yyyy-mm-dd',
+      format: 'yyyy-mm-dd',
       orientation: 'bottom auto'
     });
 
-    $(document).ready(function(){
+    $(document).ready(function() {
       $('.numeric').inputmask("numeric", {
         removeMaskOnSubmit: true,
         radixPoint: ".",
         groupSeparator: ",",
         digits: 2,
         autoGroup: true,
-        prefix: 'Rp ', 
+        prefix: 'Rp ',
         rightAlign: false,
       });
     });
-
   </script>
 
   <?php if ($this->session->flashdata('success')) { ?>
@@ -186,4 +192,5 @@
 
 
 </body>
+
 </html>
