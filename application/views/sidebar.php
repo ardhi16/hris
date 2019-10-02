@@ -23,6 +23,24 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?php echo site_url('sk') ?>">
+                        <i class="mdi mdi-account-card-details"></i>
+                        <span> Surat Keputusan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo site_url('sp') ?>">
+                        <i class="mdi mdi-account-card-details"></i>
+                        <span> Surat Peringatan </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo site_url('kkout') ?>">
+                        <i class="mdi mdi-account-card-details"></i>
+                        <span> KKOUT </span>
+                    </a>
+                </li>
+                <li>
                     <a href="javascript: void(0);">
                         <i class="mdi mdi-folder-multiple"></i>
                         <span> Master Data </span>
@@ -36,7 +54,7 @@
 
                     </ul>
                 </li>
-                
+
             </ul>
         </div>
         <div class="clearfix"></div>

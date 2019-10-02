@@ -4,7 +4,6 @@
             <input type="hidden" name="employee_id" id="employee_id">
             <div class="row">
                 <div class="col-md-9">
-                    <?php echo validation_errors(); ?>
                     <div class="form-group">
                         <label for="">NIK</label>
                         <input type="text" class="form-control" placeholder="Masukan NIK Karyawan dan tekan enter" id="employee_nik" autofocus="" autocomplete="off">
@@ -43,23 +42,26 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="">Jenis <span class="text-danger">*</span></label>
-                        <select id="kkout_type" name="kkout_type" class="form-control kkout_type">
-                            <option value="">--- Pilih Jenis Out ---</option>
-                            <option value="0">Habis Kontrak</option>
-                            <option value="1">Baik</option>
-                            <option value="2">Meninggal Dunia</option>
+                        <label for="">Jenis SP</label>
+                        <select name="sp_type" id="sp_type" class="form-control">
+                            <option value="">--- Pilih Jenis SP ---</option>
+                            <option value="1">SP I</option>
+                            <option value="2">SP II</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="">Tanggal Keluar</label>
-                        <input type="text" name="kkout_date" id="kkout_date" class="form-control datepicker" readonly="">
+                        <label for="">Tanggal Efektif</label>
+                        <input type="text" name="sp_date_start" id="sp1_date_start" class="form-control datepicker" readonly="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Deskripsi</label>
+                        <textarea name="sp_desc" id="sp_desc" rows="5" class="form-control"></textarea>
                     </div>
 
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-success btn-block mt-3">Simpan</button>
-                    <a class="btn btn-secondary btn-block" href="<?php echo site_url('kkout') ?>">Batal</a>
+                    <a class="btn btn-secondary btn-block" href="<?php echo site_url('sp') ?>">Batal</a>
                 </div>
             </div>
         </form>
@@ -111,6 +113,20 @@
         var selNik = $('.selectNik' + id).text();
         $('#employee_nik').val(selNik);
         showEmployee();
+        $.ajax({
+            url: "<?php echo site_url('sp/checkSp') ?>",
+            data: {
+                employee_id: id
+            },
+            method: 'post',
+            dataType: 'json',
+            success: function(response) {
+                if (response.status) {
+                    alert('Karyawan ybs masih sedang dalam masa SP I, maka otomatis akan naik tingkat ke SP II')
+                    $('#sp_type').val('2');
+                }
+            }
+        });
     })
 
     $(document).on("click", "#search-button", function() {
