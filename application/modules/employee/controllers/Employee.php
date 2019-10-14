@@ -58,6 +58,7 @@ class Employee extends MY_Controller {
 		$data['employee_children'] = $this->input->post('employee_children');
 		$data['employee_family_card'] = $this->input->post('employee_family_card');
 		$data['employee_ordner'] = $this->input->post('employee_ordner');
+		$data['employee_salary'] = $this->input->post('employee_salary');
 		$data['user_id'] = $this->uid;
 
 		$check = $this->Employee_model->get(['employee.employee_nik'=>$data['employee_nik']])->row();
@@ -156,6 +157,7 @@ class Employee extends MY_Controller {
 		$data['employee_children'] = $this->input->post('employee_children');
 		$data['employee_family_card'] = $this->input->post('employee_family_card');
 		$data['employee_ordner'] = $this->input->post('employee_ordner');
+		$data['employee_salary'] = $this->input->post('employee_salary');
 
 		$status = $this->Employee_model->update($data, ['employee_id'=>$data['employee_id']]);
 
@@ -167,7 +169,7 @@ class Employee extends MY_Controller {
 		$kontrak = $this->input->post('contract_period');
 
 		$school_edit = array();
-		for ($i=0; $i < count($sid); $i++) { 
+		for ($i=0; $i < count($sid); $i++) {  
 			array_push($school_edit, [
 				'school_id' => $sid[$i],
 				'school_level' => $this->input->post('slevel')[$i],
@@ -178,7 +180,7 @@ class Employee extends MY_Controller {
 		$this->db->update_batch('school', $school_edit, 'school_id');
 
 		$family_edit = array(); 
-		for ($i=0; $i < count($family); $i++) { 
+		for ($i=0; $i < count($fid); $i++) { 
 			array_push($family_edit, [
 				'family_id' => $fid[$i],
 				'family_name' => $this->input->post('fname')[$i],

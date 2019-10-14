@@ -1,5 +1,6 @@
 <style>
-  input, textarea{
+  input,
+  textarea {
     text-transform: uppercase;
   }
 </style>
@@ -12,7 +13,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="">NIK</label>
-            <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan dan tekan enter" id="employee_nik"  autofocus="" autocomplete="off">
+            <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan dan tekan enter" id="employee_nik" autofocus="" autocomplete="off">
             <button type="button" class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Daftar Karyawan</button>
           </div>
           <div class="form-group">
@@ -45,7 +46,7 @@
               <div class="col-md-6">
                 <label for="">Status Pernikahan</label>
                 <select name="employee_married" class="form-control" id="employee_married">
-                  <?php foreach ($married as $row): ?>
+                  <?php foreach ($married as $row) : ?>
                     <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
                   <?php endforeach ?>
                 </select>
@@ -56,11 +57,11 @@
             <div class="row">
               <div class="col-md-6">
                 <label for="">Nama Ibu Kandung</label>
-                <input type="text" name="employee_mother" id="employee_mother" class="form-control" placeholder="Nama Ibu Kandung" >
+                <input type="text" name="employee_mother" id="employee_mother" class="form-control" placeholder="Nama Ibu Kandung">
               </div>
               <div class="col-md-6">
                 <label for="">Nomor KTP</label>
-                <input type="text" maxlength="16" id="employee_ktp" name="employee_ktp" class="form-control" placeholder="No KTP" >
+                <input type="text" maxlength="16" id="employee_ktp" name="employee_ktp" class="form-control" placeholder="No KTP">
               </div>
             </div>
           </div>
@@ -195,6 +196,9 @@
             <li class="nav-item">
               <a class="nav-link" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file" aria-selected="false">File</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" id="salary-tab" data-toggle="tab" href="#salary" role="tab" aria-controls="salary" aria-selected="false">Salary</a>
+            </li>
           </ul>
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="ins" role="tabpanel" aria-labelledby="ins-tab">
@@ -266,6 +270,12 @@
                 <input type="text" class="form-control" name="employee_ordner" id="employee_ordner">
               </div>
             </div>
+            <div class="tab-pane fade show" id="salary" role="tabpanel" aria-labelledby="salary-tab">
+              <div class="form-group">
+                <label for="">Gaji Pokok</label>
+                <input type="number" class="form-control" name="employee_salary" id="employee_salary">
+              </div>
+            </div>
           </div>
           <button type="submit" class="btn btn-success mt-3" id="btnSave">Simpan</button>
         </div>
@@ -289,7 +299,7 @@
               <button class="btn btn-outline-secondary" type="button" id="search-button"><i class="fa fa-search"></i></button>
             </div>
           </div>
-        </form> 
+        </form>
         <div class="table-responsive table-scroll tblKaryawan" style="display: none">
           <table id="" class="table table-sm table-hover">
             <thead>
@@ -311,7 +321,7 @@
       </div>
     </div>
   </div>
-</div> 
+</div>
 
 <div id="listKas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="titleModal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -328,7 +338,7 @@
               <button class="btn btn-outline-secondary" type="button" id="search-buttonkas"><i class="fa fa-search"></i></button>
             </div>
           </div>
-        </form> 
+        </form>
         <div class="table-responsive table-scroll tblKas" style="display: none">
           <table id="" class="table table-sm table-hover">
             <thead>
@@ -366,7 +376,7 @@
               <button class="btn btn-outline-secondary" type="button" id="search-buttonpos"><i class="fa fa-search"></i></button>
             </div>
           </div>
-        </form> 
+        </form>
         <div class="table-responsive table-scroll tblPos" style="display: none">
           <table id="" class="table table-sm table-hover">
             <thead>
@@ -402,7 +412,7 @@
         <div class="col-md-4">
         <label for="">Tingkat</label>
         <select name="school_level[]" class="form-control" id="school_level">
-        <?php foreach ($level as $row): ?>
+        <?php foreach ($level as $row) : ?>
           <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
         <?php endforeach ?>
         </select>
@@ -444,7 +454,7 @@
         <div class="col-md-3"> 
         <label for="">Hubungan</label>
         <select name="family_relation[]" class="form-control" id="">
-        <?php foreach ($relation as $row): ?>
+        <?php foreach ($relation as $row) : ?>
           <option value="<?php echo $row ?>"><?php echo ucwords($row) ?></option>
         <?php endforeach ?>
         </select>

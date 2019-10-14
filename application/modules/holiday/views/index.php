@@ -1,9 +1,8 @@
-<link rel="stylesheet" href="<?php echo media_url('vendor/fullcalendar/core/main.min.css') ?>">
-<link rel="stylesheet" href="<?php echo media_url('vendor/fullcalendar/daygrid/main.min.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?php echo media_url() ?>vendor/fullcalendar/css/fullcalendar.min.css">
 <div class="container-fluid">
     <div class="card-box">
-        <div id='calendar-container'>
-            <div id='calendar'></div>
+        <div id="calendar-container">
+            <div id="calendar"></div>
         </div>
     </div>
 </div>
@@ -33,8 +32,7 @@
     </div>
 </div>
 
-<script src="<?php echo media_url('vendor/fullcalendar/core/main.min.js') ?>"></script>
-<script src="<?php echo media_url('vendor/fullcalendar/daygrid/main.min.js') ?>"></script>
+<script src="<?php echo media_url() ?>vendor/fullcalendar/js/fullcalendar.min.js"></script>
 
 <script>
     $('#calendar').fullCalendar({

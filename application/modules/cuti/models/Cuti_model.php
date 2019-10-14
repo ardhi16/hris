@@ -6,6 +6,8 @@ class Cuti_model extends CI_Model
 
     function get($arr = null, $limit = null, $offset = null)
     {
+        $this->db->select('cuti.*, cuti.employee_id, employee_name');
+        $this->db->join('employee', 'employee.employee_id = cuti.employee_id', 'left');
         return $this->db->get_where('cuti', $arr, $limit, $offset);
     }
 

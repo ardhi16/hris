@@ -184,6 +184,7 @@ $(function(){
           $('#employee_children').val(data.employee_children);
           $('#employee_family_card').val(data.employee_family_card);
           $('#employee_ordner').val(data.employee_ordner);
+          $('#employee_salary').val(data.employee_salary);
           $.ajax({
             url: url_getS,
             data: {employee_id : data.employee_id},

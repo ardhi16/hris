@@ -41,6 +41,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?php echo site_url('cuti') ?>">
+                        <i class="mdi mdi-account-card-details"></i>
+                        <span> Cuti </span>
+                    </a>
+                </li>
+                <li>
                     <a href="javascript: void(0);">
                         <i class="mdi mdi-folder-multiple"></i>
                         <span> Master Data </span>
