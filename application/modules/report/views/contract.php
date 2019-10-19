@@ -4,24 +4,16 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">Karyawan Habis Kontrak</label>
+                        <label for="">Bulan</label>
+                        <input type="text" class="form-control months" name="month" autocomplete="off" readonly>
                     </div>
-                    <button class="btn btn-success" type="submit">Download</button>
+                    <div class="form-group">
+                        <label for="">Tahun</label>
+                        <input type="text" class="form-control years" name="year" autocomplete="off" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success">Download</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-<script>
-    $('form').submit(function(event) {
-        if ($(this).hasClass('submitted')) {
-            event.preventDefault();
-        } else {
-            $(this).find(':submit')
-                .html('<i class="fa fa-spinner fa-spin"></i> Loading...')
-                .attr('disabled', 'disabled');
-            $(this).addClass('submitted');
-        }
-    });
-</script>

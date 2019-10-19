@@ -119,6 +119,14 @@
       todayHighlight: true
     });
 
+    $(".months").datepicker({
+      format: "mm",
+      viewMode: "months",
+      minViewMode: "months",
+      autoclose: true,
+      todayHighlight: true
+    });
+
     $(document).ready(function() {
       $('.select2').select2();
     });

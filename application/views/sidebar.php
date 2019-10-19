@@ -58,6 +58,7 @@
                         <li><a href="<?php echo site_url('report/sp') ?>">Surat Peringatan</a></li>
                         <li><a href="<?php echo site_url('report/kkout') ?>">KKOUT</a></li>
                         <li><a href="<?php echo site_url('report/cuti') ?>">Cuti</a></li>
+                        <li><a href="<?php echo site_url('report/contract') ?>">Reminder Kontrak</a></li>
                     </ul>
                 </li>
                 <li>

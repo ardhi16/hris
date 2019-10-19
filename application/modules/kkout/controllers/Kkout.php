@@ -10,6 +10,7 @@ class Kkout extends MY_Controller
         $this->load->model('kkout/Kkout_model', 'kkout');
         $this->load->model('store/Store_model', 'kas');
         $this->load->model('position/Position_model', 'position');
+        $this->load->model('employee/Employee_model', 'employee');
     }
 
     public function index()
@@ -66,6 +67,12 @@ class Kkout extends MY_Controller
             $params['kkout_type'] = $this->input->post('kkout_type');
             $params['kkout_date'] = $this->input->post('kkout_date');
             $this->kkout->insert($params);
+
+            $this->employee->update([
+                'employee_exit_date' => $params['kkout_date'],
+                'employee_active' => 0
+            ], ['employee_id' => $params['employee_id']]);
+            
             $this->session->set_flashdata('success', 'Data berhasil ditambahkan');
             redirect('kkout');
         } else {

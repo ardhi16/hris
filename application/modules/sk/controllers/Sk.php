@@ -9,6 +9,7 @@ class Sk extends MY_Controller
         $this->load->model('sk/Sk_model', 'sk');
         $this->load->model('store/Store_model', 'kas');
         $this->load->model('position/Position_model', 'position');
+        $this->load->model('employee/Employee_model', 'employee');
     }
 
     public function index()
@@ -69,8 +70,13 @@ class Sk extends MY_Controller
             $params['sk_store_id'] = $this->input->post('sk_store_id');
             $params['sk_efective_date'] = $this->input->post('sk_efective_date');
             $params['sk_position_id'] = $this->input->post('sk_position_id');
-
             $this->sk->insert($params);
+
+            $this->employee->update([
+                'store_id' => $params['sk_store_id'],
+                'position_id' => $params['sk_position_id']
+            ], ['employee_id' => $params['employee_id']]);
+
             $this->session->set_flashdata('success', 'Data berhasil ditambahkan');
             redirect('sk');
         } else {
