@@ -58,6 +58,11 @@ class Auth extends CI_Controller {
 
 	function logout() {
 		$sessions_items = array('user_data','logged');
+		$this->user_data = $this->session->userdata('user_data');
+		$this->uid = $this->user_data['uid'];
+		$data['user_last_login'] = date('Y-m-d H:i:s');
+		$this->User_model->update($data, ['user_id' => $this->uid]);
+
 		$this->session->unset_userdata($sessions_items);
 		redirect('auth/log');
 	}

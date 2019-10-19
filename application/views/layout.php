@@ -58,7 +58,7 @@
       <div class="logo-box">
         <a href="<?php echo site_url('home') ?>" class="logo text-center">
           <span class="logo-lg">
-            <p>HRIS</p>
+            <img src="<?php echo media_url() ?>/images/logo.png" style="height:60px">
           </span>
         </a>
       </div>

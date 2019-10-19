@@ -532,12 +532,17 @@ class Report extends MY_Controller
 
             $arr = [];
             foreach ($res as $key) {
-                $contract = $this->Report_model->get_con(['employee_id' => $key->employee_id])->row();
+                $contract = $this->Report_model->get_con(['employee_id' => $key->employee_id])->result();
+                
+                $total_contract = 0;
+                foreach ($contract as $row) {
+                    $total_contract += $row->contract_length;
+                }
 
-                if(isset($contract)) {
+                if(count($contract) > 0) {
                     $due = $key->employee_join_date;
                     $due = date('Y-m-d', strtotime($due));
-                    $key->end_contract = date('Y-m-d', strtotime('+' . $contract->contract_length . ' month', strtotime($due)));
+                    $key->end_contract = date('Y-m-d', strtotime('+' . $total_contract . ' month', strtotime($due)));
 
                     if (date('Y-m', strtotime($key->end_contract)) == $select) {
                         array_push($arr, [
@@ -548,13 +553,12 @@ class Report extends MY_Controller
                             'position_name' => $key->position_name,
                             'employee_status' => $key->employee_status,
                             'employee_join_date' => $key->employee_join_date,
-                            'contract_length' => $contract->contract_length,
+                            'contract_length' => $contract[0]->contract_length,
                             'end_contract' => $key->end_contract
                         ]);
                     }
                 } 
             }
-            
 
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
