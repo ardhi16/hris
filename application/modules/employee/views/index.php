@@ -13,7 +13,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="">NIK</label>
-            <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan dan tekan enter" id="employee_nik" autofocus="" autocomplete="off">
+            <input type="text" name="employee_nik" class="form-control" placeholder="Masukan NIK Karyawan" id="employee_nik" autofocus="" autocomplete="off">
             <button type="button" class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Daftar Karyawan</button>
           </div>
           <div class="form-group">
@@ -136,7 +136,7 @@
             <div class="row">
               <div class="col-md-6">
                 <input type="hidden" name="store_id" id="stId">
-                <input type="text" class="form-control" id="store_code" placeholder="Masukan Kode Kas dan tekan enter" autocomplete="off">
+                <input type="text" class="form-control" id="store_code" placeholder="Masukan Kode Kas" autocomplete="off">
                 <button type="button" class="btn btn-xs btn-warning mt-1 btnlistkas" data-toggle="modal" data-target="#listKas">Daftar Kode Kas</button>
               </div>
               <div class="col-md-6">
@@ -156,7 +156,7 @@
               <div class="col-md-4">
                 <label for="">Jabatan</label>
                 <input type="hidden" id="posId" name="position_id">
-                <input type="text" class="form-control" id="position_code" placeholder="Masukan Kode Jabatan dan tekan enter" autocomplete="off">
+                <input type="text" class="form-control" id="position_code" placeholder="Masukan Kode Jabatan" autocomplete="off">
                 <button type="button" class="btn btn-xs btn-warning mt-1 btnlistpos" data-toggle="modal" data-target="#listPos">Daftar Kode Jabatan</button>
               </div>
               <div class="col-md-4">

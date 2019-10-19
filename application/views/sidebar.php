@@ -75,6 +75,13 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="<?php echo site_url('user') ?>">
+                        <i class="mdi mdi-account-multiple"></i>
+                        <span> Pengguna </span>
+                    </a>
+                </li>
+
             </ul>
         </div>
         <div class="clearfix"></div>

@@ -123,6 +123,7 @@ $(function(){
       success: function(response) {
         if(response.status){
           flashData('success', response.result);
+          showEmployee()
           // window.location.href = url_redirect;
         } else {
           alert(response.result);

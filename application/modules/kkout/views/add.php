@@ -7,7 +7,7 @@
                     <?php echo validation_errors(); ?>
                     <div class="form-group">
                         <label for="">NIK</label>
-                        <input type="text" class="form-control" placeholder="Masukan NIK Karyawan dan tekan enter" id="employee_nik" autofocus="" autocomplete="off">
+                        <input type="text" class="form-control" placeholder="Masukan NIK Karyawan" id="employee_nik" autofocus="" autocomplete="off">
                         <button type="button" class="btn btn-xs btn-warning mt-1" data-toggle="modal" data-target="#listKaryawan">Daftar Karyawan</button>
                     </div>
                     <div class="form-group">
