@@ -49,6 +49,16 @@
                 <li>
                     <a href="javascript: void(0);">
                         <i class="mdi mdi-folder-multiple"></i>
+                        <span> Laporan </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="<?php echo site_url('report/employee') ?>">Karyawan Aktif</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);">
+                        <i class="mdi mdi-folder-multiple"></i>
                         <span> Master Data </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -57,7 +67,7 @@
                         <li><a href="<?php echo site_url('grade') ?>">Grade</a></li>
                         <li><a href="<?php echo site_url('division') ?>">Divisi</a></li>
                         <li><a href="<?php echo site_url('position') ?>">Jabatan</a></li>
-
+                        <li><a href="<?php echo site_url('holiday') ?>">Libur Nasional</a></li>
                     </ul>
                 </li>
 

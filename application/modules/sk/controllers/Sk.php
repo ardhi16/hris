@@ -45,6 +45,7 @@ class Sk extends MY_Controller
         $this->form_validation->set_rules('employee_id', 'Karyawan', 'trim|required|xss_clean');
         $this->form_validation->set_rules('sk_store_id', 'Kas Tujuan', 'trim|required|xss_clean');
         $this->form_validation->set_rules('sk_position_id', 'Jabatan Tujuan', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('sk_efective_date', 'Tanggal Efektif', 'trim|required|xss_clean');
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button position="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>', '</div>');
 
         if ($_POST and $this->form_validation->run() == TRUE) {
@@ -66,6 +67,7 @@ class Sk extends MY_Controller
             $params['sk_memo'] = $this->input->post('sk_memo');
             $params['sk_memo_date'] = ($this->input->post('sk_memo_date') == null) ? null : $this->input->post('sk_memo_date');
             $params['sk_store_id'] = $this->input->post('sk_store_id');
+            $params['sk_efective_date'] = $this->input->post('sk_efective_date');
             $params['sk_position_id'] = $this->input->post('sk_position_id');
 
             $this->sk->insert($params);

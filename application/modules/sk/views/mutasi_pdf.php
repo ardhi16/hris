@@ -90,7 +90,7 @@
             </ol>
             <br><br>
             <p>Ditetapkan di : Bekasi <br>
-                Pada Tanggal : <?php echo pretty_date($sk->sk_created_at, 'd F Y', false); ?>
+                Pada Tanggal : <?php echo pretty_date($sk->sk_efective_date, 'd F Y', false); ?>
             </p>
             <p>BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI</p>
             <table style="margin-top:100px">

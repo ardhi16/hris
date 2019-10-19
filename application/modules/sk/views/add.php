@@ -61,7 +61,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="">Tanggal Memo</label>
-                                <input type="text" name="sk_memo_date" id="memoDate" class="form-control datepicker" readonly="">
+                                <input type="text" name="sk_memo_date" id="memoDate" class="form-control datepicker" readonly="" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,10 @@
                                 </select>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Efektif</label>
+                        <input type="text" name="sk_efective_date" id="memoDate" class="form-control datepicker" readonly="" autocomplete="off">
                     </div>
                 </div>
                 <div class="col-md-3">

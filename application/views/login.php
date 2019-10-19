@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <title>HRIS | <?php echo $title ?></title>
@@ -17,8 +17,17 @@
   <link href="<?php echo media_url() ?>css/toastr.min.css" rel="stylesheet" type="text/css" />
 
   <style>
-    .error{
+    .error {
       color: red;
+    }
+
+    body {
+      background: url('media/images/bg.jpg') no-repeat center center fixed;
+      background-size: 100%;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.8);
     }
   </style>
 
@@ -32,7 +41,7 @@
           <div class="card">
             <div class="card-body p-4">
               <div class="text-center mb-4">
-                <h4 class="text-uppercase mt-0">Login</h4>
+                <h4 class="text-uppercase mt-0">HR Information System</h4>
               </div>
               <div class="error-log"></div>
               <form id="logform" action="<?php echo site_url('auth/login') ?>" method="POST">
@@ -51,9 +60,9 @@
                 </div>
 
               </form>
-            </div> 
+            </div>
           </div>
-        </div> 
+        </div>
       </div>
     </div>
   </div>
@@ -63,63 +72,59 @@
   <script src="<?php echo media_url() ?>js/toastr.min.js"></script>
 
   <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function() {
 
       $("#logform").validate({
-        rules : {
-          username : 'required',
-          password : 'required'
+        rules: {
+          username: 'required',
+          password: 'required'
         },
-        messages : {
-          username : 'Username tidak boleh kosong',
-          password : 'Password tidak boleh kosong'
+        messages: {
+          username: 'Username tidak boleh kosong',
+          password: 'Password tidak boleh kosong'
         },
-        submitHandler : submitLogin
+        submitHandler: submitLogin
       });
 
-      function submitLogin()
-      {
+      function submitLogin() {
         var data = $("#logform").serialize();
         $('#loading_login').show();
         $.ajax({
-          type : 'POST',
-          url  : "<?php echo site_url('auth/login')?>",
-          data : data,
-          dataType : 'json',
-          beforeSend: function()
-          {
+          type: 'POST',
+          url: "<?php echo site_url('auth/login') ?>",
+          data: data,
+          dataType: 'json',
+          beforeSend: function() {
             $("#btn-login").html('<span class="glyphicon glyphicon-transfer"></span> &nbsp; Proses Autentikasi...');
           },
-          success :  function(response)
-          {
-             console.log(response);
+          success: function(response) {
+            console.log(response);
 
-            if(response.kode == 2 || response.kode == 0 || response.kode == 3)
-            {
+            if (response.kode == 2 || response.kode == 0 || response.kode == 3) {
               $(".error-log").html(message_alert(response.pesan));
               $("#btn-login").html('LOGIN');
-            }else{
+            } else {
               $(".error-log").remove();
               $("#btn-login").html('Sedang Memuat...');
-              setTimeout(function(){
-                window.location.href = "<?= site_url($redirect);?>"
+              setTimeout(function() {
+                window.location.href = "<?= site_url($redirect); ?>"
               }, 1000);
 
             }
-          } 
-        }).always(function(){
+          }
+        }).always(function() {
           $('#loading_login').hide();
         });
 
         return false;
       }
 
-      function message_alert(message)
-      {
-        return "<div role='alert' class='alert alert-danger alert-border-color alert-dismissible'><div class='icon'><span class='fa fa-exclamation-triangle'></span> "+message+"</div><div class='message'><button type='button' data-dismiss='alert' aria-label='Close' class='close'><span aria-hidden='true' class='fa fa-times'></span></button></div></div>";
+      function message_alert(message) {
+        return "<div role='alert' class='alert alert-danger alert-border-color alert-dismissible'><div class='icon'><span class='fa fa-exclamation-triangle'></span> " + message + "</div><div class='message'><button type='button' data-dismiss='alert' aria-label='Close' class='close'><span aria-hidden='true' class='fa fa-times'></span></button></div></div>";
       }
     });
   </script>
-  
+
 </body>
+
 </html>

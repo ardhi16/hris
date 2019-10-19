@@ -1,9 +1,45 @@
-<link rel="stylesheet" type="text/css" href="<?php echo media_url() ?>vendor/fullcalendar/css/fullcalendar.min.css">
 <div class="container-fluid">
     <div class="card-box">
-        <div id="calendar-container">
-            <div id="calendar"></div>
+        <button type="button" class="btn btn-primary btn-xs mb-2 btnAdd" data-toggle="modal" data-target="#add"><i class="fa fa-plus"></i> Tambah</button>
+        </h4>
+
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Tahun</th>
+                        <th>Tanggal</th>
+                        <th>Keterangan</th>
+                        <th>Opsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (!empty($holiday)) {
+                        $i = $jlhpage + 1;
+                        foreach ($holiday as $row) :
+                            ?>
+                            <tr>
+                                <td><?php echo $i++; ?></td>
+                                <td><?php echo $row->year ?></td>
+                                <td><?php echo pretty_date($row->date, 'd F Y', false) ?></td>
+                                <td><?php echo $row->info ?></td>
+                                <td>
+                                    <a href="#" class="btn btn-info btn-xs btnEdit mb-1" data-toggle="modal" data-target="#add" data-id="<?php echo $row->id ?>" data-name="<?php echo $row->date ?>" data-info="<?php echo $row->info ?>"><i class="fas fa-edit"></i> Ubah</a>
+                                </td>
+                            </tr>
+                        <?php endforeach;
+                        } else {
+                            ?>
+                        <tr id="row">
+                            <td colspan="5" align="center">Data Kosong</td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
         </div>
+        <?php echo $this->pagination->create_links(); ?>
     </div>
 </div>
 
@@ -14,16 +50,18 @@
                 <h4 class="modal-title" id="titleModal">Tambah <?php echo $title ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <form id="form" action="" method="post">
+            <form id="form" action="<?php echo site_url('holiday') ?>" method="post">
                 <div class="modal-body">
-                    <input type="hidden" name="add" value="1">
-                    <label>Tanggal*</label>
-                    <p id="labelDate"></p>
-                    <input type="hidden" name="date" class="form-control" id="inputDate">
-                    <label>Keterangan*</label>
-                    <textarea name="info" id="inputDesc" class="form-control"></textarea><br />
+                    <input type="hidden" name="id" id="_id">
+                    <div class="form-group">
+                        <label for="">Tanggal</label>
+                        <input type="text" name="date" class="form-control datepicker" id="date" required="" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Keterangan Libur</label>
+                        <input type="text" name="info" class="form-control" id="info" required="" autocomplete="off">
+                    </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success waves-effect waves-light">Simpan</button>
                 </div>
@@ -32,46 +70,30 @@
     </div>
 </div>
 
-<script src="<?php echo media_url() ?>vendor/fullcalendar/js/fullcalendar.min.js"></script>
-
 <script>
-    $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'prevYear,nextYear',
-        },
-        events: "<?php echo site_url('holiday/get'); ?>",
+    $(function() {
 
-        dayClick: function(date, jsEvent, view) {
+        $('.btnAdd').on('click', function() {
+            $('#titleModal').html('Tambah <?php echo $title ?>');
+            $('.modal-footer button[type=submit]').html('Simpan');
+            $('#form').attr('action', '<?php echo site_url('holiday') ?>');
+            $('#date').val('');
+            $('#_id').val('');
+            $('#info').val('');
 
-            var tanggal = date.getDate();
-            var bulan = date.getMonth() + 1;
-            var tahun = date.getFullYear();
-            var fullDate = tahun + '-' + bulan + '-' + tanggal;
+        })
 
-            $('#add').modal('toggle');
-            $('#add').modal('show');
-
-            $("#inputDate").val(fullDate);
-            $("#labelDate").text(fullDate);
-            $("#inputYear").val(date.getFullYear());
-            $("#labelYear").text(date.getFullYear());
-        },
-
-        eventClick: function(calEvent, jsEvent, view) {
-            $("#delModal").modal('toggle');
-            $("#delModal").modal('show');
-            $("#idDel").val(calEvent.id);
-            $("#showYear").text(calEvent.year);
-
-            var tgl = calEvent.start.getDate();
-            var bln = calEvent.start.getMonth() + 1;
-            var thn = calEvent.start.getFullYear();
-
-            $("#showDate").text(tgl + '-' + bln + '-' + thn);
-            $("#showDesc").text(calEvent.title);
-        }
+        $('.btnEdit').on('click', function() {
+            var id = $(this).data('id');
+            var date = $(this).attr('data-name');
+            var info = $(this).attr('data-info');
+            $('#titleModal').html('Ubah <?php echo $title ?>');
+            $('.modal-footer button[type=submit]').html('Ubah');
+            $('#form').attr('action', '<?php echo site_url('holiday') ?>');
+            $('#date').val(date);
+            $('#info').val(info);
+            $('#_id').val(id);
+        })
 
 
     });
