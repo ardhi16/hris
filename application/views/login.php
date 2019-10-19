@@ -22,7 +22,7 @@
     }
 
     body {
-      background: url('media/images/bg.jpg') no-repeat center center fixed;
+      background: url('../media/images/bg.jpg') no-repeat center center fixed;
       background-size: 100%;
     }
 

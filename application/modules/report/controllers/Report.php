@@ -32,7 +32,7 @@ class Report extends MY_Controller
             $sheet->setCellValue('A1', 'Laporan Data Karyawan Aktif');
             $sheet->setCellValue('A2', 'Bank Syariah Patriot');
             $sheet->setCellValue('A3', 'Tanggal Unduh: ' . pretty_date(date('Y-m-d h:i:s'), 'd F Y, h:i', false));
-            $sheet->setCellValue('C3', 'Pengunduh: ' . $this->session->userdata('fullname'));
+            $sheet->setCellValue('C3', 'Pengunduh: ' . $this->fullname);
 
 
             $sheet->setCellValue('A5', 'NO');
@@ -165,7 +165,7 @@ class Report extends MY_Controller
             $sheet->setCellValue('A1', 'Laporan Data Surat Keputusan');
             $sheet->setCellValue('A2', 'Bank Syariah Patriot');
             $sheet->setCellValue('A3', 'Tanggal Unduh: ' . pretty_date(date('Y-m-d h:i:s'), 'd F Y, h:i', false));
-            $sheet->setCellValue('C3', 'Pengunduh: ' . $this->session->userdata('fullname'));
+            $sheet->setCellValue('C3', 'Pengunduh: ' . $this->fullname);
 
 
             $sheet->setCellValue('A5', 'NO');
@@ -237,6 +237,101 @@ class Report extends MY_Controller
         } else {
             $data['title'] = 'Laporan Surat Keputusan';
             $data['main'] = 'report/sk';
+            $this->load->view('layout', $data);
+        }
+    }
+
+    function sp()
+    {
+        if($_POST) {
+
+            $ds = $this->input->post('ds');
+            $de = $this->input->post('de');
+
+            $params = [];
+            $params['DATE(sp_created_at) >='] = $ds;
+            $params['DATE(sp_created_at) <='] = $de;
+            $data = $this->Report_model->get_sp($params)->result();
+
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $cell     = 6;
+            $no       = 1;
+
+            $sheet->setCellValue('A1', 'Laporan Data Surat Keputusan');
+            $sheet->setCellValue('A2', 'Bank Syariah Patriot');
+            $sheet->setCellValue('A3', 'Tanggal Unduh: ' . pretty_date(date('Y-m-d h:i:s'), 'd F Y, h:i', false));
+            $sheet->setCellValue('C3', 'Pengunduh: ' . $this->fullname);
+
+
+            $sheet->setCellValue('A5', 'NO');
+            $sheet->setCellValue('B5', 'NIK');
+            $sheet->setCellValue('C5', 'NAMA');
+            $sheet->setCellValue('D5', 'JABATAN');
+            $sheet->setCellValue('E5', 'GRADE');
+            $sheet->setCellValue('F5', 'KAS');
+            $sheet->setCellValue('G5', 'NO SURAT PERINGATAN');
+            $sheet->setCellValue('H5', 'JENIS SP');
+            $sheet->setCellValue('I5', 'TANGGAL MULAI');
+            $sheet->setCellValue('J5', 'TANGGAL AKHIR');
+            $sheet->setCellValue('K5', 'DESKRIPSI');
+            $sheet->setCellValue('L5', 'TANGGAL BUAT');
+
+
+            foreach ($data as $row) {
+                $sheet->setCellValue('A' . $cell, $no);
+                $sheet->setCellValueExplicit('B' . $cell, $row->employee_nik, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValue('C' . $cell, $row->employee_name);
+                $sheet->setCellValue('D' . $cell, $row->position_name);
+                $sheet->setCellValue('E' . $cell, $row->grade_name);
+                $sheet->setCellValue('F' . $cell, $row->store_name);
+                $sheet->setCellValue('G' . $cell, $row->sp_no);
+                $sheet->setCellValue('H' . $cell, 'SP '. $row->sp_type);
+                $sheet->setCellValue('I' . $cell, $row->sp_date_start);
+                $sheet->getStyle('I' . $cell)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                $sheet->setCellValue('J' . $cell, $row->sp_date_end);
+                $sheet->getStyle('J' . $cell)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+                $sheet->setCellValue('K' . $cell, $row->sp_desc);
+                $sheet->setCellValue('L' . $cell, $row->sp_created_at);
+
+                $cell++;
+                $no++;
+            }
+
+            $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(10);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(30);
+
+            foreach (range('D', 'Z') as $alphabet) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($alphabet)->setWidth(20);
+            }
+
+            $font = array('font' => array('bold' => true, 'color' => array(
+                'rgb'  => 'FFFFFF'
+            )));
+            $spreadsheet->getActiveSheet()
+                ->getStyle('A5:L5')
+                ->applyFromArray($font);
+
+            $spreadsheet->getActiveSheet()
+                ->getStyle('A5:L5')
+                ->getFill()
+                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                ->getStartColor()
+                ->setARGB('000');
+            $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+
+            $writer = new Xlsx($spreadsheet);
+
+            $filename = 'Laporan_SP_' . date('Ymdhis');
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+
+        } else {
+            $data['title'] = 'Laporan Surat Peringatan';
+            $data['main'] = 'report/sp';
             $this->load->view('layout', $data);
         }
     }

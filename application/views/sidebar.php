@@ -24,36 +24,40 @@
                 </li>
                 <li>
                     <a href="<?php echo site_url('sk') ?>">
-                        <i class="mdi mdi-account-card-details"></i>
+                        <i class="mdi mdi-file-document"></i>
                         <span> Surat Keputusan </span>
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo site_url('sp') ?>">
-                        <i class="mdi mdi-account-card-details"></i>
+                        <i class="mdi mdi-email-open"></i>
                         <span> Surat Peringatan </span>
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo site_url('kkout') ?>">
-                        <i class="mdi mdi-account-card-details"></i>
+                        <i class="mdi mdi-exit-to-app"></i>
                         <span> KKOUT </span>
                     </a>
                 </li>
                 <li>
                     <a href="<?php echo site_url('cuti') ?>">
-                        <i class="mdi mdi-account-card-details"></i>
+                        <i class="mdi mdi-beach"></i>
                         <span> Cuti </span>
                     </a>
                 </li>
                 <li>
                     <a href="javascript: void(0);">
-                        <i class="mdi mdi-folder-multiple"></i>
+                        <i class="mdi mdi-file-document-box"></i>
                         <span> Laporan </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="<?php echo site_url('report/employee') ?>">Karyawan Aktif</a></li>
+                        <li><a href="<?php echo site_url('report/sk') ?>">Surat Keputusan</a></li>
+                        <li><a href="<?php echo site_url('report/sp') ?>">Surat Peringatan</a></li>
+                        <li><a href="<?php echo site_url('report/kkout') ?>">KKOUT</a></li>
+                        <li><a href="<?php echo site_url('report/cuti') ?>">Cuti</a></li>
                     </ul>
                 </li>
                 <li>

@@ -39,6 +39,16 @@ class Report_model extends CI_Model
         return $this->db->get_where('sk', $arr, $limit, $offset);
     }
 
+    function get_sp($arr = null, $limit = null, $offset = null)
+    {
+        $this->db->select('sp.*, employee_name, employee_nik, store_name, position_name, grade_name');
+        $this->db->join('employee', 'employee.employee_id = sp.employee_id', 'left');
+        $this->db->join('store', 'store.store_id = employee.store_id', 'left');
+        $this->db->join('position', 'position.position_id = employee.position_id', 'left');
+        $this->db->join('grade', 'grade.grade_id = position.grade_id', 'left');
+        return $this->db->get_where('sp', $arr, $limit, $offset);
+    }
+
     function get_store($arr = null, $limit = null, $offset = null)
     {
         return $this->db->get_where('store', $arr, $limit, $offset);
