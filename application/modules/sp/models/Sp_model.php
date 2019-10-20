@@ -14,7 +14,7 @@ class Sp_model extends CI_Model
     function get($arr = null, $limit = null, $offset = null)
     {
         $this->db->order_by('sp_id', 'desc');
-        $this->db->select('sp.*, employee.employee_name');
+        $this->db->select('sp.*, employee.employee_name, employee_gender');
         $this->db->join('employee', 'employee.employee_id = sp.employee_id', 'left');
         return $this->db->get_where('sp', $arr, $limit, $offset);
     }

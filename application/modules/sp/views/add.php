@@ -2,6 +2,8 @@
     <div class="card-box">
         <form action="" method="post">
             <input type="hidden" name="employee_id" id="employee_id">
+            <input type="hidden" name="no_sp1" id="no_sp1">
+            <input type="hidden" name="date_end_sp1" id="date_end_sp1">
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group">
@@ -41,14 +43,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="">Jenis SP</label>
-                        <select name="sp_type" id="sp_type" class="form-control">
-                            <option value="">--- Pilih Jenis SP ---</option>
-                            <option value="1">SP I</option>
-                            <option value="2">SP II</option>
-                        </select>
+                    <div id="box">
+                        <div class="form-group">
+                            <label for="">Jenis SP</label>
+                            <select name="sp_type" id="sp_type" class="form-control">
+                                <option value="">--- Pilih Jenis SP ---</option>
+                                <option value="1">SP I</option>
+                                <option value="2">SP II</option>
+                            </select>
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="">Tanggal Efektif</label>
                         <input type="text" name="sp_date_start" id="sp1_date_start" class="form-control datepicker" readonly="">
@@ -124,6 +129,14 @@
                 if (response.status) {
                     alert('Karyawan ybs masih sedang dalam masa SP I, maka otomatis akan naik tingkat ke SP II')
                     $('#sp_type').val('2');
+                    $('#no_sp1').val(response.result.no_sp1);
+                    $('#date_end_sp1').val(response.result.date_end_sp1);
+                    $("#box *").off('click');
+                } else {
+                    $('#sp_type').val('');
+                    $('#no_sp1').val('');
+                    $('#date_end_sp1').val('');
+                    $("#box *").attr("disabled", false);
                 }
             }
         });

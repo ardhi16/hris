@@ -57,6 +57,10 @@ class Sp extends MY_Controller
             $params['sp_no'] = $no_trx;
             $params['employee_id'] = $this->input->post('employee_id');
             $params['sp_type'] = $this->input->post('sp_type');
+            if($params['sp_type'] == 2) {
+                $params['no_sp1'] = ($this->input->post('no_sp1') != NULL) ? $this->input->post('no_sp1') : NULL;
+                $params['date_end_sp1'] = ($this->input->post('date_end_sp1') != NULL) ? $this->input->post('date_end_sp1') : NULL;
+            }
             $params['sp_desc'] = $this->input->post('sp_desc');
             $params['sp_date_start'] = $this->input->post('sp_date_start');
             $params['sp_date_end'] = date('Y-m-d', strtotime('+6 months', strtotime($params['sp_date_start'])));;
@@ -75,10 +79,12 @@ class Sp extends MY_Controller
     {
         $id = $this->input->post('employee_id');
         $cek = $this->sp->get(['sp.employee_id' =>$id, 'sp_type' => 1])->row();
+        $data['no_sp1'] = $cek->sp_no; 
+        $data['date_end_sp1'] = $cek->sp_date_end; 
         $cek_tgl = strtotime($cek->sp_date_end);
         $now = strtotime(date('Y-m-d'));
         if($cek_tgl >= $now) {
-            echo json_encode(['status' => TRUE]);
+            echo json_encode(['status' => TRUE, 'result' => $data]);
         } else {
             echo json_encode(['status' => FALSE]);
         }
@@ -91,7 +97,11 @@ class Sp extends MY_Controller
         if (isset($data['sp'])) {
             $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
             $fileName = 'SP_' . date('Ymdhis');
-            $html = $this->load->view('sp/print_pdf', $data, TRUE);
+            if($data['sp']->sp_type == 1) {
+                $html = $this->load->view('sp/sp1', $data, TRUE);
+            } else {
+                $html = $this->load->view('sp/sp2', $data, TRUE);
+            }
             $mpdf->WriteHTML(utf8_encode($html));
             $mpdf->Output($fileName . ".pdf", 'I');
         } else {
