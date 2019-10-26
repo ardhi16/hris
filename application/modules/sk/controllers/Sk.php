@@ -10,6 +10,7 @@ class Sk extends MY_Controller
         $this->load->model('store/Store_model', 'kas');
         $this->load->model('position/Position_model', 'position');
         $this->load->model('employee/Employee_model', 'employee');
+        $this->load->model('setting/Setting_model', 'setting');
     }
 
     public function index()
@@ -92,6 +93,7 @@ class Sk extends MY_Controller
     function print($id = null)
     {
         $data['sk'] = $this->sk->get(['sk_id' => $id])->row();
+        $data['setting'] = $this->setting->get(['setting_id' => 1])->row();
         
         if (isset($data['sk'])) {
             switch ($data['sk']->sk_type) {

@@ -8,6 +8,7 @@ class Sp extends MY_Controller
     {
         parent::__construct();
         $this->load->model('sp/Sp_model', 'sp');
+        $this->load->model('setting/Setting_model', 'setting');
     }
 
     public function index()
@@ -93,14 +94,17 @@ class Sp extends MY_Controller
     function print($id = null)
     {
         $data['sp'] = $this->sp->get(['sp_id' => $id])->row();
+        $data['setting'] = $this->setting->get(['setting_id' => 1])->row();
 
         if (isset($data['sp'])) {
             $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
             $fileName = 'SP_' . date('Ymdhis');
             if($data['sp']->sp_type == 1) {
                 $html = $this->load->view('sp/sp1', $data, TRUE);
-            } else {
+            } elseif($data['sp']->sp_type == 2) {
                 $html = $this->load->view('sp/sp2', $data, TRUE);
+            } else {
+                $html = $this->load->view('sp/sp3', $data, TRUE);
             }
             $mpdf->WriteHTML(utf8_encode($html));
             $mpdf->Output($fileName . ".pdf", 'I');

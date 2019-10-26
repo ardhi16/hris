@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>SK</title>
+    <title>SK Pengangkatan</title>
     <style>
         @page {
             margin-top: 4cm;
@@ -23,7 +23,6 @@
         .low {
             text-transform: lowercase;
         }
-
     </style>
 
 </head>
@@ -51,7 +50,7 @@
             <li>0166866 Tahun 2019 Tentang Perubahan Data Perseroan PT. Bank Pembiayaan Rakyat Syariah Patriot Bekasi.</li>
             <li>Keputusan Kepala Departemen Perbankan Syariah Bank Indonesia Nomor: 15/2/KEP.Dir.PbS/2013 Tentang Penetapan Penggunaan Izin Usaha Atas Nama PT. Bank Pembiayaan Rakyat Syariah Pemerintah Kota Bekasi menjadi Izin Usaha Atas Nama PT. Bank Pembiayaan Rakyat Syariah Patriot Bekasi.
             </li>
-            <li>Rencana Bisnis BPR Syariah Patriot Bekasi Tahun 2019.</li>
+            <li>Rencana Bisnis BPR Syariah Patriot Bekasi Tahun <?php echo date('Y') ?>.</li>
         </ol>
         <br>
         <p><i>Memperhatikan :</i></p>
@@ -62,31 +61,33 @@
 
         <p style="text-align:center; font-weight:bold; letter-spacing:3px">MEMUTUSKAN</p>
         <p><i>Menetapkan :</i></p>
-            <ol>
-                <li>Mengangkat karyawan kontrak atas nama <span class="cap" style="font-weight:bold;font-style:italic"><?php echo $sk->employee_name; ?></span> menjadi Karyawan Tetap Bank Pembiayaan Rakyat Syariah Patriot Bekasi.</li>
-                <li>Atas pengangkatan ini Saudara di gaji dan tunjangan sebagaimana terlampir pada lampiran B.</li>
-                <li>Apabila dikemudian hari terdapat kekeliruan dalam surat keputusan ini, akan diadakan perbaikan sebagaimana mestinya.</li>
-                <li>Surat keputusan ini berlaku effektif mulai pada tanggal ditetapkan.</li>
-            </ol>
-            <br><br>
-            <p>Ditetapkan di : Bekasi <br>
-                Pada Tanggal : <?php echo pretty_date($sk->sk_efective_date, 'd F Y', false); ?>
-            </p>
-            <p>BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI</p>
-            <table style="margin-top:100px">
-                <tr>
-                    <td><u>Moh. Asmawi</u></td>
-                </tr>
-                <tr>
-                    <td>Direktur</td>
-                </tr>
-            </table>
-            <p>Tembusan :</p>
-            <ol>
-                <li>Kepada Yth. Kadiv. Bisnis</li>
-                <li>Kepada Yth. Kepala KPO.</li>
-                <li>Karyawan yang bersangkutan.</li>
-            </ol>
+        <ol>
+            <li>Mengangkat karyawan kontrak atas nama <span class="cap" style="font-weight:bold;font-style:italic"><?php echo $sk->employee_name; ?></span> menjadi Karyawan Tetap Bank Pembiayaan Rakyat Syariah Patriot Bekasi.</li>
+            <li>Atas pengangkatan ini Saudara di gaji dan tunjangan sebagaimana terlampir pada lampiran B.</li>
+            <li>Apabila dikemudian hari terdapat kekeliruan dalam surat keputusan ini, akan diadakan perbaikan sebagaimana mestinya.</li>
+            <li>Surat keputusan ini berlaku effektif mulai pada tanggal ditetapkan.</li>
+        </ol>
+        <br><br>
+        <p>Ditetapkan di : Bekasi <br>
+            Pada Tanggal : <?php echo pretty_date($sk->sk_efective_date, 'd F Y', false); ?>
+        </p>
+        <p>BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI</p>
+        <table style="margin-top:100px">
+            <tr>
+                <td width="300px"><u><?php echo $setting->setting_name_1; ?></u></td>
+                <td><u><?php echo $setting->setting_name_2; ?></u></td>
+            </tr>
+            <tr>
+                <td><?php echo $setting->setting_pos_1; ?></td>
+                <td><?php echo $setting->setting_pos_2; ?></td>
+            </tr>
+        </table>
+        <p>Tembusan :</p>
+        <ol>
+            <li>Kepada Yth. Kadiv. Bisnis</li>
+            <li>Kepada Yth. Kepala KPO.</li>
+            <li>Karyawan yang bersangkutan.</li>
+        </ol>
     </div>
 
 </body>

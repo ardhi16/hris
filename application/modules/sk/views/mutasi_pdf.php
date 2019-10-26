@@ -23,7 +23,6 @@
         .low {
             text-transform: lowercase;
         }
-
     </style>
 
 </head>
@@ -51,7 +50,7 @@
             <li>0166866 Tahun 2019 Tentang Perubahan Data Perseroan PT. Bank Pembiayaan Rakyat Syariah Patriot Bekasi.</li>
             <li>Keputusan Kepala Departemen Perbankan Syariah Bank Indonesia Nomor: 15/2/KEP.Dir.PbS/2013 Tentang Penetapan Penggunaan Izin Usaha Atas Nama PT. Bank Pembiayaan Rakyat Syariah Pemerintah Kota Bekasi menjadi Izin Usaha Atas Nama PT. Bank Pembiayaan Rakyat Syariah Patriot Bekasi.
             </li>
-            <li>Rencana Bisnis BPR Syariah Patriot Bekasi Tahun 2019.</li>
+            <li>Rencana Bisnis BPR Syariah Patriot Bekasi Tahun <?php echo date('Y') ?>.</li>
         </ol>
         <br>
         <p><i>Memperhatikan :</i></p>
@@ -95,12 +94,12 @@
             <p>BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI</p>
             <table style="margin-top:100px">
                 <tr>
-                    <td width="300px"><u>Moh. Asmawi</u></td>
-                    <td><u>Ima Rachmayanty</u></td>
+                    <td width="300px"><u><?php echo $setting->setting_name_1; ?></u></td>
+                    <td><u><?php echo $setting->setting_name_2; ?></u></td>
                 </tr>
                 <tr>
-                    <td>Direktur</td>
-                    <td>Kadiv. SDI & Umum</td>
+                    <td><?php echo $setting->setting_pos_1; ?></td>
+                    <td><?php echo $setting->setting_pos_2; ?></td>
                 </tr>
             </table>
             <p>Tembusan :</p>

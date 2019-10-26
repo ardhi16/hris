@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Surat Peringatan II</title>
+    <title>Surat Peringatan III</title>
     <style>
         @page {
             margin-top: 4cm;
@@ -40,15 +40,12 @@
         PT. BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI <br>
         NOMOR : <?php echo $sp->sp_no ?></p>
     <p style="text-align:center">TENTANG</p>
-    <p style="text-align:center">SURAT PERINGATAN (SP) II TERHADAP <span class="upper bold"><?php echo ($sp->employee_gender == 'L') ? 'SDR' : 'SDRI' ?>. <?php echo $sp->employee_name ?></span></p>
+    <p style="text-align:center">SURAT PERINGATAN (SP) III TERHADAP <span class="upper bold"><?php echo ($sp->employee_gender == 'L') ? 'SDR' : 'SDRI' ?>. <?php echo $sp->employee_name ?></span></p>
     <hr>
     <p class="bold"><i>Menimbang :</i></p>
     <div style="text-align:justify">
         <ol type="a">
             <li>Bahwa PT. BPRS Patriot Bekasi sebagai sebuah Bank wajib menjaga disiplin kerja.</li>
-            <?php if ($sp->no_sp1 != NULL) : ?>
-                <li>Bahwa <?php echo ($sp->employee_gender == 'L') ? 'Saudara' : 'Saudari' ?> <span class="cap bold"><?php echo $sp->employee_name ?></span> berdasarkan Surat Peringatan (SP) I Nomor: <?php echo $sp->no_sp1 ?> yang akan berakhir pada <?php echo pretty_date($sp->date_end_sp1, 'd F Y', false); ?>.</li>
-            <?php endif ?>
             <li>Bahwa <?php echo ($sp->employee_gender == 'L') ? 'Saudara' : 'Saudari' ?> <span class="cap bold"><?php echo $sp->employee_name ?></span> telah bertindak melakukan pelanggaran terhadap ketentuan-ketentuan disiplin pegawai yaitu melanggar Peraturan Perusahaan : <br>
                 <ul>
                     <li><?php echo $sp->sp_desc; ?></li>
@@ -75,7 +72,7 @@
             <tr>
                 <td valign="top">Pertama</td>
                 <td valign="top" width="30px">:</td>
-                <td style="text-align:justify">Menjatuhkan sanksi berupa <strong>Surat Peringatan (SP) II kepada <?php echo ($sp->employee_gender == 'L') ? 'Sdr' : 'Sdri' ?>. <span class="cap bold"><?php echo $sp->employee_name ?></span></strong> yang berlaku selama 6 (enam) bulan terhitung mulai tanggal ditetapkannya Surat Keputusan ini.</td>
+                <td style="text-align:justify">Menjatuhkan sanksi berupa <strong>Surat Peringatan (SP) III kepada <?php echo ($sp->employee_gender == 'L') ? 'Sdr' : 'Sdri' ?>. <span class="cap bold"><?php echo $sp->employee_name ?></span></strong> yang berlaku selama 6 (enam) bulan terhitung mulai tanggal ditetapkannya Surat Keputusan ini.</td>
             </tr>
             <tr>
                 <td valign="top">Kedua</td>

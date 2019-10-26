@@ -50,6 +50,7 @@
                                 <option value="">--- Pilih Jenis SP ---</option>
                                 <option value="1">SP I</option>
                                 <option value="2">SP II</option>
+                                <option value="3">SP III</option>
                             </select>
                         </div>
                     </div>

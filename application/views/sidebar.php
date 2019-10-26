@@ -83,6 +83,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="<?php echo site_url('setting') ?>">
+                        <i class="mdi mdi-settings"></i>
+                        <span> Pengaturan </span>
+                    </a>
+                </li>
+
             </ul>
         </div>
         <div class="clearfix"></div>

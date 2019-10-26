@@ -93,12 +93,12 @@
         <p>BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI</p>
         <table style="margin-top:100px">
             <tr>
-                <td width="300px"><u>Moh. Asmawi</u></td>
-                <td><u>Ima Rachmayanty</u></td>
+                <td width="300px"><u><?php echo $setting->setting_name_1; ?></u></td>
+                <td><u><?php echo $setting->setting_name_2; ?></u></td>
             </tr>
             <tr>
-                <td>Direktur</td>
-                <td>Kadiv. SDI & Umum</td>
+                <td><?php echo $setting->setting_pos_1; ?></td>
+                <td><?php echo $setting->setting_pos_2; ?></td>
             </tr>
         </table>
     </div>
