@@ -14,7 +14,6 @@
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($benefit)) {
                         $i = 1;
                         foreach ($benefit as $row) :
                             ?>
@@ -27,13 +26,7 @@
                                     <a href="<?php echo site_url('benefit/edit/' . $row->benefit_id) ?>" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>
                                 </td>
                             </tr>
-                        <?php endforeach;
-                        } else {
-                            ?>
-                        <tr id="row">
-                            <td colspan="4" align="center">Data Kosong</td>
-                        </tr>
-                    <?php } ?>
+                        <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

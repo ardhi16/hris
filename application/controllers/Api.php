@@ -7,6 +7,7 @@ class Api extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('employee/Employee_model', 'employee');
+        $this->load->model('benefit/Benefit_model', 'benefit');
     }
     
     public function index()
@@ -21,6 +22,15 @@ class Api extends CI_Controller {
         $employee = $this->employee->get(['employee_nik' => $nik])->row();
         if(isset($employee)) {
             echo json_encode($employee);
+        }
+    }
+
+    function getBenefit()
+    {
+        $id = $this->input->post('employee_id');
+        $benefit = $this->benefit->get_benefit(['employee_id' => $id])->row();
+        if (isset($benefit)) {
+            echo json_encode($benefit);
         }
     }
 

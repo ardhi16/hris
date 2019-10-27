@@ -11,6 +11,11 @@ class Benefit_model extends CI_Model
         return $this->db->get_where('benefit', $arr, $limit, $offset);
     }
 
+    function get_benefit($arr = null, $limit = null, $offset = null)
+    {
+        return $this->db->get_where('benefit', $arr, $limit, $offset);
+    }
+
     function insert($data)
     {
         return $this->db->insert('benefit', $data);
