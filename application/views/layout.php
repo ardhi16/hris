@@ -111,6 +111,14 @@
   <script src="<?php echo media_url() ?>js/select2.min.js"></script>
 
   <script>
+    $('.dataTable').dataTable({
+      "bPaginate": true,
+      "bLengthChange": true,
+      "bFilter": true,
+      "bInfo": true,
+      "bAutoWidth": true
+    });
+
     $(".years").datepicker({
       format: "yyyy",
       viewMode: "years",
