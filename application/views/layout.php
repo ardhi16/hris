@@ -26,7 +26,7 @@
 
 </head>
 
-<body <?php echo ($this->uri->segment(1) == 'employee') ? 'class="enlarged" data-keep-enlarged="true"' : '' ?>>
+<body <?php echo ($this->uri->segment(1) == 'employee' || $this->uri->segment(1) == 'pay' && $this->uri->segment(2) == 'add') ? 'class="enlarged" data-keep-enlarged="true"' : '' ?>>
 
   <div id="wrapper">
     <div class="navbar-custom">

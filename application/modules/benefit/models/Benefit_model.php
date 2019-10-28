@@ -13,6 +13,8 @@ class Benefit_model extends CI_Model
 
     function get_benefit($arr = null, $limit = null, $offset = null)
     {
+        $this->db->select('benefit.*, employee_nik, employee_name, employee_salary, employee_tax_status, employee_children, employee_gender');
+        $this->db->join('employee', 'employee.employee_id = benefit.employee_id', 'left');
         return $this->db->get_where('benefit', $arr, $limit, $offset);
     }
 

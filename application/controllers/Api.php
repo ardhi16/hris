@@ -1,7 +1,8 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Api extends CI_Controller {
+class Api extends CI_Controller
+{
 
     public function __construct()
     {
@@ -9,18 +10,18 @@ class Api extends CI_Controller {
         $this->load->model('employee/Employee_model', 'employee');
         $this->load->model('benefit/Benefit_model', 'benefit');
     }
-    
+
     public function index()
     {
         $this->output->set_content_type('application/json')
-        ->set_output(json_encode(['status' => false, 'message' => 'Nothing']));
+            ->set_output(json_encode(['status' => false, 'message' => 'Nothing']));
     }
 
     function getEmployee()
     {
         $nik = $this->input->post('nik');
         $employee = $this->employee->get(['employee_nik' => $nik])->row();
-        if(isset($employee)) {
+        if (isset($employee)) {
             echo json_encode($employee);
         }
     }
@@ -28,9 +29,27 @@ class Api extends CI_Controller {
     function getBenefit()
     {
         $id = $this->input->post('employee_id');
-        $benefit = $this->benefit->get_benefit(['employee_id' => $id])->row();
+        $benefit = $this->benefit->get_benefit(['benefit.employee_id' => $id])->row();
         if (isset($benefit)) {
-            echo json_encode($benefit);
+            if ($benefit->employee_tax_status == 'MENIKAH') {
+                if ($benefit->employee_gender == 'L') {
+                    $status = 'K/';
+                } else {
+                    $status = 'TK/';
+                }
+            } else {
+                $status = 'TK/';
+            }
+            if ($benefit->employee_gender == 'L') {
+                $child = $benefit->employee_children;
+            } else {
+                $child = 0;
+            }
+            $benefit->tax_status = $status . $child;
+            $benefit->tunj_jamsostek = $benefit->employee_salary * 1.19 / 100;
+            $this->output->set_content_type('application/json')->set_output(json_encode(['status' => true, 'result' => $benefit]));
+        } else {
+            $this->output->set_content_type('application/json')->set_output(json_encode(['status' => false, 'result' => null]));
         }
     }
 
@@ -52,7 +71,6 @@ class Api extends CI_Controller {
             echo '<tr><td colspan="5" align="center">Data Kosong</td></tr>';
         }
     }
-
 }
 
 /* End of file Api.php */

@@ -2,7 +2,7 @@
     <div class="card-box">
         <form action="" method="post">
             <div class="row">
-                <div class="col-md-9">
+                <div class="col-md-10">
                     <div class="form-group">
                         <label for="">Karyawan</label>
                         <select name="employee_id" id="employee_id" class="form-control select2" required>
@@ -76,16 +76,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="">Tunjangan PPh 21</label>
+                                <input type="text" class="form-control" name="pph21" id="pph21" value="0">
+                            </div>
                         </div>
                         <div class="col">
                             <h5>Potongan</h5>
                             <hr>
                         </div>
                     </div>
-
-
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <button type="submit" class="btn btn-success btn-block mt-3">Simpan</button>
                     <a class="btn btn-secondary btn-block" href="<?php echo site_url('benefit') ?>">Batal</a>
                 </div>
@@ -105,8 +107,13 @@
                 url: "<?php echo site_url('api/getBenefit') ?>",
                 data: "employee_id=" + employee_id,
                 success: function(res) {
-                    $('#makan').val(res.makan)
-                    $('#transport').val(res.transport)
+                    if (res.status) {
+                        $('#makan').val(res.result.makan)
+                        $('#transport').val(res.result.transport)
+                    } else {
+                        $('#makan').val(0)
+                        $('#transport').val(0)
+                    }
                 }
             });
         });
