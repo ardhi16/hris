@@ -9,6 +9,7 @@ class Api extends CI_Controller
         parent::__construct();
         $this->load->model('employee/Employee_model', 'employee');
         $this->load->model('benefit/Benefit_model', 'benefit');
+        $this->load->model('angsuran/Angsuran_model', 'angsuran');
     }
 
     public function index()
@@ -58,6 +59,13 @@ class Api extends CI_Controller
         $code = $this->input->post('code');
         $res = $this->db->get_where('ptkp', ['name' => $code])->row();
         echo json_encode($res);
+    }
+
+    function angsuran()
+    {
+        $id = $this->input->post('employee_id');
+        $cicilan = $this->angsuran->get(['angsuran.employee_id' => $id, 'angsuran_status' => 0])->result();
+        echo json_encode($cicilan);
     }
 
     function getEmployeeAll()
