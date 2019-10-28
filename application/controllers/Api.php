@@ -53,6 +53,13 @@ class Api extends CI_Controller
         }
     }
 
+    function ptkp()
+    {
+        $code = $this->input->post('code');
+        $res = $this->db->get_where('ptkp', ['name' => $code])->row();
+        echo json_encode($res);
+    }
+
     function getEmployeeAll()
     {
         $params = array();
