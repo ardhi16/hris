@@ -1,51 +1,92 @@
+<?php
+
+if (isset($pay)) {
+    $id = $pay->pay_id;
+    $total_day = $pay->pay_total_day;
+    $insentive = $pay->pay_insentive;
+    $overtime = $pay->pay_overtime;
+    $med_mar = $pay->pay_med_mar;
+    $subsidi = $pay->pay_tuj_subsidi;
+    $day_late = $pay->pay_day_late;
+    $pokok = $pay->pay_pokok;
+    $wajib = $pay->pay_wajib;
+    $zis = $pay->pay_zis;
+    $takasi = $pay->pay_takasi;
+    $dll = $pay->pay_dll;
+    $bprs = $pay->pay_bprs;
+} else {
+    $total_day = 0;
+    $insentive = 0;
+    $overtime = 0;
+    $med_mar = 0;
+    $subsidi = 10000;
+    $day_late = 0;
+    $pokok = 0;
+    $wajib = 10000;
+    $zis = 0;
+    $takasi = 0;
+    $dll = 0;
+    $bprs = 0;
+}
+
+?>
+
 <div class="container-fluid">
     <div class="card-box">
         <form action="" method="post">
             <div class="row">
                 <div class="col-md-10">
-                    <div class="form-group">
-                        <input type="hidden" name="salary" id="salary">
-                        <input type="hidden" name="total_tetap" id="total_tetap">
-                        <input type="hidden" name="tujab_variabel" id="tujab_variabel">
-                        <input type="hidden" name="tunj_teller" id="tunj_teller">
-                        <input type="hidden" name="statis" id="statis">
-                        <input type="hidden" name="dinamis" id="dinamis">
-                        <input type="hidden" name="struktural" id="struktural">
-                        <input type="hidden" name="rumah" id="rumah">
-                        <input type="hidden" name="kemahalan" id="kemahalan">
-                        <input type="hidden" name="family" id="family">
-                        <input type="hidden" name="kinerja" id="kinerja">
-                        <input type="hidden" name="produktif" id="produktif">
-                        <input type="hidden" name="beban" id="beban">
-                        <input type="hidden" name="masa_kerja" id="masa_kerja">
-                        <input type="hidden" name="dplk" id="dplk">
-                        <label for="">Karyawan</label>
-                        <select name="employee_id" id="employee_id" class="form-control select2" required>
-                            <option value="">-- Pilih Karyawan --</option>
-                            <?php foreach ($employee as $row) : ?>
-                                <option value="<?php echo $row->employee_id ?>"><?php echo $row->employee_nik ?> - <?php echo $row->employee_name ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <input type="hidden" name="salary" id="salary">
+                    <input type="hidden" name="total_tetap" id="total_tetap">
+                    <input type="hidden" name="tujab_variabel" id="tujab_variabel">
+                    <input type="hidden" name="tunj_teller" id="tunj_teller">
+                    <input type="hidden" name="statis" id="statis">
+                    <input type="hidden" name="dinamis" id="dinamis">
+                    <input type="hidden" name="struktural" id="struktural">
+                    <input type="hidden" name="rumah" id="rumah">
+                    <input type="hidden" name="kemahalan" id="kemahalan">
+                    <input type="hidden" name="family" id="family">
+                    <input type="hidden" name="kinerja" id="kinerja">
+                    <input type="hidden" name="produktif" id="produktif">
+                    <input type="hidden" name="beban" id="beban">
+                    <input type="hidden" name="masa_kerja" id="masa_kerja">
+                    <input type="hidden" name="dplk" id="dplk">
+                    <?php if (!isset($pay->pay_id)) : ?>
+                        <div class="form-group">
+                            <label for="">Karyawan</label>
+                            <select name="employee_id" id="employee_id" class="form-control select2" required>
+                                <option value="">-- Pilih Karyawan --</option>
+                                <?php foreach ($employee as $row) : ?>
+                                    <option value="<?php echo $row->employee_id ?>"><?php echo $row->employee_nik ?> - <?php echo $row->employee_name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php else : ?>
+                        <div class="form-group">
+                            <label for="">Karyawan</label>
+                            <input type="hidden" id="employee_id" value="<?php echo $pay->employee_id ?>">
+                            <input type="text" class="form-control" value="<?php echo $pay->employee_nik ?> - <?php echo $pay->employee_name ?>" readonly>
+                        </div>
+                    <?php endif ?>
                     <div class="row">
                         <div class="col" id="income">
                             <h5>Pendapatan</h5>
                             <hr>
                             <div class="form-group">
                                 <label for="">Jumlah Hari Masuk</label>
-                                <input type="text" class="form-control" name="pay_total_day" id="pay_total_day">
+                                <input type="text" class="form-control" name="pay_total_day" id="pay_total_day" value="<?php echo $total_day ?>" autocomplete="off">
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Lembur</label>
-                                        <input type="text" class="form-control" id="pay_overtime" name="pay_overtime" value="0">
+                                        <input type="text" class="form-control" id="pay_overtime" name="pay_overtime" value="<?php echo $overtime ?>" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Insentif</label>
-                                        <input type="text" class="form-control" name="pay_insentive" id="pay_insentive" value="0">
+                                        <input type="text" class="form-control" name="pay_insentive" id="pay_insentive" value="<?php echo $insentive ?>" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -53,13 +94,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Obat/Tunj. Nikah</label>
-                                        <input type="text" class="form-control" id="pay_med_mar" name="pay_med_mar" value="0">
+                                        <input type="text" class="form-control" id="pay_med_mar" name="pay_med_mar" value="<?php echo $med_mar ?>" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Subs. Adm</label>
-                                        <input type="text" class="form-control" name="pay_subsidi" id="pay_subsidi" value="10000">
+                                        <input type="text" class="form-control" name="pay_subsidi" id="pay_subsidi" value="<?php echo $subsidi ?>" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -136,19 +177,19 @@
                             <hr>
                             <div class="form-group">
                                 <label for="">Jumlah Telat Masuk</label>
-                                <input type="text" class="form-control" name="telat" id="telat">
+                                <input type="text" class="form-control" name="telat" id="telat" value="<?php echo $day_late ?>" autocomplete="off">
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Simpanan Pokok</label>
-                                        <input type="text" class="form-control" name="pokok" id="pokok" value="0">
+                                        <input type="text" class="form-control" name="pokok" id="pokok" value="<?php echo $pokok ?>" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Simpanan Wajib</label>
-                                        <input type="text" class="form-control" name="wajib" id="wajib" value="10000">
+                                        <input type="text" class="form-control" name="wajib" id="wajib" value="<?php echo $wajib ?>" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -156,26 +197,26 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">ZIS</label>
-                                        <input type="text" class="form-control" name="zis" id="zis" value="0">
+                                        <input type="text" class="form-control" name="zis" id="zis" value="<?php echo $zis ?>" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Tabungan Takasi</label>
-                                        <input type="text" class="form-control" name="takasi" id="takasi" value="0">
+                                        <input type="text" class="form-control" name="takasi" id="takasi" value="<?php echo $takasi ?>" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="">Lain-lain</label>
-                                        <input type="text" class="form-control" name="dll" id="dll" value="0">
+                                        <input type="text" class="form-control" name="dll" id="dll" value="<?php echo $dll ?>" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
                             <hr>
                             <div class="form-group">
                                 <label for="">Masuk Rekening BPRS</label>
-                                <input type="text" class="form-control" name="bprs" id="bprs" value="0">
+                                <input type="text" class="form-control" name="bprs" id="bprs" value="<?php echo $bprs ?>" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="">Potongan Tunj. Transportasi</label>
@@ -196,7 +237,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="">Pot. BPJS Kesehatan</label>
+                                        <label for="">Pot. BPJS Kes</label>
                                         <input type="text" class="form-control" name="pot_kesehatan" id="pot_kesehatan" value="0" readonly>
                                     </div>
                                 </div>
@@ -234,8 +275,8 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-success btn-block mt-3">Simpan</button>
-                    <a class="btn btn-secondary btn-block" href="<?php echo site_url('benefit') ?>">Batal</a>
+                    <button type="submit" class="btn btn-success btn-block mt-3" id="btn-save">Simpan</button>
+                    <a class="btn btn-secondary btn-block" href="<?php echo site_url('pay') ?>">Batal</a>
                 </div>
             </div>
         </form>
@@ -245,8 +286,38 @@
 <script>
     $(document).ready(function() {
 
-        $(".select2").change(function() {
-            var employee_id = $(this).val();
+        <?php if (isset($pay->pay_id)) : ?>
+            let employee_id = $('#employee_id').val();
+            $('#btn-save').text('Ubah');
+            showEmployee(employee_id);
+        <?php else : ?>
+            $(".select2").change(function() {
+                var employee_id = $(this).val();
+                showEmployee(employee_id);
+            });
+        <?php endif ?>
+
+        $('#income').on('input', function() {
+            inputGaji();
+        });
+
+        $('#potongan').on('input', function() {
+            inputGaji();
+        });
+
+        function inputGaji() {
+            var day = $('#pay_total_day').val() || 0;
+            let total_telat = $('#telat').val() || 0;
+            var makan = parseInt(removeNumber($('#makan').val()));
+            var transport = parseInt(removeNumber($('#transport').val()));
+            $('#pay_total_eat').val(number(day * makan));
+            $('#pay_total_transport').val(number(day * transport));
+            $('#pot_trans').val(number((transport / 2) * total_telat));
+            bruto();
+            potong();
+        }
+
+        function showEmployee(employee_id) {
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -312,12 +383,21 @@
                                 let no = 1;
                                 let total_cicilan = 0;
                                 ok.forEach(function(c) {
-                                    cicil += `<tr>
+                                    <?php if (isset($pay->pay_id)) : ?>
+                                        cicil += `<tr>
+                                    <td><input type="hidden" name="bayar[]" value="${c.angsuran_id}">${no++}</td>
+                                    <td>${c.name_ang}</td>
+                                    <td>${parseInt(c.angsuran_current)}/${c.angsuran_length}</td>
+                                    <td>${number(c.angsuran_amount)}</td>
+                                    </tr>`
+                                    <?php else : ?>
+                                        cicil += `<tr>
                                     <td><input type="hidden" name="bayar[]" value="${c.angsuran_id}">${no++}</td>
                                     <td>${c.name_ang}</td>
                                     <td>${parseInt(c.angsuran_current)+1}/${c.angsuran_length}</td>
                                     <td>${number(c.angsuran_amount)}</td>
                                     </tr>`
+                                    <?php endif ?>
                                     total_cicilan += parseInt(c.angsuran_amount);
                                 });
                                 cicil += `<tr>
@@ -331,43 +411,27 @@
                             }
                         }
                     });
-                    $('#pay_total_day').val(0)
-                    $('#telat').val(0)
-                    $('#pay_overtime').val(0)
-                    $('#pay_insentive').val(0)
-                    $('#pay_med_mar').val(0)
-                    $('#pay_subsidi').val(10000)
-                    $('#wajib').val(10000)
-                    $('#pokok').val(0)
-                    $('#zis').val(0)
-                    $('#dll').val(0)
-                    $('#bprs').val(0)
-                    $('#takasi').val(0)
-                    $('#pay_total_eat').val(0);
-                    $('#pay_total_transport').val(0);
+                    <?php if (!isset($pay->pay_id)) : ?>
+                        $('#pay_total_day').val(0)
+                        $('#telat').val(0)
+                        $('#pay_overtime').val(0)
+                        $('#pay_insentive').val(0)
+                        $('#pay_med_mar').val(0)
+                        $('#pay_subsidi').val(10000)
+                        $('#wajib').val(10000)
+                        $('#pokok').val(0)
+                        $('#zis').val(0)
+                        $('#dll').val(0)
+                        $('#bprs').val(0)
+                        $('#takasi').val(0)
+                        $('#pay_total_eat').val(0);
+                        $('#pay_total_transport').val(0);
+                    <?php endif ?>
                     bruto();
                     potong();
                 }
             });
-        });
-
-        $('#income').on('input', function() {
-            var day = $('#pay_total_day').val() || 0;
-            var makan = parseInt(removeNumber($('#makan').val()));
-            var transport = parseInt(removeNumber($('#transport').val()));
-            $('#pay_total_eat').val(number(day * makan));
-            $('#pay_total_transport').val(number(day * transport));
-            bruto();
-            potong();
-        });
-
-        $('#potongan').on('input', function() {
-            let total_telat = $('#telat').val() || 0;
-            let trans = parseInt(removeNumber($('#transport').val()));
-            $('#pot_trans').val(number((trans / 2) * total_telat));
-            potong();
-            bruto();
-        });
+        }
 
         function potong() {
             let salary = parseInt($('#salary').val()) || 0;
@@ -458,7 +522,6 @@
             $('#tujab_variabel').val(tuj_variabel);
             $('#thp').val(number(thp));
             $('#bsm').val(number(thp + sub - bprs));
-
         }
 
         function number(x) {

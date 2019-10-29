@@ -6,6 +6,7 @@ class Angsuran_model extends CI_Model
 
     function get($arr = null, $limit = null, $offset = null)
     {
+        $this->db->order_by('angsuran_id', 'desc');
         $this->db->select('angsuran.*, name_ang, employee_nik, employee_name');
         $this->db->join('type_angsuran', 'type_angsuran.id = angsuran.type_id');
         $this->db->join('employee', 'employee.employee_id = angsuran.employee_id', 'left');

@@ -21,7 +21,7 @@
                             <td><?php echo $i++; ?></td>
                             <td><?php echo $row->employee_nik ?></td>
                             <td><?php echo $row->employee_name ?></td>
-                            <td><?php echo pretty_date($row->pay_created_at, 'F-Y', false) ?></td>
+                            <td><?php echo date('F Y', strtotime("$row->pay_period_year-$row->pay_period_month-01")) ?></td>
                             <td>
                                 <a href="<?php echo site_url('pay/edit/' . $row->pay_id) ?>" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>
                             </td>

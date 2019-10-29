@@ -11,6 +11,12 @@ class Pay_model extends CI_Model
         return $this->db->get_where('pay', $arr, $limit, $offset);
     }
 
+    function get_check($arr = null, $limit = null, $offset = null)
+    {
+        $this->db->select('employee_id, pay_period_month, pay_period_year');
+        return $this->db->get_where('pay', $arr, $limit, $offset);
+    }
+
     function get_employee($arr = null, $limit = null, $offset = null)
     {
         $this->db->order_by('employee_name', 'asc');

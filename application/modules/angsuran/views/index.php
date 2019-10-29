@@ -10,6 +10,8 @@
                         <th>Nama Karyawan</th>
                         <th>Tipe Angsuran</th>
                         <th>Angsuran Ke</th>
+                        <th>Total Angsuran</th>
+                        <th>Potongan Per Bulan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +25,8 @@
                             <td><?php echo $row->employee_name ?></td>
                             <td><?php echo $row->name_ang ?></td>
                             <td><?php echo $row->angsuran_current . '/' . $row->angsuran_length ?></td>
+                            <td><?php echo number_format($row->angsuran_total); ?></td>
+                            <td><?php echo number_format($row->angsuran_amount); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

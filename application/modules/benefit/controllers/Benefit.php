@@ -38,9 +38,17 @@ class Benefit extends MY_Controller
             $data['transport'] = $this->input->post('transport');
             $data['dplk'] = $this->input->post('dplk');
             $data['total_tetap'] = $data['statis'] + $data['dinamis'] + $data['struktural'] + $data['rumah'] + $data['kemahalan'] + $data['family'] + $data['kinerja'] + $data['produktif'] + $data['teller'] + $data['beban'] + $data['masa_kerja'] + $data['dplk'];
-            $this->benefit->insert($data);
-            $this->session->set_flashdata('success', 'Data Saved');
-            redirect('benefit');
+
+            $benefit = $this->benefit->get(['benefit.employee_id' => $data['employee_id']])->row();
+
+            if (!isset($benefit)) {
+                $this->benefit->insert($data);
+                $this->session->set_flashdata('success', 'Data Saved');
+                redirect('benefit');
+            } else {
+                $this->session->set_flashdata('failed', 'Data Sudah ada');
+                redirect('benefit');
+            }
         } else {
             $data['employee'] = $this->employee->get()->result();
             $data['title'] = 'Tambah Tunjangan';
@@ -51,8 +59,7 @@ class Benefit extends MY_Controller
 
     function edit($id = null)
     {
-        if($_POST) {
-
+        if ($_POST) {
             $data['statis'] = $this->input->post('statis');
             $data['dinamis'] = $this->input->post('dinamis');
             $data['struktural'] = $this->input->post('struktural');
@@ -71,7 +78,6 @@ class Benefit extends MY_Controller
             $this->benefit->update($data, ['benefit_id' => $id]);
             $this->session->set_flashdata('success', 'Data Saved');
             redirect('benefit');
-
         } else {
             $data['benefit'] = $this->benefit->get(['benefit_id' => $id])->row();
             $data['title'] = 'Tambah Tunjangan';
