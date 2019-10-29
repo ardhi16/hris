@@ -145,6 +145,20 @@ class Pay extends MY_Controller
             $this->load->view('layout', $data);
         }
     }
+
+    function preview($id = null)
+    {
+        $data['pay'] = $this->pay->get(['pay_id' => $id])->row();
+        if (isset($data['pay'])) {
+            $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
+            $fileName = 'pay_' . date('Ymdhis');
+            $html = $this->load->view('pay/print_pdf', $data, TRUE);
+            $mpdf->WriteHTML(utf8_encode($html));
+            $mpdf->Output($fileName . ".pdf", 'I');
+        } else {
+            redirect('pay');
+        }
+    }
 }
 
 /* End of file Pay.php */
