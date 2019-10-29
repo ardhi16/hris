@@ -8,6 +8,17 @@
                         <input type="hidden" name="total_tetap" id="total_tetap">
                         <input type="hidden" name="tujab_variabel" id="tujab_variabel">
                         <input type="hidden" name="tunj_teller" id="tunj_teller">
+                        <input type="hidden" name="statis" id="statis">
+                        <input type="hidden" name="dinamis" id="dinamis">
+                        <input type="hidden" name="struktural" id="struktural">
+                        <input type="hidden" name="rumah" id="rumah">
+                        <input type="hidden" name="kemahalan" id="kemahalan">
+                        <input type="hidden" name="family" id="family">
+                        <input type="hidden" name="kinerja" id="kinerja">
+                        <input type="hidden" name="produktif" id="produktif">
+                        <input type="hidden" name="beban" id="beban">
+                        <input type="hidden" name="masa_kerja" id="masa_kerja">
+                        <input type="hidden" name="dplk" id="dplk">
                         <label for="">Karyawan</label>
                         <select name="employee_id" id="employee_id" class="form-control select2" required>
                             <option value="">-- Pilih Karyawan --</option>
@@ -81,74 +92,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="display:none">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">DPLK</label>
-                                        <input type="text" class="form-control" id="dplk" value="0" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="display:none">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Tunj. Jamsostek</label>
-                                        <input type="text" class="form-control" id="tunj_jamsostek" value="0" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" style="display:none">
-                                <label for="">Penghasilan Bruto</label>
-                                <input type="text" class="form-control" name="bruto" id="bruto" value="0" readonly>
-                            </div>
-                            <div class="row" style="display:none">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Biaya Jabatan</label>
-                                        <input type="text" class="form-control" id="tujab" name="tujab" value="0" readonly>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Jamsostek</label>
-                                        <input type="text" class="form-control" name="jamsos" id="jamsos" value="0" readonly>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">BPJS</label>
-                                        <input type="text" class="form-control" name="bpjs" id="bpjs" value="0" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="display:none">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Netto</label>
-                                        <input type="text" class="form-control" id="netto" name="netto" value="0" readonly>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Netto Setahun</label>
-                                        <input type="text" class="form-control" name="nettos" id="nettos" value="0" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="display:none">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">PTKP</label>
-                                        <input type="text" class="form-control" id="ptkp" name="ptkp" value="0" readonly>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Hasil PTKP</label>
-                                        <input type="text" class="form-control" name="hptkp" id="hptkp" value="0" readonly>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="hidden" id="tunj_jamsostek" value="0">
+                            <input type="hidden" id="bruto" value="0">
+                            <input type="hidden" id="tujab" name="tujab" value="0">
+                            <input type="hidden" id="jamsos" value="0">
+                            <input type="hidden" id="bpjs" value="0">
+                            <input type="hidden" id="netto" value="0">
+                            <input type="hidden" id="nettos" value="0">
+                            <input type="hidden" id="ptkp" value="0">
+                            <input type="hidden" id="hptkp" value="0">
+
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -302,6 +255,16 @@
                 success: function(res) {
                     if (res.status) {
                         $('#salary').val(res.result.employee_salary)
+                        $('#statis').val(res.result.statis)
+                        $('#dinamis').val(res.result.dinamis)
+                        $('#struktural').val(res.result.struktural)
+                        $('#rumah').val(res.result.rumah)
+                        $('#kemahalan').val(res.result.kemahalan)
+                        $('#family').val(res.result.family)
+                        $('#kinerja').val(res.result.kinerja)
+                        $('#produktif').val(res.result.produktif)
+                        $('#beban').val(res.result.beban)
+                        $('#masa_kerja').val(res.result.masa_kerja)
                         $('#total_tetap').val(res.result.total_tetap)
                         $('#makan').val(number(res.result.makan))
                         $('#transport').val(number(res.result.transport))
@@ -310,6 +273,16 @@
                         $('#tunj_teller').val(res.result.teller)
                     } else {
                         $('#salary').val(0)
+                        $('#statis').val(0)
+                        $('#dinamis').val(0)
+                        $('#struktural').val(0)
+                        $('#rumah').val(0)
+                        $('#kemahalan').val(0)
+                        $('#family').val(0)
+                        $('#kinerja').val(0)
+                        $('#produktif').val(0)
+                        $('#beban').val(0)
+                        $('#masa_kerja').val(0)
                         $('#total_tetap').val(0)
                         $('#makan').val(0)
                         $('#transport').val(0)
