@@ -158,6 +158,16 @@
         rightAlign: false,
       });
     });
+    $(document).ready(function() {
+      $('.rupiah').inputmask("numeric", {
+        removeMaskOnSubmit: true,
+        radixPoint: ".",
+        groupSeparator: ",",
+        digits: 2,
+        autoGroup: true,
+        rightAlign: false,
+      });
+    });
   </script>
 
   <?php if ($this->session->flashdata('success')) { ?>

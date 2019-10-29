@@ -303,8 +303,8 @@
                     if (res.status) {
                         $('#salary').val(res.result.employee_salary)
                         $('#total_tetap').val(res.result.total_tetap)
-                        $('#makan').val(res.result.makan)
-                        $('#transport').val(res.result.transport)
+                        $('#makan').val(number(res.result.makan))
+                        $('#transport').val(number(res.result.transport))
                         $('#dplk').val(res.result.dplk)
                         $('#tunj_jamsostek').val(res.result.tunj_jamsostek)
                         $('#tunj_teller').val(res.result.teller)
@@ -380,17 +380,18 @@
 
         $('#income').on('input', function() {
             var day = $('#pay_total_day').val() || 0;
-            var makan = parseInt($('#makan').val());
-            var transport = parseInt($('#transport').val());
-            $('#pay_total_eat').val(day * makan);
-            $('#pay_total_transport').val(day * transport);
+            var makan = parseInt(removeNumber($('#makan').val()));
+            var transport = parseInt(removeNumber($('#transport').val()));
+            $('#pay_total_eat').val(number(day * makan));
+            $('#pay_total_transport').val(number(day * transport));
             bruto();
+            potong();
         });
 
         $('#potongan').on('input', function() {
             let total_telat = $('#telat').val() || 0;
-            let trans = parseInt($('#transport').val());
-            $('#pot_trans').val((trans / 2) * total_telat);
+            let trans = parseInt(removeNumber($('#transport').val()));
+            $('#pot_trans').val(number((trans / 2) * total_telat));
             potong();
             bruto();
         });
@@ -403,17 +404,17 @@
             let pot_tk = tuj_tetap * 2 / 100;
             let pot_pensiun = (tuj_tetap >= 8512400) ? 8512400 * 1 / 100 : tuj_tetap * 1 / 100;
             let pot_kesehatan = (tuj_tetap >= 8000000) ? 8000000 * 1 / 100 : tuj_tetap * 1 / 100;
-            $('#pot_tk').val(pot_tk);
-            $('#pot_pensiun').val(pot_pensiun);
-            $('#pot_kesehatan').val(pot_kesehatan);
+            $('#pot_tk').val(number(pot_tk));
+            $('#pot_pensiun').val(number(pot_pensiun));
+            $('#pot_kesehatan').val(number(pot_kesehatan));
 
         }
 
         function bruto() {
             let salary = parseInt($('#salary').val()) || 0;
             let total_tetap = parseInt($('#total_tetap').val()) || 0;
-            let makan = parseInt($('#pay_total_eat').val()) || 0;
-            let transport = parseInt($('#pay_total_transport').val()) || 0;
+            let makan = parseInt(removeNumber($('#pay_total_eat').val())) || 0;
+            let transport = parseInt(removeNumber($('#pay_total_transport').val())) || 0;
             let tunj_jamsostek = parseInt($('#tunj_jamsostek').val()) || 0;
             let lembur = parseInt($('#pay_overtime').val()) || 0;
             let insentif = parseInt($('#pay_insentive').val()) || 0;
@@ -424,7 +425,7 @@
             let pokok = parseInt($('#pokok').val()) || 0;
             let wajib = parseInt($('#wajib').val()) || 0;
             let teller = parseInt($('#tunj_teller').val()) || 0;
-            let pot_trans = parseInt($('#pot_trans').val()) || 0;
+            let pot_trans = parseInt(removeNumber($('#pot_trans').val())) || 0;
             let total_cicilan = parseInt($('#total_cicilan').val()) || 0;
             let zis = parseInt($('#zis').val()) || 0;
             let takasi = parseInt($('#takasi').val()) || 0;
@@ -470,25 +471,29 @@
             let thp = nett - (total_cicilan + zis + takasi + dll) + (obat + insentif + lembur);
 
 
-            $('#gross').val(gross + obat + insentif + lembur);
+            $('#gross').val(number(gross + obat + insentif + lembur));
             $('#tujab').val(biaya_jab);
             $('#jamsos').val(biaya_jamsostek);
             $('#bpjs').val(bpjs);
             $('#netto').val(netto);
             $('#nettos').val(nettos);
             $('#hptkp').val(hptkp);
-            $('#pph21').val(pph);
-            $('#tk').val(tk);
-            $('#pensiun').val(pensiun);
-            $('#kesehatan').val(kesehatan);
+            $('#pph21').val(number(pph));
+            $('#tk').val(number(tk));
+            $('#pensiun').val(number(pensiun));
+            $('#kesehatan').val(number(kesehatan));
             $('#tujab_variabel').val(tuj_variabel);
-            $('#thp').val(thp);
-            $('#bsm').val(thp + sub - bprs);
+            $('#thp').val(number(thp));
+            $('#bsm').val(number(thp + sub - bprs));
 
         }
 
         function number(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function removeNumber(x) {
+            return x.replace(/,/g, '');
         }
 
     });

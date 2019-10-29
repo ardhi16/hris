@@ -49,6 +49,7 @@
                     <ul class="nav-second-level" aria-expanded="false">
                         <li><a href="<?php echo site_url('pay') ?>">Daftar Salary</a></li>
                         <li><a href="<?php echo site_url('benefit') ?>">Master Tunjangan</a></li>
+                        <li><a href="<?php echo site_url('angsuran') ?>">Angsuran</a></li>
                     </ul>
                 </li>
                 <li>
