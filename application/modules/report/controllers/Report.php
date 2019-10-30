@@ -14,16 +14,14 @@ class Report extends MY_Controller
     }
 
     public function index()
-    { 
-
-    }
+    { }
 
     function employee()
     {
-        if($_POST) {
+        if ($_POST) {
             $params = array();
             $params['employee_active'] = 1;
-            $employees = $this->Report_model->get_employee($params)->result();            
+            $employees = $this->Report_model->get_employee($params)->result();
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
             $cell     = 6;
@@ -90,7 +88,7 @@ class Report extends MY_Controller
                 $sheet->setCellValueExplicit('X' . $cell, $row->grade_name, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
                 $sheet->setCellValue('Y' . $cell, $row->division_code);
                 $sheet->setCellValue('Z' . $cell, $row->division_name);
-               
+
                 $cell++;
                 $no++;
             }
@@ -125,7 +123,6 @@ class Report extends MY_Controller
             header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save('php://output');
-            
         } else {
             $data['title'] = 'Laporan Data Karyawan';
             $data['main'] = 'report/employee';
@@ -135,7 +132,7 @@ class Report extends MY_Controller
 
     function sk()
     {
-        if($_POST) {
+        if ($_POST) {
 
             $ds = $this->input->post('ds');
             $de = $this->input->post('de');
@@ -154,7 +151,6 @@ class Report extends MY_Controller
                 $key->sk_store_name = $store->store_name;
                 $key->sk_position_name = $pos->position_name;
                 $key->sk_grade_name = $pos->grade_name;
-
             }
 
             $spreadsheet = new Spreadsheet();
@@ -181,7 +177,7 @@ class Report extends MY_Controller
             $sheet->setCellValue('K5', 'GRADE BARU');
             $sheet->setCellValue('L5', 'TANGGAL EFEKTIF');
             $sheet->setCellValue('M5', 'TANGGAL BUAT');
-            
+
 
             foreach ($arr as $row) {
                 $sheet->setCellValue('A' . $cell, $no);
@@ -233,7 +229,6 @@ class Report extends MY_Controller
             header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save('php://output');
-
         } else {
             $data['title'] = 'Laporan Surat Keputusan';
             $data['main'] = 'report/sk';
@@ -243,7 +238,7 @@ class Report extends MY_Controller
 
     function sp()
     {
-        if($_POST) {
+        if ($_POST) {
 
             $ds = $this->input->post('ds');
             $de = $this->input->post('de');
@@ -286,7 +281,7 @@ class Report extends MY_Controller
                 $sheet->setCellValue('E' . $cell, $row->grade_name);
                 $sheet->setCellValue('F' . $cell, $row->store_name);
                 $sheet->setCellValue('G' . $cell, $row->sp_no);
-                $sheet->setCellValue('H' . $cell, 'SP '. $row->sp_type);
+                $sheet->setCellValue('H' . $cell, 'SP ' . $row->sp_type);
                 $sheet->setCellValue('I' . $cell, $row->sp_date_start);
                 $sheet->getStyle('I' . $cell)->getNumberFormat()->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
                 $sheet->setCellValue('J' . $cell, $row->sp_date_end);
@@ -328,7 +323,6 @@ class Report extends MY_Controller
             header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
             header('Cache-Control: max-age=0');
             $writer->save('php://output');
-
         } else {
             $data['title'] = 'Laporan Surat Peringatan';
             $data['main'] = 'report/sp';
@@ -520,12 +514,12 @@ class Report extends MY_Controller
 
     function contract()
     {
-        if($_POST) {
+        if ($_POST) {
 
             $month = $this->input->post('month');
             $year = $this->input->post('year');
             $select = "$year-$month";
-            
+
             $params = [];
             $params['employee_status'] = 'KONTRAK';
             $res = $this->Report_model->get_contract($params)->result();
@@ -533,13 +527,13 @@ class Report extends MY_Controller
             $arr = [];
             foreach ($res as $key) {
                 $contract = $this->Report_model->get_con(['employee_id' => $key->employee_id])->result();
-                
+
                 $total_contract = 0;
                 foreach ($contract as $row) {
                     $total_contract += $row->contract_length;
                 }
 
-                if(count($contract) > 0) {
+                if (count($contract) > 0) {
                     $due = $key->employee_join_date;
                     $due = date('Y-m-d', strtotime($due));
                     $key->end_contract = date('Y-m-d', strtotime('+' . $total_contract . ' month', strtotime($due)));
@@ -557,7 +551,7 @@ class Report extends MY_Controller
                             'end_contract' => $key->end_contract
                         ]);
                     }
-                } 
+                }
             }
 
             $spreadsheet = new Spreadsheet();
@@ -579,7 +573,7 @@ class Report extends MY_Controller
             $sheet->setCellValue('H5', 'TANGGAL HABIS');
             $sheet->setCellValue('I5', 'LAMA KONTRAK (BULAN)');
 
-            
+
             foreach ($arr as $row) {
                 $sheet->setCellValue('A' . $cell, $no);
                 $sheet->setCellValueExplicit('B' . $cell, $row['employee_nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
@@ -626,11 +620,105 @@ class Report extends MY_Controller
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
             header('Cache-Control: max-age=0');
-            $writer->save('php://output');    
+            $writer->save('php://output');
         } else {
-            
+
             $data['title'] = 'Reminder Kontrak Karyawan';
             $data['main'] = 'report/contract';
+            $this->load->view('layout', $data);
+        }
+    }
+
+    function pay()
+    {
+        if ($_POST) {
+
+            $month = $this->input->post('month');
+            $year = $this->input->post('year');
+
+            $params = [];
+            $params['pay_period_month'] = $month;
+            $params['pay_period_year'] = $year;
+            $res = $this->Report_model->get_pay($params)->result_array();
+
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $cell     = 6;
+            $no       = 1;
+
+            $sheet->setCellValue('A1', 'Laporan Gaji');
+            $sheet->setCellValue('A2', 'Bank Syariah Patriot');
+            $sheet->setCellValue('A3', 'Periode: ' . pretty_date("$year-$month-01", 'F Y', false));
+
+            $sheet->setCellValue('A5', 'NO');
+            $sheet->setCellValue('B5', 'NAMA');
+            $sheet->setCellValue('C5', 'NO REKENING');
+            $sheet->setCellValue('D5', 'GAJI');
+            $sheet->setCellValue('E5', 'SUBSIDI GAJI');
+            $sheet->setCellValue('F5', 'TOTAL');
+
+            $adm = 1000;
+            $total_adm = 0;
+            $total_gaji = 0;
+            $grand_total = 0;
+            foreach ($res as $row) {
+                $sheet->setCellValue('A' . $cell, $no);
+                $sheet->setCellValueExplicit('B' . $cell, $row['employee_name'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValueExplicit('C' . $cell, $row['employee_acc_bank'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $sheet->setCellValueExplicit('D' . $cell, $row['pay_bsm'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                $sheet->setCellValueExplicit('E' . $cell, $adm, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                $sheet->setCellValueExplicit('F' . $cell, $row['pay_bsm'] + $adm, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+
+                $total_adm += $adm;
+                $total_gaji += $row['pay_bsm'];
+                $grand_total += $row['pay_bsm'] + $adm;
+                $cell++;
+                $no++;
+            }
+            $sheet->mergeCells("A$cell:C$cell");
+            $sheet->setCellValue('A' . $cell, 'JUMLAH');
+            $sheet->setCellValueExplicit('D' . $cell, $total_gaji, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+            $sheet->setCellValueExplicit('E' . $cell, $total_adm, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+            $sheet->setCellValueExplicit('F' . $cell, $grand_total, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+
+            $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(5);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(20);
+
+            foreach (range('D', 'Z') as $alphabet) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($alphabet)->setWidth(20);
+            }
+
+            $font = array('font' => array('bold' => true, 'color' => array(
+                'rgb'  => 'FFFFFF'
+            )));
+
+            $style = array(
+                'font' => array('bold' => true)
+            );
+
+            $spreadsheet->getActiveSheet()->getStyle('A' . $cell . ':F' . $cell)->applyFromArray($style);
+            $spreadsheet->getActiveSheet()->getStyle('A5:F5')->applyFromArray($font);
+
+            $spreadsheet->getActiveSheet()
+                ->getStyle('A5:F5')
+                ->getFill()
+                ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                ->getStartColor()
+                ->setARGB('000');
+            $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+
+
+            $writer = new Xlsx($spreadsheet);
+
+            $filename = 'Laporan_Gaji_' . date('Ymdhis');
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+            header('Cache-Control: max-age=0');
+            $writer->save('php://output');
+        } else {
+            $data['title'] = 'Laporan Gaji PT. BPRS Patriot Bekasi';
+            $data['main'] = 'report/pay';
             $this->load->view('layout', $data);
         }
     }

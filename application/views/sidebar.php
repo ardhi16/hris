@@ -71,6 +71,7 @@
                         <li><a href="<?php echo site_url('report/kkout') ?>">KKOUT</a></li>
                         <li><a href="<?php echo site_url('report/cuti') ?>">Cuti</a></li>
                         <li><a href="<?php echo site_url('report/contract') ?>">Reminder Kontrak</a></li>
+                        <li><a href="<?php echo site_url('report/pay') ?>">Gaji Karyawan</a></li>
                     </ul>
                 </li>
                 <li>

@@ -69,6 +69,13 @@ class Report_model extends CI_Model
         return $this->db->get_where('cuti', $arr, $limit, $offset);
     }
 
+    function get_pay($arr = null, $limit = null, $offset = null)
+    {
+        $this->db->select('pay_id, pay_bsm, employee_name, employee_acc_bank');
+        $this->db->join('employee', 'employee.employee_id = pay.employee_id', 'left');
+        return $this->db->get_where('pay', $arr, $limit, $offset);
+    }
+
     function get_store($arr = null, $limit = null, $offset = null)
     {
         return $this->db->get_where('store', $arr, $limit, $offset);
