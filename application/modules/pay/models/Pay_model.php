@@ -6,6 +6,7 @@ class Pay_model extends CI_Model
 
     function get($arr = null, $limit = null, $offset = null)
     {
+        $this->db->order_by('pay_id', 'desc');
         $this->db->select('pay.*, employee_nik, employee_name, position_name, grade_name, employee_email');
         $this->db->join('employee', 'employee.employee_id = pay.employee_id', 'left');
         $this->db->join('position', 'position.position_id = employee.position_id', 'left');
@@ -15,6 +16,7 @@ class Pay_model extends CI_Model
 
     function get_detail($arr = null, $limit = null, $offset = null)
     {
+        $this->db->join('angsuran', 'angsuran.angsuran_id = pay_detail.angsuran_id', 'left');
         return $this->db->get_where('pay_detail', $arr, $limit, $offset);
     }
 

@@ -47,7 +47,7 @@
                             <td width="200px">
                                 <a href="<?php echo site_url('pay/edit/' . $row->pay_id) ?>" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>
                                 <a href="<?php echo site_url('pay/preview/' . $row->pay_id) ?>" target="_blank" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Cetak</a>
-                                <a href="<?php echo site_url('pay/send/' . $row->pay_id) ?>" class="btn btn-danger btn-xs"><i class="fa fa-envelope"></i> Kirim</a>
+                                <a href="<?php echo site_url('pay/send/' . $row->pay_id) ?>" class="btn btn-danger btn-xs" onclick="return confirm('Apakah anda akan mengirim slip gaji ini?')"><i class="fa fa-envelope"></i> Kirim</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -51,6 +51,9 @@ if (isset($pay)) {
                     <input type="hidden" name="beban" id="beban">
                     <input type="hidden" name="masa_kerja" id="masa_kerja">
                     <input type="hidden" name="dplk" id="dplk">
+                    <input type="hidden" name="ump" id="ump">
+                    <input type="hidden" name="status" id="status">
+                    <input type="hidden" name="bpjs_kes_status" id="bpjs_kes_status">
                     <?php if (!isset($pay->pay_id)) : ?>
                         <div class="form-group">
                             <label for="">Karyawan</label>
@@ -314,7 +317,6 @@ if (isset($pay)) {
             $('#pay_total_transport').val(number(day * transport));
             $('#pot_trans').val(number((transport / 2) * total_telat));
             bruto();
-            potong();
         }
 
         function showEmployee(employee_id) {
@@ -341,7 +343,10 @@ if (isset($pay)) {
                         $('#transport').val(number(res.result.transport))
                         $('#dplk').val(res.result.dplk)
                         $('#tunj_jamsostek').val(res.result.tunj_jamsostek)
-                        $('#tunj_teller').val(res.result.teller)
+                        $('#ump').val(res.result.ump)
+                        $('#status').val(res.result.employee_status)
+                        $('#bpjs_kes_status').val(res.result.bpjs_kes_status)
+                        $('#ptkp').val(res.result.ptkp)
                     } else {
                         $('#salary').val(0)
                         $('#statis').val(0)
@@ -360,16 +365,11 @@ if (isset($pay)) {
                         $('#dplk').val(0)
                         $('#tunj_jamsostek').val(0)
                         $('#tunj_teller').val(0)
+                        $('#ump').val(0)
+                        $('#status').val('')
+                        $('#bpjs_kes_status').val(1)
+                        $('#ptkp').val(0)
                     }
-                    $.ajax({
-                        type: "POST",
-                        dataType: "json",
-                        url: "<?php echo site_url('api/ptkp') ?>",
-                        data: "code=" + res.result.tax_status,
-                        success: function(response) {
-                            $('#ptkp').val(response.value);
-                        }
-                    });
 
                     $.ajax({
                         type: "POST",
@@ -411,6 +411,8 @@ if (isset($pay)) {
                                 $('#total_cicilan').val(total_cicilan)
                             } else {
                                 $('#cicilan').hide();
+                                $('#angs').html('')
+                                $('#total_cicilan').val(0)
                             }
                         }
                     });
@@ -431,23 +433,8 @@ if (isset($pay)) {
                         $('#pay_total_transport').val(0);
                     <?php endif ?>
                     bruto();
-                    potong();
                 }
             });
-        }
-
-        function potong() {
-            let salary = parseInt($('#salary').val()) || 0;
-            let total_tetap = parseInt($('#total_tetap').val()) || 0;
-            let dplk = parseInt($('#dplk').val()) || 0;
-            let tuj_tetap = salary + total_tetap - dplk;
-            let pot_tk = tuj_tetap * 2 / 100;
-            let pot_pensiun = (tuj_tetap >= 8512400) ? 8512400 * 1 / 100 : tuj_tetap * 1 / 100;
-            let pot_kesehatan = (tuj_tetap >= 8000000) ? 8000000 * 1 / 100 : tuj_tetap * 1 / 100;
-            $('#pot_tk').val(number(pot_tk));
-            $('#pot_pensiun').val(number(pot_pensiun));
-            $('#pot_kesehatan').val(number(pot_kesehatan));
-
         }
 
         function bruto() {
@@ -471,11 +458,21 @@ if (isset($pay)) {
             let takasi = parseInt($('#takasi').val()) || 0;
             let dll = parseInt($('#dll').val()) || 0;
             let bprs = parseInt($('#bprs').val()) || 0;
+            let ump = parseInt($('#ump').val()) || 0;
+            let status = $('#status').val();
+            let kes_status = $('#bpjs_kes_status').val();
 
+            // hitung PPH21
             let total = salary + total_tetap + makan + transport + tunj_jamsostek + lembur + insentif + obat;
-            let jab = total * 5 / 100;
-            let jamsostek = total * 2 / 100;
-            let bpjs = salary * 1 / 100;
+            let jab = Math.round(total * 5 / 100);
+            let jamsostek = 0;
+            if (status === 'TETAP') {
+                jamsostek = Math.round(salary * 2 / 100);
+            }
+            let bpjs = 0;
+            if (kes_status == '1') {
+                bpjs = Math.round(salary * 1 / 100);
+            }
             let biaya_jab = (jab >= 500000) ? 500000 : jab;
             let biaya_jamsostek = (jamsostek >= 200000) ? 200000 : jamsostek;
             let netto = total - bpjs - biaya_jab - biaya_jamsostek;
@@ -484,32 +481,44 @@ if (isset($pay)) {
             let res = str.toString().slice(0, -3);
             let hptkp = parseInt(res + '000');
             let pph21 = 0;
+            let pph = 0;
             let tuj_tetap = salary + total_tetap - dplk;
             let tuj_variabel = makan + transport + dplk;
 
-            if (hptkp <= 50000000) {
-                pph21 = hptkp * 5 / 100;
-            } else if (hptkp <= 250000000) {
-                pph21 = 2500000 + (hptkp - 50000000) * 15 / 100;
-            } else if (hptkp <= 500000000) {
-                pph21 = 32500000 + (hptkp - 250000000) * 25 / 100;
+            if (nettos > ptkp) {
+                if (hptkp <= 50000000) {
+                    pph21 = hptkp * 5 / 100;
+                } else if (hptkp <= 250000000) {
+                    pph21 = 2500000 + (hptkp - 50000000) * 15 / 100;
+                } else if (hptkp <= 500000000) {
+                    pph21 = 32500000 + (hptkp - 250000000) * 25 / 100;
+                } else {
+                    pph21 = 95000000 + (hptkp - 500000000) * 30 / 100;
+                }
+                pph = Math.round(pph21 / 12);
             } else {
-                pph21 = 95000000 + (hptkp - 500000000) * 30 / 100;
+                pph = 0;
             }
-            let pph = Math.round(pph21 / 12);
-
-            let tk = tuj_tetap * 4.24 / 100;
-            let pensiun = (tuj_tetap >= 8512400) ? 8512400 * 2 / 100 : tuj_tetap * 2 / 100;
-            let kesehatan = (tuj_tetap >= 8000000) ? 8000000 * 4 / 100 : tuj_tetap * 4 / 100;
-            let pot_tk = tuj_tetap * 2 / 100;
-            let pot_pensiun = (tuj_tetap >= 8512400) ? 8512400 * 1 / 100 : tuj_tetap * 1 / 100;
-            let pot_kesehatan = (tuj_tetap >= 8000000) ? 8000000 * 1 / 100 : tuj_tetap * 1 / 100;
-
+            let tk = 0;
+            let pensiun = 0;
+            let pot_tk = 0;
+            let pot_pensiun = 0;
+            if (status === 'TETAP') {
+                tk = Math.round(tuj_tetap * 4.24 / 100);
+                pensiun = Math.round((tuj_tetap >= 8512400) ? 8512400 * 2 / 100 : tuj_tetap * 2 / 100);
+                pot_tk = Math.round(tuj_tetap * 2 / 100);
+                pot_pensiun = Math.round((tuj_tetap >= 8512400) ? 8512400 * 1 / 100 : tuj_tetap * 1 / 100);
+            }
+            let kesehatan = 0;
+            let pot_kesehatan = 0;
+            if (kes_status == '1') {
+                kesehatan = Math.round((tuj_tetap >= 8000000) ? 8000000 * 4 / 100 : ((tuj_tetap <= ump) ? ump * 4 / 100 : tuj_tetap * 4 / 100));
+                pot_kesehatan = Math.round((tuj_tetap >= 8000000) ? 8000000 * 1 / 100 : ((tuj_tetap <= ump) ? ump * 1 / 100 : tuj_tetap * 1 / 100));
+            }
             let tuj_lain = tk + pensiun + kesehatan + pph + sub;
-            let gross = tuj_tetap + tuj_variabel + tuj_lain;
+            let gross = Math.round(tuj_tetap + tuj_variabel + tuj_lain);
             let nett = gross - ((tk + pot_tk) + (pensiun + pot_pensiun) + (kesehatan + pot_kesehatan) + pph + dplk + teller + sub + pokok + wajib + pot_trans);
             let thp = nett - (total_cicilan + zis + takasi + dll) + (obat + insentif + lembur);
-
 
             $('#gross').val(number(gross + obat + insentif + lembur));
             $('#tujab').val(biaya_jab);
@@ -525,6 +534,9 @@ if (isset($pay)) {
             $('#tujab_variabel').val(tuj_variabel);
             $('#thp').val(number(thp));
             $('#bsm').val(number(thp + sub - bprs));
+            $('#pot_tk').val(number(pot_tk));
+            $('#pot_pensiun').val(number(pot_pensiun));
+            $('#pot_kesehatan').val(number(pot_kesehatan));
         }
 
         function number(x) {

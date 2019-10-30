@@ -359,7 +359,7 @@ $total_potongan = $pay->pay_dplk + ($pay->pay_pot_bpjstk + $pay->pay_tuj_bpjstk)
                 sehingga tidak membutuhkan tanda tangan.</span>
         </div>
         <div class="col-2">
-            <table style="white-space:nowrap">
+            <table width="100%" style="white-space:nowrap">
                 <tr>
                     <td colspan="4">&nbsp;</td>
                 </tr>
@@ -401,7 +401,7 @@ $total_potongan = $pay->pay_dplk + ($pay->pay_pot_bpjstk + $pay->pay_tuj_bpjstk)
                 </tr>
             </table>
             <br>
-            <table style="white-space:nowrap">
+            <table width="100%" style="white-space:nowrap">
                 <tr>
                     <td class="top right left" colspan="4"></td>
                 </tr>
@@ -415,7 +415,7 @@ $total_potongan = $pay->pay_dplk + ($pay->pay_pot_bpjstk + $pay->pay_tuj_bpjstk)
                         $ke = 0;
                         ?>
                     <?php foreach ($detail as $key) : ?>
-                        <?php if ($row->id == $key->angsuran_id) {
+                        <?php if ($row->id == $key->type_id) {
                                     $amount = $key->angsuran_amount;
                                     $ke = $key->angsuran_ke;
                                     $length = $key->angsuran_length;

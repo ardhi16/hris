@@ -10,6 +10,7 @@ class Api extends CI_Controller
         $this->load->model('employee/Employee_model', 'employee');
         $this->load->model('benefit/Benefit_model', 'benefit');
         $this->load->model('angsuran/Angsuran_model', 'angsuran');
+        $this->load->model('setting/Setting_model', 'setting');
     }
 
     public function index()
@@ -31,6 +32,7 @@ class Api extends CI_Controller
     {
         $id = $this->input->post('employee_id');
         $benefit = $this->benefit->get_benefit(['benefit.employee_id' => $id])->row();
+        $setting = $this->setting->get(['setting_id' => 1])->row();
         if (isset($benefit)) {
             if ($benefit->employee_tax_status == 'MENIKAH') {
                 if ($benefit->employee_gender == 'L') {
@@ -47,7 +49,10 @@ class Api extends CI_Controller
                 $child = 0;
             }
             $benefit->tax_status = $status . $child;
-            $benefit->tunj_jamsostek = $benefit->employee_salary * 1.19 / 100;
+            $ptkp = $this->db->get_where('ptkp', ['name' => $benefit->tax_status])->row();
+            $benefit->tunj_jamsostek = ($benefit->employee_status == 'TETAP') ? round($benefit->employee_salary * 1.19 / 100) : 0;
+            $benefit->ump = $setting->setting_ump;
+            $benefit->ptkp = $ptkp->value;
             $this->output->set_content_type('application/json')->set_output(json_encode(['status' => true, 'result' => $benefit]));
         } else {
             $this->output->set_content_type('application/json')->set_output(json_encode(['status' => false, 'result' => null]));
@@ -58,7 +63,11 @@ class Api extends CI_Controller
     {
         $code = $this->input->post('code');
         $res = $this->db->get_where('ptkp', ['name' => $code])->row();
-        echo json_encode($res);
+        if(isset($res)) {
+            echo json_encode(['status' => true, 'result' => $res]);
+        } else {
+            echo json_encode(['status' => false, 'result' => null]);
+        }
     }
 
     function angsuran()
