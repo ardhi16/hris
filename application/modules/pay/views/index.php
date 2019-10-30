@@ -1,6 +1,26 @@
 <div class="container-fluid">
     <div class="card-box">
         <a href="<?php echo site_url('pay/add') ?>" class="btn btn-primary btn-xs mb-2"><i class="fa fa-plus"></i> Tambah</a>
+        <a href="#collapseExample" role="button" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" class="btn btn-warning btn-sm float-right"><i class="fa fa-filter"></i> Filter</a>
+        <div class="collapse <?php echo ($q == null) ? '' : 'show' ?>" id="collapseExample">
+            <?php echo form_open(current_url(), array('method' => 'get')) ?>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input class="form-control months" type="text" name="month" <?php echo (isset($q['month'])) ? 'value="' . $q['month'] . '"' : '' ?> placeholder="Bulan" autocomplete="off" required readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input class="form-control years" type="text" name="year" <?php echo (isset($q['year'])) ? 'value="' . $q['year'] . '"' : '' ?> placeholder="Tahun" autocomplete="off" required readonly>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                </div>
+            </div>
+            <?php echo form_close(); ?>
+        </div>
         <div class="table-responsive">
             <table class="table table-hover mb-0 dataTable">
                 <thead>

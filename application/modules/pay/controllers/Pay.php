@@ -14,7 +14,24 @@ class Pay extends MY_Controller
 
     public function index()
     {
+        $q = $this->input->get(NULL, TRUE);
+        $data['q'] = $q;
         $params = [];
+
+        // Date start
+        if (isset($q['month']) && !empty($q['month']) && $q['month'] != '') {
+            $params['pay_period_month'] = $q['month'];
+        }
+        // Date end
+        if (isset($q['year']) && !empty($q['year']) && $q['year'] != '') {
+            $params['pay_period_year'] = $q['year'];
+        }
+
+        if ($data['q'] == NULL) {
+            $params['pay_period_month'] = date('m');
+            $params['pay_period_year'] = date('Y');
+        }
+
         $data['pay'] = $this->pay->get($params)->result();
         $data['title'] = 'Daftar Gaji';
         $data['main'] = 'pay/index';
