@@ -19,6 +19,7 @@ class Setting extends MY_Controller
             $data['setting_pos_1'] = $this->input->post('pos1');
             $data['setting_name_2'] = $this->input->post('name2');
             $data['setting_pos_2'] = $this->input->post('pos2');
+            $data['setting_ump'] = $this->input->post('ump');
             $this->setting->update($data, ['setting_id' => 1]);
             $this->session->set_flashdata('success', 'Perubahan disimpan');
             redirect('setting');

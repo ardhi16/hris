@@ -19,6 +19,10 @@
                         <label for="">Jabatan Pejabat 2</label>
                         <input type="text" class="form-control" name="pos2" value="<?php echo $setting->setting_pos_2 ?>" required>
                     </div>
+                    <div class="form-group">
+                        <label for="">UMP</label>
+                        <input type="text" class="form-control numeric" name="ump" value="<?php echo $setting->setting_ump ?>" required>
+                    </div>
                 </div>
                 <div class="col-md-3">
                     <button type="submit" class="btn btn-success btn-block mt-3">Simpan</button>
