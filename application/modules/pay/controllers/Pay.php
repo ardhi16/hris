@@ -9,6 +9,7 @@ class Pay extends MY_Controller
         parent::__construct();
         $this->load->model('pay/Pay_model', 'pay');
         $this->load->model('angsuran/Angsuran_model', 'angsuran');
+        $this->doc_path = 'media';
     }
 
     public function index()
@@ -69,10 +70,20 @@ class Pay extends MY_Controller
             $cek = $this->pay->get_check(['employee_id' => $data['employee_id'], 'pay_period_month' => $data['pay_period_month'], 'pay_period_year' => $data['pay_period_year']])->row();
             
             if (!isset($cek)) {
-                $this->pay->insert($data);
+                $id_pay = $this->pay->insert($data);
                 $cicilan = $this->input->post('bayar');
+                $current = $this->input->post('current');
+                $length = $this->input->post('length');
+                $amount = $this->input->post('amount');
                 if (isset($cicilan)) {
                     for ($i = 0; $i < count($cicilan); $i++) {
+                        $this->pay->insert_detail([
+                            'pay_id' => $id_pay,
+                            'angsuran_id' => $cicilan[$i],
+                            'angsuran_ke' => $current[$i],
+                            'angsuran_length' => $length[$i],
+                            'angsuran_amount' => $amount[$i]
+                        ]);
                         $this->angsuran->update_current($cicilan[$i], 1, '+');
                         $cek = $this->angsuran->get(['angsuran_id' => $cicilan[$i]])->row();
                         if ($cek->angsuran_current == $cek->angsuran_length) {
@@ -149,12 +160,55 @@ class Pay extends MY_Controller
     function preview($id = null)
     {
         $data['pay'] = $this->pay->get(['pay_id' => $id])->row();
+        $data['angs'] = $this->angsuran->get_type()->result();
+        $data['detail'] = $this->pay->get_detail(['pay_id' => $id])->result();
+        
         if (isset($data['pay'])) {
-            $mpdf = new \Mpdf\Mpdf(['format' => 'A4']);
+            $mpdf = new \Mpdf\Mpdf(['format' => array(210, 130)]);
             $fileName = 'pay_' . date('Ymdhis');
             $html = $this->load->view('pay/print_pdf', $data, TRUE);
             $mpdf->WriteHTML(utf8_encode($html));
-            $mpdf->Output($fileName . ".pdf", 'I');
+            $mpdf->Output($fileName . ".pdf", 'I'); // I for stream F for save
+        } else {
+            redirect('pay');
+        }
+    }
+
+    function send($id = null)
+    {
+        $this->load->config('email');
+        $this->load->library('email');
+        
+        $data['pay'] = $this->pay->get(['pay_id' => $id])->row();
+        $data['angs'] = $this->angsuran->get_type()->result();
+        $data['detail'] = $this->pay->get_detail(['pay_id' => $id])->result();
+
+        if (isset($data['pay'])) {
+            $mpdf = new \Mpdf\Mpdf(['format' => array(210, 130)]);
+            $fileName = 'pay_' . date('Ymdhis');
+            $html = $this->load->view('pay/print_pdf', $data, TRUE);
+            $mpdf->WriteHTML(utf8_encode($html));
+            $mpdf->Output('media/' . $fileName . ".pdf", 'F'); // I for stream F for save
+
+            $dest = $this->doc_path . "/" . $fileName . ".pdf";
+            if ($this->config->item('email')) {
+                ob_start();
+                $this->email->from($this->config->item('from'), $this->config->item('from_name'));
+                $this->email->to($data['pay']->employee_email);
+                $this->email->subject('Payslip_'.date('F Y'));
+                $this->email->message($this->load->view('pay/email', $data['pay'], true));
+                if (file_exists($dest)) $this->email->attach($dest);
+                if ($this->email->send()) {
+                    $result = 'Email Terkirim';
+                } else {
+                    $result = 'Error in sending email';
+                }
+                ob_end_clean();
+            }
+            unlink('media/' . $fileName . ".pdf");
+            $this->pay->update(['pay_send' => 1], ['pay_id' => $id]);
+            $this->session->set_flashdata('success', $result);
+            redirect('pay');
         } else {
             redirect('pay');
         }

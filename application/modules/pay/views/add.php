@@ -393,6 +393,9 @@ if (isset($pay)) {
                                     <?php else : ?>
                                         cicil += `<tr>
                                     <td><input type="hidden" name="bayar[]" value="${c.angsuran_id}">${no++}</td>
+                                    <input type="hidden" name="current[]" value="${parseInt(c.angsuran_current)+1}">
+                                    <input type="hidden" name="length[]" value="${c.angsuran_length}">
+                                    <input type="hidden" name="amount[]" value="${c.angsuran_amount}">
                                     <td>${c.name_ang}</td>
                                     <td>${parseInt(c.angsuran_current)+1}/${c.angsuran_length}</td>
                                     <td>${number(c.angsuran_amount)}</td>

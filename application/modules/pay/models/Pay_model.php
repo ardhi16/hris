@@ -6,9 +6,16 @@ class Pay_model extends CI_Model
 
     function get($arr = null, $limit = null, $offset = null)
     {
-        $this->db->select('pay.*, employee_nik, employee_name');
+        $this->db->select('pay.*, employee_nik, employee_name, position_name, grade_name, employee_email');
         $this->db->join('employee', 'employee.employee_id = pay.employee_id', 'left');
+        $this->db->join('position', 'position.position_id = employee.position_id', 'left');
+        $this->db->join('grade', 'grade.grade_id = position.grade_id', 'left');
         return $this->db->get_where('pay', $arr, $limit, $offset);
+    }
+
+    function get_detail($arr = null, $limit = null, $offset = null)
+    {
+        return $this->db->get_where('pay_detail', $arr, $limit, $offset);
     }
 
     function get_check($arr = null, $limit = null, $offset = null)
@@ -26,7 +33,13 @@ class Pay_model extends CI_Model
 
     function insert($data)
     {
-        return $this->db->insert('pay', $data);
+        $this->db->insert('pay', $data);
+        return $this->db->insert_id();
+    }
+
+    function insert_detail($data)
+    {
+        return $this->db->insert('pay_detail', $data);
     }
 
     function update($data, $cond)

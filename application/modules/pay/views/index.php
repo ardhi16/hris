@@ -9,6 +9,7 @@
                         <th>NIK</th>
                         <th>Nama Karyawan</th>
                         <th>Periode Gaji</th>
+                        <th>Status Kirim</th>
                         <th>Opsi</th>
                     </tr>
                 </thead>
@@ -22,6 +23,7 @@
                             <td><?php echo $row->employee_nik ?></td>
                             <td><?php echo $row->employee_name ?></td>
                             <td><?php echo date('F Y', strtotime("$row->pay_period_year-$row->pay_period_month-01")) ?></td>
+                            <td><?php echo ($row->pay_send) ? 'Terkirim' : 'Belum'; ?></td>
                             <td width="200px">
                                 <a href="<?php echo site_url('pay/edit/' . $row->pay_id) ?>" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Edit</a>
                                 <a href="<?php echo site_url('pay/preview/' . $row->pay_id) ?>" target="_blank" class="btn btn-info btn-xs"><i class="fa fa-print"></i> Cetak</a>
