@@ -33,6 +33,12 @@ class Employee_model extends CI_Model {
 		return $this->db->get_where('contract', $arr, $limit, $offset);
 	}
 
+	public function get_emp($arr = null, $limit = null, $offset = null)
+	{
+		$this->db->select('employee_id, employee_nik, employee_name, employee_status');
+		return $this->db->get_where('employee', $arr, $limit, $offset);
+	}
+
 	public function insert($data){
 		$this->db->insert('employee', $data);
 		$id = $this->db->insert_id();

@@ -480,6 +480,7 @@ if (isset($pay)) {
             let str = nettos - ptkp;
             let res = str.toString().slice(0, -3);
             let hptkp = parseInt(res + '000');
+            // let hptkp = parseInt(str/1000) * 1000;
             let pph21 = 0;
             let pph = 0;
             let tuj_tetap = salary + total_tetap - dplk;

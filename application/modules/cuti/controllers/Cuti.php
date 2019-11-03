@@ -1,15 +1,17 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Cuti extends MY_Controller {
-    
+class Cuti extends MY_Controller
+{
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('cuti/Cuti_model', 'cuti');
         $this->load->model('holiday/Holiday_model', 'holiday');
+        $this->load->model('employee/Employee_model', 'employee');
     }
-    
+
     public function index()
     {
         $this->load->library('pagination');
@@ -73,6 +75,7 @@ class Cuti extends MY_Controller {
             $params['cuti_total'] = $no;
 
             $this->cuti->insert($params);
+            $this->cuti->update_sisa($params['employee_id'], $params['cuti_year'], $params['cuti_total'], '-');
             $this->session->set_flashdata('success', 'Data berhasil ditambahkan');
             redirect('cuti');
         } else {
@@ -82,6 +85,45 @@ class Cuti extends MY_Controller {
         }
     }
 
+    function sisa()
+    {
+        if ($_POST) {
+
+            $data['employee_id'] = $this->input->post('employee_id');
+            $data['period'] = $this->input->post('period');
+            $data['remain'] = $this->input->post('remain');
+
+            $cek = $this->cuti->get_sisa(['sisa_cuti.employee_id' => $data['employee_id'], 'period' => $data['period']])->row();
+
+            if (!isset($cek)) {
+                $this->cuti->insert_sisa($data);
+                $this->session->set_flashdata('success', 'Data berhasil ditambahkan');
+                redirect('cuti/sisa');
+            } else {
+                $this->session->set_flashdata('failed', 'Data sudah ada diperiode ini!');
+                redirect('cuti/sisa');
+            }
+        } else {
+            $q = $this->input->get(NULL, TRUE);
+            $data['q'] = $q;
+            $params = [];
+
+            // Date start
+            if (isset($q['period']) && !empty($q['period']) && $q['period'] != '') {
+                $params['period'] = $q['period'];
+            }
+
+            if ($data['q'] == NULL) {
+                $params['period'] = date('Y');
+            }
+
+            $data['sisa'] = $this->cuti->get_sisa($params)->result();
+            $data['employee'] = $this->employee->get_emp(['employee_status' => 'TETAP'])->result();
+            $data['title'] = 'Sisa Cuti';
+            $data['main'] = 'cuti/sisa';
+            $this->load->view('layout', $data);
+        }
+    }
 }
 
 /* End of file Cuti.php */

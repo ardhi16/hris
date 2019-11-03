@@ -53,10 +53,15 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="<?php echo site_url('cuti') ?>">
+                    <a href="javascript: void(0);">
                         <i class="mdi mdi-beach"></i>
                         <span> Cuti </span>
+                        <span class="menu-arrow"></span>
                     </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li><a href="<?php echo site_url('cuti') ?>">Pengajuan Cuti</a></li>
+                        <li><a href="<?php echo site_url('cuti/sisa') ?>">Sisa Cuti</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);">

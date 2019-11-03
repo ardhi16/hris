@@ -36,6 +36,7 @@
 </head>
 
 <body>
+    <img class="center" src="<?php echo media_url('images/bismillah.jpg') ?>">
     <p style="text-align:center">SURAT KEPUTUSAN DIREKSI & KADIV. SDI & UMUM<br>
         PT. BANK PEMBIAYAAN RAKYAT SYARIAH PATRIOT BEKASI <br>
         NOMOR : <?php echo $sp->sp_no ?></p>
@@ -88,7 +89,7 @@
                 <td style="text-align:justify">Demikian, keputusan ini dibuat untuk dilaksanakan dan bila terdapat hal-hal kekeliruan di dalamnya, akan diperbaiki sebagaimana mestinya.</td>
             </tr>
         </table>
-        <br><br>
+        <br>
         <p>Ditetapkan di : Bekasi <br>
             Pada Tanggal : <?php echo pretty_date($sp->sp_date_start, 'd F Y', false); ?>
         </p>
