@@ -13,10 +13,18 @@ class Angsuran extends MY_Controller
 
     public function index()
     {
-        $data['angsuran'] = $this->angsuran->get()->result();
-        $data['title'] = 'Daftar Angsuran';
-        $data['main'] = 'angsuran/index';
-        $this->load->view('layout', $data);
+        if($_POST) {
+            $id = $this->input->post('angsuran_id');
+            $data['angsuran_current'] = $this->input->post('angsuran_ke');
+            $this->angsuran->update($data, ['angsuran_id' => $id]);
+            $this->session->set_flashdata('success', 'Data Saved');
+            redirect('angsuran');
+        } else {
+            $data['angsuran'] = $this->angsuran->get()->result();
+            $data['title'] = 'Daftar Angsuran';
+            $data['main'] = 'angsuran/index';
+            $this->load->view('layout', $data);
+        }
     }
 
     function add()

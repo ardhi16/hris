@@ -14,6 +14,7 @@ if (isset($pay)) {
     $takasi = $pay->pay_takasi;
     $dll = $pay->pay_dll;
     $bprs = $pay->pay_bprs;
+    $cicil = $pay->pay_total_cicilan;
 } else {
     $total_day = 0;
     $insentive = 0;
@@ -27,6 +28,7 @@ if (isset($pay)) {
     $takasi = 0;
     $dll = 0;
     $bprs = 0;
+    $cicil = 0;
 }
 
 ?>
@@ -54,6 +56,7 @@ if (isset($pay)) {
                     <input type="hidden" name="ump" id="ump">
                     <input type="hidden" name="status" id="status">
                     <input type="hidden" name="bpjs_kes_status" id="bpjs_kes_status">
+                    <input type="hidden" name="cicil" id="cicil">
                     <?php if (!isset($pay->pay_id)) : ?>
                         <div class="form-group">
                             <label for="">Karyawan</label>
@@ -261,7 +264,7 @@ if (isset($pay)) {
                             </div>
                             <div id="cicilan" style="display:none">
                                 <h5>Angsuran</h5>
-                                <input type="hidden" name="total_cicilan" id="total_cicilan">
+                                <input type="hidden" name="total_cicilan" id="total_cicilan" value="<?php echo $cicil ?>">
                                 <table class="table table-hover table-bordered">
                                     <thead>
                                         <tr>
@@ -432,7 +435,7 @@ if (isset($pay)) {
                         $('#pay_total_eat').val(0);
                         $('#pay_total_transport').val(0);
                     <?php endif ?>
-                    bruto();
+                    inputGaji();
                 }
             });
         }
