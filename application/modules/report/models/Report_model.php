@@ -71,8 +71,9 @@ class Report_model extends CI_Model
 
     function get_pay($arr = null, $limit = null, $offset = null)
     {
-        $this->db->select('pay_id, pay_bsm, employee_name, employee_acc_bank');
+        $this->db->select('pay.*, employee_name, position_name, employee_acc_bank');
         $this->db->join('employee', 'employee.employee_id = pay.employee_id', 'left');
+        $this->db->join('position', 'position.position_id = employee.position_id', 'left');
         return $this->db->get_where('pay', $arr, $limit, $offset);
     }
 

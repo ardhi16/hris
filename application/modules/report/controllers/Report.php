@@ -642,7 +642,16 @@ class Report extends MY_Controller
             $res = $this->Report_model->get_pay($params)->result_array();
 
             $spreadsheet = new Spreadsheet();
-            $sheet = $spreadsheet->getActiveSheet();
+            $styleArray = [
+                'borders' => [
+                    'outline' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000'],
+                    ],
+                ],
+            ];
+            $sheet = $spreadsheet->getActiveSheet(0);
+            $sheet->setTitle('Laporan BSM');
             $cell     = 6;
             $no       = 1;
 
@@ -668,6 +677,7 @@ class Report extends MY_Controller
                 $sheet->setCellValueExplicit('D' . $cell, $row['pay_bsm'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
                 $sheet->setCellValueExplicit('E' . $cell, $adm, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
                 $sheet->setCellValueExplicit('F' . $cell, $row['pay_bsm'] + $adm, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+                $sheet->getStyle("A$cell:F$cell")->applyFromArray($styleArray);
 
                 $total_adm += $adm;
                 $total_gaji += $row['pay_bsm'];
@@ -680,6 +690,7 @@ class Report extends MY_Controller
             $sheet->setCellValueExplicit('D' . $cell, $total_gaji, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit('E' . $cell, $total_adm, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
             $sheet->setCellValueExplicit('F' . $cell, $grand_total, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_NUMERIC);
+            $sheet->getStyle("A$cell:F$cell")->applyFromArray($styleArray);
 
             $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(5);
             $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(30);
@@ -708,9 +719,116 @@ class Report extends MY_Controller
                 ->setARGB('000');
             $spreadsheet->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 
+            $objWorkSheet = $spreadsheet->createSheet(1);
+            $objWorkSheet->setTitle('Laporan Gross');
+            $objWorkSheet->setCellValue('A1', 'Gross');
+            $objWorkSheet->setCellValue('A2', 'Bank Syariah Patriot');
+            $objWorkSheet->setCellValue('A3', 'Periode: ' . pretty_date("$year-$month-01", 'F Y', false));
+            $i = 1;
+            $header = ['No', 'Nama', 'Jabatan', 'Gaji Pokok', 'Tunj. Statis', 'Tunj. Dinamis', 'Tunj. Struktural', 'Tunj. Perumahan', 'Tunj. Kemahalan', 'Tunj. Keluarga', 'Tunj. Kinerja', 'Tunj. Produktifitas', 'Tunj. Selisih Teller', 'Tunj. Beban', 'Tunj Masa Kerja', 'DPLK', 'Jumlah Hari Masuk', 'Total Tunj. Makan', 'Total Tunj. Transport', 'Lembur', 'Insentif', 'Obat/Tunj. Nikah', 'BPJS TK', 'BPJS Pensiun', 'BPJS Kesehatan', 'Tunj. PPh 21', 'Subsidi Adm', 'Total Setelah Pajak'];
+
+            $arr = [];
+            foreach ($res as $key) {
+                array_push($arr, [
+                    $i++,
+                    $key['employee_name'],
+                    $key['position_name'],
+                    $key['pay_salary'],
+                    $key['pay_statis'],
+                    $key['pay_dinamis'],
+                    $key['pay_struktural'],
+                    $key['pay_rumah'],
+                    $key['pay_kemahalan'],
+                    $key['pay_family'],
+                    $key['pay_kinerja'],
+                    $key['pay_produktif'],
+                    $key['pay_teller'],
+                    $key['pay_beban'],
+                    $key['pay_masa_kerja'],
+                    $key['pay_dplk'],
+                    $key['pay_total_day'],
+                    $key['pay_total_eat'],
+                    $key['pay_total_transport'],
+                    $key['pay_overtime'],
+                    $key['pay_insentive'],
+                    $key['pay_med_mar'],
+                    $key['pay_tuj_bpjstk'],
+                    $key['pay_tuj_bpjspn'],
+                    $key['pay_tuj_bpjsks'],
+                    $key['pay_tuj_pph21'],
+                    $key['pay_tuj_subsidi'],
+                    $key['pay_gross']
+                ]);
+            }
+
+            $index = 0;
+            $range = $this->getcolumnrange('A', 'AB');
+            foreach ($range as $huruf) {
+                $objWorkSheet->setCellValue($huruf . '5', $header[$index]);
+                $objWorkSheet->getStyle($huruf . '5:' . $huruf . '5')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000');
+                $objWorkSheet->getStyle($huruf . '5:' . $huruf . '5')->applyFromArray($font);
+
+                $objWorkSheet->getColumnDimension($huruf)->setWidth(20);
+
+                $cells = 6;
+                for ($x = 0; $x < count($arr); $x++) {
+                    $objWorkSheet->setCellValue($huruf . $cells, $arr[$x][$index]);
+                    $objWorkSheet->getStyle($huruf . $cells)->applyFromArray($styleArray);
+                    $cells++;
+                }
+                $index++;
+            }
+
+            $objWorkSheet2 = $spreadsheet->createSheet(2);
+            $objWorkSheet2->setTitle('Laporan Potongan');
+            $objWorkSheet2->setCellValue('A1', 'Potongan');
+            $objWorkSheet2->setCellValue('A2', 'Bank Syariah Patriot');
+            $objWorkSheet2->setCellValue('A3', 'Periode: ' . pretty_date("$year-$month-01", 'F Y', false));
+            $j = 1;
+            $header2 = ['No', 'Nama', 'Jabatan', 'Jumlah Telat', 'Potongan Tunj. Transport', 'BPJS TK', ' BPJS Pensiun', 'BPJS Kesehatan', 'PPh 21', 'Adm BSM', 'Simpanan Pokok', 'Simpanan Wajib', 'ZIS', 'Tabungan Takasi', 'Lain-lain', 'Total Angsuran', 'THP', 'Masuk Rekening BPRS', 'Payroll BSM'];
+            $arr2 = [];
+            foreach ($res as $key) {
+                array_push($arr2, [
+                    $j++,
+                    $key['employee_name'],
+                    $key['position_name'],
+                    $key['pay_day_late'],
+                    $key['pay_pot_late'],
+                    $key['pay_pot_bpjstk'],
+                    $key['pay_pot_bpjspn'],
+                    $key['pay_pot_bpjsks'],
+                    $key['pay_tuj_pph21'],
+                    $key['pay_tuj_subsidi'],
+                    $key['pay_pokok'],
+                    $key['pay_wajib'],
+                    $key['pay_zis'],
+                    $key['pay_takasi'],
+                    $key['pay_dll'],
+                    $key['pay_total_cicilan'],
+                    $key['pay_thp'],
+                    $key['pay_bprs'],
+                    $key['pay_bsm']
+                ]);
+            }
+            $index2 = 0;
+            $range2 = $this->getcolumnrange('A', 'S');
+            foreach ($range2 as $huruf) {
+                $objWorkSheet2->setCellValue($huruf . '5', $header2[$index2]);
+                $objWorkSheet2->getStyle($huruf . '5:' . $huruf . '5')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('000');
+                $objWorkSheet2->getStyle($huruf . '5:' . $huruf . '5')->applyFromArray($font);
+
+                $objWorkSheet2->getColumnDimension($huruf)->setWidth(20);
+
+                $cells2 = 6;
+                for ($x = 0; $x < count($arr2); $x++) {
+                    $objWorkSheet2->setCellValue($huruf . $cells2, $arr2[$x][$index2]);
+                    $objWorkSheet2->getStyle($huruf . $cells2)->applyFromArray($styleArray);
+                    $cells2++;
+                }
+                $index2++;
+            }
 
             $writer = new Xlsx($spreadsheet);
-
             $filename = 'Laporan_Gaji_' . date('Ymdhis');
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
@@ -721,6 +839,38 @@ class Report extends MY_Controller
             $data['main'] = 'report/pay';
             $this->load->view('layout', $data);
         }
+    }
+
+
+    function getcolumnrange($min, $max)
+    {
+        $pointer = strtoupper($min);
+        $output = array();
+        while ($this->positionalcomparison($pointer, strtoupper($max)) <= 0) {
+            array_push($output, $pointer);
+            $pointer++;
+        }
+        return $output;
+    }
+
+    function positionalcomparison($a, $b)
+    {
+        $a1 = $this->stringtointvalue($a);
+        $b1 = $this->stringtointvalue($b);
+        if ($a1 > $b1) return 1;
+        else if ($a1 < $b1) return -1;
+        else return 0;
+    }
+
+    function stringtointvalue($str)
+    {
+        $amount = 0;
+        $strarra = array_reverse(str_split($str));
+
+        for ($i = 0; $i < strlen($str); $i++) {
+            $amount += (ord($strarra[$i]) - 64) * pow(26, $i);
+        }
+        return $amount;
     }
 }
 
